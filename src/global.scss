@@ -24,3 +24,12 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.actionSheet .action-sheet-button-inner.sc-ion-action-sheet-md {
+  justify-content: center;
+}
