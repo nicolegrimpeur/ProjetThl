@@ -1,9 +1,48 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>register</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>S'enregistrer</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Enregistrement</ion-card-title>
+    </ion-card-header>
 
+    <ion-card-content>
+      <ion-item>
+        <ion-label><b>Nom</b></ion-label>
+        <ion-input [(ngModel)]="registerData.name" required="true" type="name" placeholder="Entrez votre nom"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><b>Prénom</b></ion-label>
+        <ion-input [(ngModel)]="registerData.surname" required="true" type="surname" placeholder="Entrez votre prénom"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><b>Email</b></ion-label>
+        <ion-input [(ngModel)]="registerData.email" required="true" type="email" placeholder="Entrez votre email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><b>Mot de passe</b></ion-label>
+        <ion-input [(ngModel)]="registerData.password" required="true" type="password" placeholder="Entrez votre mot de passe"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><b>Confirmer mot de passe</b></ion-label>
+        <ion-input [(ngModel)]="registerData.confirmPassword" required="true" type="password" placeholder="Confirmez votre mot de passe"></ion-input>
+      </ion-item>
+
+      <div class="ion-padding">
+        <ion-button (click)="checkPwd()" expand="block" color="primary">S'enregistrer</ion-button>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>
