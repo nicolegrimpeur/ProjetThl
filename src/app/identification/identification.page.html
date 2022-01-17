@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bienvenue !</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Identification</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="ion-padding">
+        <ion-button (click)="connectToAccount()" expand="block" color="primary">Se connecter</ion-button>
+      </div>
+      <p>Déjà un compte ?</p>
+      <div class="ion-padding">
+        <ion-button (click)="createAccount()" expand="block" color="danger">S'enregistrer</ion-button>
+      </div>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>
