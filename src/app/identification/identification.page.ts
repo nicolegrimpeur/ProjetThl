@@ -31,6 +31,7 @@ export class IdentificationPage implements OnInit {
 
     await modal.present();//Wait Display
     await modal.onDidDismiss();//Wait dismiss
-    
+    //Graphiques
+    this.display.display({code:"Scanner fermé", color:"success"});
   }
 }

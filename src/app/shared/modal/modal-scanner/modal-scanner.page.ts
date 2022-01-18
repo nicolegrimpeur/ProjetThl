@@ -15,7 +15,7 @@ export class ModalScannerPage implements OnInit {
   ngOnInit() {
   }
 
-  scanSuccessHandler(res) {
+  scanSuccessHandler(res:any) {
     //(Back)
     console.log(res);
     //Graphiques
