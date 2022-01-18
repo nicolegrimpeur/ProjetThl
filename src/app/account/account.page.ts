@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Display } from '../shared/class/display';
-import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +16,7 @@ export class AccountPage implements OnInit {
   //Variable pour suppression de compte
   public password: string;
 
-  constructor(private menu: MenuController, private display: Display, public router: Router) {
+  constructor(private display: Display, public router: Router) {
     this.password = '';
   }
 
