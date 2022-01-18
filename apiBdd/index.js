@@ -17,6 +17,7 @@ mongoose.connect(database.db, {
 )
 
 const userRoute = require('./routes/user.route')
+const medicsRoute = require('./routes/medics.route')
 
 const app = express();
 app.use(express.json());
@@ -25,7 +26,8 @@ app.use(express.urlencoded({
 }));
 app.use(cors());
 
-app.use('/api', userRoute)
+app.use('/api/user/', userRoute);
+app.use('/api/medics/', medicsRoute);
 
 const port = process.env.PORT || 5000;
 
