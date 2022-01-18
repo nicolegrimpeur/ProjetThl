@@ -1,0 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Scan</ion-title>
+    <ion-button color="medium" (click)="modalController.dismiss()" slot="end">Annuler</ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <zxing-scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+</ion-content>

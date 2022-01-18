@@ -14,11 +14,43 @@
       <div class="ion-padding">
         <ion-button (click)="connectToAccount()" expand="block" color="primary">Se connecter</ion-button>
       </div>
-      <p>Déjà un compte ?</p>
+      <p>Pas encore de compte ?</p>
       <div class="ion-padding">
         <ion-button (click)="createAccount()" expand="block" color="danger">S'enregistrer</ion-button>
       </div>
     </ion-card-content>
 
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Scanner
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="ion-padding">
+        <ion-fab vertical="top" horizontal="center" slot="fixed" edge>
+          <ion-fab-button (click)="openCardModal()" #cartBtn>
+            <ion-icon name="qr-code-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>
+        Infos
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      
+    </ion-card-content>
+    
+  </ion-card>
+
 </ion-content>

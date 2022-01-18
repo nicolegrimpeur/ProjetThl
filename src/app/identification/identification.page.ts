@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { ModalScannerPage } from '../shared/modal/modal-scanner/modal-scanner.page';
+import { Display } from '../shared/class/display';
 
 @Component({
   selector: 'app-identification',
@@ -8,7 +11,7 @@ import {Router} from '@angular/router';
 })
 export class IdentificationPage implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private modalController: ModalController, private display: Display) { }
 
   ngOnInit() {
   }
@@ -18,5 +21,16 @@ export class IdentificationPage implements OnInit {
   createAccount(){
     this.router.navigateByUrl('register').then();
   }
+  async openCardModal() {
+    //Wait Creattion
+    const modal = await this.modalController.create({
+      component: ModalScannerPage,
+      breakpoints: [0, 0.2, 0.5, 0.75, 1],
+      initialBreakpoint: 0.5
+    });
 
+    await modal.present();//Wait Display
+    await modal.onDidDismiss();//Wait dismiss
+    
+  }
 }

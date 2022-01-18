@@ -30,6 +30,10 @@ const routes: Routes = [
     path: 'pass',
     loadChildren: () => import('./pass/pass.module').then( m => m.PassPageModule)
   },
+  {
+    path: 'modal-scanner',
+    loadChildren: () => import('./shared/modal/modal-scanner/modal-scanner.module').then( m => m.ModalScannerPageModule)
+  },
 
 ];
 
