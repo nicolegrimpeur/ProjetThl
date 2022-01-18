@@ -47,6 +47,6 @@ export class RegisterPage implements OnInit {
   }
 
   makeRegister(){
-    this.router.navigateByUrl('identification').then();
+    this.router.navigateByUrl('home').then();
   }
 }
