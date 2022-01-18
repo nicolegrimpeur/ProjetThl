@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'account',
     loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
   },
+  {
+    path: 'pass',
+    loadChildren: () => import('./pass/pass.module').then( m => m.PassPageModule)
+  },
 
 ];
 
