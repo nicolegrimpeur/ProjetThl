@@ -13,7 +13,7 @@ let User = new Schema({
   vaccine: [{date: Date, lab: String}],
   tests_results: [{date: Date, result: Boolean, variant: String}]
 }, {
-  collection: 'users'
+  collection: 'login'
 })
 
 module.exports = mongoose.model('User', User)

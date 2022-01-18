@@ -5,14 +5,11 @@ let UserModel = require('../model/User');
 
 
 userRoute.route('/').get((req, res) => {
-  UserModel.find((error, user) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(user)
-      console.log('Users retrieved!')
-    }
-  })
+  console.log('bjr');
+  UserModel.find({name: "Barrat"}, (err, result) => {
+    console.log(result);
+  });
+  res.json({'ah': 'thinking'});
 })
 
 
