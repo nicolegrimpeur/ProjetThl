@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {Display} from '../shared/class/display';
-import {BarcodeScanner} from "@ionic-native/barcode-scanner/ngx";
 
 @Component({
   selector: 'app-home',
