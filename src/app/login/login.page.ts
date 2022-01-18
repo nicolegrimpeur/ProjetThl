@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
 
   // connecte l'utilisateur avec email et mot de passe
   makeConnection() {
-    this.router.navigateByUrl('identification').then();
+    this.router.navigateByUrl('home').then();
     this.display.display({code:"Connexion réussie !", color:"success"});
   }
 }

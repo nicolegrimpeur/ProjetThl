@@ -9,8 +9,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 
-import {NgxQRCodeModule} from 'ngx-qrcode2';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
+import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +20,7 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
     // or after 30 seconds (whichever comes first).
     registrationStrategy: 'registerWhenStable:30000'
   }), NgxQRCodeModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, BarcodeScanner],
+  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {

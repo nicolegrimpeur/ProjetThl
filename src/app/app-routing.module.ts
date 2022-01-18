@@ -22,6 +22,18 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
+  {
+    path: 'account',
+    loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
+  },
+  {
+    path: 'pass',
+    loadChildren: () => import('./pass/pass.module').then( m => m.PassPageModule)
+  },
+  {
+    path: 'modal-scanner',
+    loadChildren: () => import('./shared/modal/modal-scanner/modal-scanner.module').then( m => m.ModalScannerPageModule)
+  },
 
 ];
 
