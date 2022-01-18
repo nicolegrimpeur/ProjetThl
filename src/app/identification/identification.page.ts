@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import { ModalController } from '@ionic/angular';
-import { ModalScannerPage } from '../shared/modal/modal-scanner/modal-scanner.page';
-import { Display } from '../shared/class/display';
+import {ModalController} from '@ionic/angular';
+import {ModalScannerPage} from '../shared/modal/modal-scanner/modal-scanner.page';
+import {Display} from '../shared/class/display';
+import {InfosQrModel} from '../shared/model/infosQrModel';
+import {lastValueFrom} from "rxjs";
+import {HttpService} from "../core/http.service";
 
 @Component({
   selector: 'app-identification',
@@ -10,19 +13,29 @@ import { Display } from '../shared/class/display';
   styleUrls: ['./identification.page.scss'],
 })
 export class IdentificationPage implements OnInit {
+  public userData = new InfosQrModel();
 
-  constructor(public router: Router, private modalController: ModalController, private display: Display) { }
+  constructor(
+    public router: Router,
+    private modalController: ModalController,
+    private display: Display,
+    private httpService: HttpService
+  ) {
+  }
 
   ngOnInit() {
   }
-  connectToAccount(){
+
+  connectToAccount() {
     this.router.navigateByUrl('login').then();
   }
-  createAccount(){
+
+  createAccount() {
     this.router.navigateByUrl('register').then();
   }
+
   async openCardModal() {
-    //Wait Creattion
+    //Wait Creation
     const modal = await this.modalController.create({
       component: ModalScannerPage,
       breakpoints: [0, 0.2, 0.5, 0.75, 1],
@@ -30,8 +43,25 @@ export class IdentificationPage implements OnInit {
     });
 
     await modal.present();//Wait Display
-    await modal.onDidDismiss();//Wait dismiss
-    //Graphiques
-    this.display.display({code:"Scanner fermé", color:"success"});
+    await modal.onDidDismiss().then(data => {
+      if (data !== undefined) {
+        //Graphiques
+        this.display.display({code: 'Scan réussi', color: 'success'}).then();
+        this.getScanData(data.data);
+      } else {
+        this.display.display('Scan arrêté').then();
+      }
+    });//Wait dismiss
+  }
+
+  // récupère l'utilisateur correspondant au token récupéré
+  getScanData(data) {
+    lastValueFrom(this.httpService.getUserQr(data))
+      .then(res => {
+        this.userData = res;
+      })
+      .catch(err => {
+        this.display.display(err.status).then();
+      });
   }
 }

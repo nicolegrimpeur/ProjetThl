@@ -39,18 +39,18 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="userData.name !== undefined">
 
     <ion-card-header>
       <ion-card-title>
-        Infos
+        {{userData.name}} {{userData.surname}}
       </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      
+      Date de naissance : {{userData.birthday}}
     </ion-card-content>
-    
+
   </ion-card>
 
 </ion-content>

@@ -5,5 +5,5 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <zxing-scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+  <zxing-scanner *ngIf="enableScan" (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
 </ion-content>

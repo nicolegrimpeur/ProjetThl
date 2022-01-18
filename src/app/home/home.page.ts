@@ -1,5 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {Display} from '../shared/class/display';
+import {HttpService} from '../core/http.service';
+import {lastValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +21,21 @@ export class HomePage {
   ];
 
   constructor(
-    public display: Display
+    public display: Display,
+    public httpService: HttpService
   ) {
   }
+
+  ionViewWillEnter() {
+    lastValueFrom(this.httpService.getUser('123456789'))
+      .then(res => {
+        console.log('res : ', res);
+      })
+      .catch(err => {
+        console.log('err : ', err);
+      });
+  }
+
 
   clickActionSheet() {
     this.display.actionSheet([
