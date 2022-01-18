@@ -15,8 +15,12 @@ export class RegisterPage implements OnInit {
     surname: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    medId: '',
+    dateOfBirth: ''
   };
+  public isADoctor = false;
+  public date = "";
 
   constructor(public router: Router, public display: Display) {
     let after = false;
@@ -33,6 +37,15 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
+  myFormatDate(){
+    let datePlusTime = this.registerData.dateOfBirth;
+    let date = datePlusTime.slice(0, 10);
+    let year = date.slice(0, 4);
+    let month = date.slice(5, 7);
+    let day = date.slice(8, 10);
+    this.date = day + ' / ' + month + ' / ' + year;
+  }
+
   checkPwd(){
     if (this.registerData.password !== this.registerData.confirmPassword){
       this.registerData.password = '';
@@ -43,10 +56,13 @@ export class RegisterPage implements OnInit {
     }
     //If password is good
     this.makeRegister();
+    //Graphiques
     this.display.display({code:"Inscription réussie !", color: "success"});
   }
 
   makeRegister(){
-    this.router.navigateByUrl('identification').then();
+    //Enregistrer les infos(Back)
+    //Redirection
+    this.router.navigateByUrl('home').then();
   }
 }
