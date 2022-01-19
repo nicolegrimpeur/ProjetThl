@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./doctor-fill.page.scss'],
 })
 export class DoctorFillPage implements OnInit {
+  public vaccineData = {
 
+  }
   constructor() { }
 
   ngOnInit() {
