@@ -55,7 +55,10 @@ const routes: Routes = [
     path: 'citizen-tab',
     loadChildren: () => import('./citizen-tab/citizen-tab.module').then( m => m.CitizenTabPageModule)
   },
-
+  {
+    path: 'doctor-tab',
+    loadChildren: () => import('./doctor-tab/doctor-tab.module').then( m => m.DoctorTabPageModule)
+  },
 ];
 
 @NgModule({
