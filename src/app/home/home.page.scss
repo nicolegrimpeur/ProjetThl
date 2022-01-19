@@ -25,3 +25,20 @@
 #container a {
   text-decoration: none;
 }
+
+
+#stats{
+  height: auto;
+}
+
+.stat {
+  display: flex;
+  flex-wrap: wrap ;
+  justify-content: center;
+}
+
+ion-card {
+  width: 46% ;
+  margin: 7px;
+  height: 100%;
+}
