@@ -15,11 +15,49 @@
 
     <ion-card-header>
       <ion-card-title>
-        <ion-textarea
-          [value]="operation">
-        </ion-textarea>
+        <ion-item fill="outline">
+          {{operation.nature}}
+        </ion-item>
       </ion-card-title>
     </ion-card-header>
+
+    <ion-card-content *ngIf="operation.nature==='Test'">
+      <ion-row>
+        <ion-col>
+          <ion-item fill="fill">
+            {{operation.date}}
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item fill="fill">
+            {{operation.type}}
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item fill="fill">
+            {{operation.result}}
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+
+    <ion-card-content *ngIf="operation.nature !=='Test'">
+      <ion-row>
+        <ion-col>
+          <ion-item fill="fill">
+            {{operation.date}}
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item fill="fill">
+            {{operation.type}}
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
 
   </ion-card>
 
