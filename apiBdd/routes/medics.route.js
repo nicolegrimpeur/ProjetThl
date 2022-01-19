@@ -5,6 +5,6 @@ let MedicsModel = require('../model/medics');
 
 medicsRoute.route('/check').post((req, res) => {
   console.log(req.body);
-})
+});
 
 module.exports = medicsRoute;

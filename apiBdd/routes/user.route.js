@@ -125,6 +125,7 @@ userRoute.route('/add/test').post((req, res, next) => {
     console.log('result :: ', result);
     if (result !== []) {
       console.log('User ' + req.body.mail + ' found.')
+      console.log(result[0].tests_results);
       result[0].tests_results.push(req.body);
       UserModel.findOneAndUpdate({mail: req.body.mail}, {tests_results: result[0].tests_results}, {}, (err, result) => {
         if (result !== [])
