@@ -70,7 +70,11 @@ export class HttpService {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
   }
-
+  addTest(data){
+    const destUrl = this.baseUrl + 'user/add/test';
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
+  }
   modifPsw(token: string, psw: string, newPsw: string) {
     const url = this.baseUrl + 'user/modif-psw';
     const data = {tokenData: token, pswData: psw, newPswData: newPsw};

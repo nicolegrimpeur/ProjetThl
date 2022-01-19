@@ -35,25 +35,9 @@
           </ion-item>
         </ion-col>
 
-        <ion-col>
+        <ion-col *ngIf="operation['result'] !== undefined">
           <ion-item fill="fill">
-            {{operation.result}}
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-card-content>
-
-    <ion-card-content *ngIf="operation.nature !=='Test'">
-      <ion-row>
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.date}}
-          </ion-item>
-        </ion-col>
-
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.type}}
+            {{operation['result']}}
           </ion-item>
         </ion-col>
       </ion-row>

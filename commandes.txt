@@ -1,0 +1,19 @@
+Android
+
+ionic build --prod
+
+ionic capacitor build android --prod --release
+
+Modifier dans android/app/build.gradle le version code en nb + 1
+
+
+Ios
+
+ionic capacitor build ios --prod --release
+
+ionic capacitor add ios
+
+
+PC
+
+ionic build --prod
