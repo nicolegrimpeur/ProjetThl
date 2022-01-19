@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Display} from '../shared/class/display';
 import {HttpService} from '../core/http.service';
 import {lastValueFrom} from "rxjs";
+import {InfosUserModel} from "../shared/model/infosUserModel";
 
 @Component({
   selector: 'app-home',

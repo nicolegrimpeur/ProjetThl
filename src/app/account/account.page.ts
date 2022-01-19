@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Display } from '../shared/class/display';
 import { Router } from '@angular/router';
+import {lastValueFrom} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {RegisterData} from '../shared/model/registerDataUserModel';
 import {User} from '../shared/class/user'
+import {HttpService} from "../core/http.service";
 
 @Component({
   selector: 'app-account',
@@ -18,7 +20,7 @@ export class AccountPage implements OnInit {
   //Variable pour suppression de compte
   public password: string;
 
-  constructor(private display: Display, public router: Router) {
+  constructor(private display: Display, public router: Router, private user:User, private httpService:HttpService) {
     this.password = '';
   }
 
@@ -50,29 +52,28 @@ export class AccountPage implements OnInit {
     this.password = '';
   }
 
-/*
+
    confirmAccSuppr() {
      //Vérifier que le mdp est bon
-     const idUser = getUser(); //un objet  idUser.token
-     const pswUser = this.AccountPage.password;
+     const idUser = this.user.userData; //un objet  idUser.token
+     const pswUser = this.password;
      //Supprimer le compte (back) & se déconnecter
-     if(idUser.psw===pswUser){
-        lastValueFrom(this.httpService.deleteUser(idUser.token)
+        lastValueFrom(this.httpService.deleteUser(idUser.token,pswUser))
         .then(res => {
         console.log('res : ', res);
+        this.router.navigateByUrl('identification').then(r => this.display.display({
+          code: 'Suppression réussie !',
+          color: 'success'
+        }));
         })
           .catch(err => {
           console.log('err : ', err);
         });
-      }
-      else{
-        console.log("mot de passe différent");
-      }
+        /*
        //Graphiques
        this.display.display({code:"Votre compte a bien été supprimé", color:"success"});
        //Redirection
        this.router.navigateByUrl('identification').then();
-     }
      else{
        //Graphiques
        this.display.display("Votre mot de passe ne correspond pas");
@@ -82,5 +83,6 @@ export class AccountPage implements OnInit {
      this.newPassword = '';
      this.confirmNewPassword = '';
      this.password = '';
-   }*/
+     */
+   }
 }

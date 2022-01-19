@@ -12,15 +12,15 @@
           <ion-icon name="home-outline"></ion-icon>
           <ion-label>Home</ion-label>
         </ion-button>
-        <ion-button expand="block" color="success" href="/pass">
+        <ion-button expand="block" color="success" href="/pass" *ngIf="user.userData.category===0">
           <ion-icon name="qr-code-outline"></ion-icon>
           <ion-label>Mon Pass</ion-label>
         </ion-button>
-        <ion-button expand="block" color="warning" href="/citizen-tab/citizen-rdv-page">
+        <ion-button expand="block" color="warning" href="/citizen-tab/citizen-rdv-page"*ngIf="user.userData.category===0">
           <ion-icon name="body-outline"></ion-icon>
           <ion-label>Mon Espace</ion-label>
         </ion-button>
-        <ion-button expand="block" color="success" href="/doctor-tab/doctor-fill">
+        <ion-button expand="block" color="success" href="/doctor-tab/doctor-fill" *ngIf="user.userData.category===1">
           <ion-icon name="medkit-outline"></ion-icon>
           <ion-label>Mon Espace</ion-label>
         </ion-button>
