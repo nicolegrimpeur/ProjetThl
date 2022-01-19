@@ -7,8 +7,8 @@ function generate_token(length) {
   //edit the token allowed characters
   let a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
   let b = [];
-  for (var i = 0; i < length; i++) {
-    var j = (Math.random() * (a.length - 1)).toFixed(0);
+  for (let i = 0; i < length; i++) {
+    let j = (Math.random() * (a.length - 1)).toFixed(0);
     b[i] = a[parseInt(j)];
   }
   return b.join("");
@@ -104,7 +104,7 @@ userRoute.route('/create-user').post((req, res, next) => {
         res.send(user);
       });
     }else{
-      res.send(JSON.stringify('Email déjà utilisée : '+ req.body.mail));
+      res.status(202).send('Mail invalide');
     }
   });
 });

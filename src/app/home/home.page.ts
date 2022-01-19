@@ -21,7 +21,7 @@ export class HomePage {
   ];
 
   public vaccineData = {
-    mail: 'nicolegrimpeur@gmail.com',
+    mail: 'watteltheo@gmail.com',
     lab: 'Moderna',
     date: '2022-01-05T08:21:00.000+00:00',
   };
