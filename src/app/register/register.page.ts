@@ -37,7 +37,6 @@ export class RegisterPage implements OnInit {
   }
 
   checkCivilite(){
-    console.log(this.registerData.name);
     if(this.registerData.name===''||this.registerData.surname==='' ) {
       this.display.display({
         code: 'Vous devez rentrer un nom ou prénom valide !',
@@ -57,7 +56,6 @@ export class RegisterPage implements OnInit {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
       );
     if (validatePwd(this.registerData.psw)) {
-      console.log('OK');
       if (this.registerData.psw !== this.registerData.confirmPassword) {
         this.registerData.psw = '';
         this.registerData.confirmPassword = '';

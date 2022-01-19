@@ -12,7 +12,7 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Enregistrement de vaccin</ion-card-title>
+      <ion-card-title>Saisie d'information pour patient <ion-icon name="bandage-outline"></ion-icon></ion-card-title>
     </ion-card-header>
 
     <ion-item>
@@ -21,16 +21,65 @@
       </ion-input>
     </ion-item>
 
-    <ion-card-content>
+    <ion-item>
+      <ion-label><b>La saisie est un :</b></ion-label>
+    </ion-item>
+
+    <ion-radio-group [(ngModel)]="fill">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label color="success">Vaccin</ion-label>
+            <ion-radio slot="start" [value]="'Vaccin'" color="success"></ion-radio>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label color="warning">Test</ion-label>
+            <ion-radio slot="start" [value]="'Test'" color="warning"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+
+    <!--Partie Vaccin-->
+    <ion-card-content *ngIf="fill==='Vaccin'">
       <ion-item>
         <ion-label><b>Laboratoire</b></ion-label>
-        <ion-input [(ngModel)]="vaccineData.lab" required="true" type="surname" placeholder="Entrez le laboratoire">
-        </ion-input>
       </ion-item>
 
+      <ion-radio-group [(ngModel)]="vaccineData.lab">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label color="success">Pfizer</ion-label>
+              <ion-radio slot="start" [value]="'Pfizer'" color="sucess"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label color="warning">Moderna</ion-label>
+              <ion-radio slot="start" [value]="'Moderna'" color="warning"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label color="danger">Astrazeneca</ion-label>
+              <ion-radio slot="start" [value]="'Astrazeneca'" color="danger"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label color="tertiary">Johnson & Johnson</ion-label>
+              <ion-radio slot="start" [value]="'Johnson & Johnson'" color="tertiary"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+
       <ion-item>
-        <ion-label><b>Date de vaccination</b></ion-label>
-        <ion-input [value]="vaccineData.date"></ion-input>
+        <ion-label><b>Date</b></ion-label>
+        <ion-input [value]="date"></ion-input>
         <ion-button fill="clear" id="open-date-input-2">
           <ion-icon icon="calendar"></ion-icon>
         </ion-button>
@@ -38,17 +87,114 @@
           <ng-template>
             <ion-datetime
               presentation="date"
-              [(ngModel)]="vaccineData.lab"
-              (ionChange)="myFormatDate()"
+              [(ngModel)]="vaccineData.date"
+              (ionChange)="myFormatDate(vaccineData.date)"
             ></ion-datetime>
           </ng-template>
         </ion-popover>
       </ion-item>
 
       <div class="ion-padding">
-        <ion-button (click)="uploadVaccineData()" expand="block" color="primary">Valider</ion-button>
+        <ion-button (click)="uploadVaccineData()" expand="block" color="success">Valider</ion-button>
       </div>
 
     </ion-card-content>
+
+    <!--Partie Test-->
+    <ion-card-content *ngIf="fill==='Test'">
+      <ion-item>
+        <ion-label><b>Type</b></ion-label>
+      </ion-item>
+
+      <ion-radio-group [(ngModel)]="testData.type">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label color="tertiary">PCR</ion-label>
+              <ion-radio slot="start" [value]="'PCR'" color="tertiary"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label color="tertiary">Antigénique</ion-label>
+              <ion-radio slot="start" [value]="'Antigénique'" color="tertiary"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+
+      <ion-item>
+        <ion-label><b>Résultat</b></ion-label>
+      </ion-item>
+
+      <ion-radio-group [(ngModel)]="testData.result">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label color="danger">Positif</ion-label>
+              <ion-radio slot="start" [value]="'Positif'" color="danger"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label color="success">Négatif</ion-label>
+              <ion-radio slot="start" [value]="'Négatif'" color="success"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+
+      <ion-card-content *ngIf="testData.result==='Positif'">
+        <ion-item>
+          <ion-label><b>Variant</b></ion-label>
+        </ion-item>
+
+        <ion-radio-group [(ngModel)]="testData.variant">
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label color="warning">Omicron</ion-label>
+                <ion-radio slot="start" [value]="'Omicron'" color="warning"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label color="danger">Delta</ion-label>
+                <ion-radio slot="start" [value]="'Delta'" color="danger"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label color="dark">Classique</ion-label>
+                <ion-radio slot="start" [value]="'Classique'" color="dark"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
+      </ion-card-content>
+
+      <ion-item>
+        <ion-label><b>Date</b></ion-label>
+        <ion-input [value]="date"></ion-input>
+        <ion-button fill="clear" id="open-date-input-1">
+          <ion-icon icon="calendar"></ion-icon>
+        </ion-button>
+        <ion-popover trigger="open-date-input-1" show-backdrop="false">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              [(ngModel)]="testData.date"
+              (ionChange)="myFormatDate(testData.date)"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+
+      <div class="ion-padding">
+        <ion-button (click)="uploadTestData()" expand="block" color="success">Valider</ion-button>
+      </div>
+
+    </ion-card-content>
+
   </ion-card>
 </ion-content>
