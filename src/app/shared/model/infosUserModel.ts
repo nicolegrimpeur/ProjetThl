@@ -5,7 +5,7 @@ export class InfosUserModel {
   token: string;
   name: string;
   surname: string;
-  birthday: Date;
+  birthday: string;
   mail: string;
   category: number;
   vaccine: VaccineModel;

@@ -1,7 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Display} from '../shared/class/display';
 import {HttpService} from '../core/http.service';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -20,6 +20,12 @@ export class HomePage {
     {infos: 'ngFor'},
   ];
 
+  public vaccineData = {
+    mail: 'nicolegrimpeur@gmail.com',
+    lab: 'Moderna',
+    date: '2022-01-05T08:21:00.000+00:00',
+  };
+
   constructor(
     public display: Display,
     public httpService: HttpService
@@ -27,13 +33,7 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    lastValueFrom(this.httpService.getUser('123456789'))
-      .then(res => {
-        console.log('res : ', res);
-      })
-      .catch(err => {
-        console.log('err : ', err);
-      });
+
   }
 
 
@@ -53,5 +53,20 @@ export class HomePage {
         this.result = undefined;
       }
     });
+  }
+
+  uploadVaccineData() {
+    console.log('Infos recues : [' + this.vaccineData.mail + ' ; ' + this.vaccineData.lab + ' ; ' + this.vaccineData.date + ']');
+    lastValueFrom(this.httpService.addVaccine({
+      mail: this.vaccineData.mail,
+      lab: this.vaccineData.lab,
+      date: this.vaccineData.date
+    }))
+      .then(res => {
+        console.log('res:',res);
+      })
+      .catch(err => {
+        console.log('err:',err);
+      });
   }
 }

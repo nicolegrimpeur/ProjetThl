@@ -3,9 +3,9 @@ import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {ModalScannerPage} from '../shared/modal/modal-scanner/modal-scanner.page';
 import {Display} from '../shared/class/display';
-import {InfosQrModel} from '../shared/model/infosQrModel';
 import {lastValueFrom} from "rxjs";
 import {HttpService} from "../core/http.service";
+import {ModalInfoQrPage} from "../shared/modal/modal-info-qr/modal-info-qr.page";
 
 @Component({
   selector: 'app-identification',
@@ -13,8 +13,6 @@ import {HttpService} from "../core/http.service";
   styleUrls: ['./identification.page.scss'],
 })
 export class IdentificationPage implements OnInit {
-  public userData = new InfosQrModel();
-
   constructor(
     public router: Router,
     private modalController: ModalController,
@@ -34,7 +32,7 @@ export class IdentificationPage implements OnInit {
     this.router.navigateByUrl('register').then();
   }
 
-  async openCardModal() {
+  async openScan() {
     //Wait Creation
     const modal = await this.modalController.create({
       component: ModalScannerPage,
@@ -58,10 +56,25 @@ export class IdentificationPage implements OnInit {
   getScanData(data) {
     lastValueFrom(this.httpService.getUserQr(data))
       .then(res => {
-        this.userData = res;
+        this.openResult(res).then();
       })
       .catch(err => {
         this.display.display(err.status).then();
       });
+  }
+
+  async openResult(userData) {
+    //Wait Creation
+    const modal = await this.modalController.create({
+      component: ModalInfoQrPage,
+      breakpoints: [0, 0.2, 0.5, 0.75, 1],
+      initialBreakpoint: 0.75,
+      componentProps: {
+        user: userData
+      }
+    });
+
+    await modal.present();//Wait Display
+    await modal.onDidDismiss().then();//Wait dismiss
   }
 }

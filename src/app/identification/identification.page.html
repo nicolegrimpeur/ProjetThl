@@ -31,26 +31,11 @@
     <ion-card-content>
       <div class="ion-padding">
         <ion-fab vertical="top" horizontal="center" slot="fixed" edge>
-          <ion-fab-button (click)="openCardModal()" #cartBtn>
+          <ion-fab-button (click)="openScan()" #cartBtn>
             <ion-icon name="qr-code-outline"></ion-icon>
           </ion-fab-button>
         </ion-fab>
       </div>
     </ion-card-content>
   </ion-card>
-
-  <ion-card *ngIf="userData.name !== undefined">
-
-    <ion-card-header>
-      <ion-card-title>
-        {{userData.name}} {{userData.surname}}
-      </ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      Date de naissance : {{userData.birthday}}
-    </ion-card-content>
-
-  </ion-card>
-
 </ion-content>

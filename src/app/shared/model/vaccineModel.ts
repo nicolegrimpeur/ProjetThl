@@ -1,4 +1,4 @@
 export class VaccineModel {
-  date: Date;
+  date: string;
   lab: string;
 }

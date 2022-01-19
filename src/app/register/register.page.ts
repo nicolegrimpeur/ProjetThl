@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Display} from '../shared/class/display';
 import {HttpService} from '../core/http.service';
 import {lastValueFrom} from 'rxjs';
-
+import {User} from "../shared/class/user";
 
 @Component({
   selector: 'app-register',
@@ -15,21 +15,22 @@ export class RegisterPage implements OnInit {
   public registerData = {
     name: 'p',
     surname: 'd',
-    email: 'pldu78@gmail.com',
-    password: 'A1azerty',
+    mail: 'pldu78@gmail.com',
+    psw: 'A1azerty',
     confirmPassword: 'A1azerty',
+    category: -1,
     medId: '',
-    dateOfBirth: ''
+    birthday: ''
   };
   public isADoctor = false;
   public date = '';
 
-  constructor(public router: Router, public display: Display, private httpService: HttpService) {
+  constructor(public router: Router, public display: Display, private httpService: HttpService, private user: User) {
     let after = false;
     // récupère l'email dans le lien
     for (const i of this.router.url) {
       if (after && i !== '=') {
-        this.registerData.email += i;
+        this.registerData.mail += i;
       } else if (i === '?') {
         after = true;
       }
@@ -40,7 +41,7 @@ export class RegisterPage implements OnInit {
   }
 
   myFormatDate() {
-    const datePlusTime = this.registerData.dateOfBirth;
+    const datePlusTime = this.registerData.birthday;
     const date = datePlusTime.slice(0, 10);
     const year = date.slice(0, 4);
     const month = date.slice(5, 7);
@@ -52,25 +53,24 @@ export class RegisterPage implements OnInit {
     const validatePwd = (pwd) => String(pwd)
       .match(
         // eslint-disable-next-line max-len
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
       );
-    if (validatePwd(this.registerData.password)) {
+    if (validatePwd(this.registerData.psw)) {
       console.log('OK');
-      if (this.registerData.password !== this.registerData.confirmPassword) {
-        this.registerData.password = '';
+      if (this.registerData.psw !== this.registerData.confirmPassword) {
+        this.registerData.psw = '';
         this.registerData.confirmPassword = '';
         //Display error message
         this.display.display('Attention les mots de passe sont différents !');
         return;
-      }
-      else{
+      } else {
         this.checkDate();
       }
-    } else if(!validatePwd(this.registerData.password)) {
+    } else if (!validatePwd(this.registerData.psw)) {
       this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial');
     }
 
-   // this.display.display({code: 'Inscription réussie !', color: 'success'});
+    //
   }
 
   checkMail() {
@@ -80,12 +80,14 @@ export class RegisterPage implements OnInit {
         // eslint-disable-next-line max-len
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
-    if (validateEmail(this.registerData.email)) {
+    if (validateEmail(this.registerData.mail)) {
       console.log('OK');
     } else {
       console.log('wrong email format');
     }
+    this.checkRadio();
   }
+
 //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$
   checkDate() {
     const currentDate = new Date();
@@ -95,33 +97,49 @@ export class RegisterPage implements OnInit {
     if (currentDate.getDate() < parseInt(birthDate[0], 10) && currentDate.getMonth() <= parseInt(birthDate[1], 10) && currentDate.getFullYear() <= parseInt(birthDate[2], 10)) {
       this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
       console.log(birthDate);
-    }
-    else  if (currentDate.getMonth() < parseInt(birthDate[1], 10) && currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
+    } else if (currentDate.getMonth() < parseInt(birthDate[1], 10) && currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
       this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
       console.log(birthDate);
-    }
-    else if (currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
+    } else if (currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
       this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
       console.log(birthDate);
-    }
-    else if(this.date ===''){
+    } else if (this.date === '') {
       this.display.display('vous avez oublié de rentrer la date');
-    }
-    else{
+    } else {
       this.checkMail();
+    }
+  }
+
+  checkRadio() {
+    if (document.getElementById('radioBoxCitoyen').ariaChecked.toString() === 'true') {
+      this.registerData.category = 0;
+      this.makeRegister();
+
+    } else if (document.getElementById('radioBoxMedic').ariaChecked.toString() === 'true') {
+      this.registerData.category = 1;
+      this.makeRegister();
     }
   }
 
   makeRegister() {
     //Enregistrer les infos(Back)
-    lastValueFrom(this.httpService.createUser(this.registerData))
+    lastValueFrom(this.httpService.createUser({
+      name: this.registerData.name,
+      surname: this.registerData.surname,
+      psw: this.registerData.psw,
+      token: '',
+      birthday: this.registerData.birthday,
+      mail: this.registerData.mail,
+      category: this.registerData.category
+    }))
       .then(res => {
         console.log('res : ', res);
+      this.user.setUser(res);
       })
       .catch(err => {
         console.log('err : ', err);
       });
     //Redirection
-    this.router.navigateByUrl('home').then();
+    this.router.navigateByUrl('home').then(r=>this.display.display({code: 'Inscription réussie !', color: 'success'}));
   }
 }

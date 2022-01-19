@@ -35,8 +35,8 @@
         <ion-popover trigger="open-date-input-2" show-backdrop="false">
           <ng-template>
             <ion-datetime
-              presentation="date" 
-              [(ngModel)]="registerData.dateOfBirth" 
+              presentation="date"
+              [(ngModel)]="registerData.birthday"
               (ionChange)="myFormatDate()"
             ></ion-datetime>
           </ng-template>
@@ -48,13 +48,13 @@
           <ion-col>
             <ion-item>
               <ion-label>Citoyen</ion-label>
-              <ion-radio slot="start" value="false"></ion-radio>
+              <ion-radio slot="start" [value]="false" id="radioBoxCitoyen"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
               <ion-label>Médecin</ion-label>
-              <ion-radio slot="start" value="true" color="success"></ion-radio>
+              <ion-radio slot="start" [value]="true" color="success" id="radioBoxMedic"></ion-radio>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -69,13 +69,13 @@
       <ion-item>
         <ion-label *ngIf="isADoctor !== 'true'"><b>Email</b></ion-label>
         <ion-label *ngIf="isADoctor === 'true'"><b>Email professionnel</b></ion-label>
-        <ion-input [(ngModel)]="registerData.email" required="true" type="email" placeholder="Entrez votre email">
+        <ion-input [(ngModel)]="registerData.mail" required="true" type="email" placeholder="Entrez votre email">
         </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label><b>Mot de passe</b></ion-label>
-        <ion-input [(ngModel)]="registerData.password" required="true" type="password"
+        <ion-input [(ngModel)]="registerData.psw" required="true" type="password"
           placeholder="Entrez votre mot de passe"></ion-input>
       </ion-item>
 
