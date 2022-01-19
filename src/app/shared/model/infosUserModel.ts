@@ -11,4 +11,5 @@ export class InfosUserModel {
   vaccine: VaccineModel;
   tests_result: TestModel;
   medical_id: string;
+  uuid: string;
 }

@@ -60,15 +60,15 @@
         </ion-row>
       </ion-radio-group>
 
-      <ion-item *ngIf="isADoctor === 'true'">
+      <ion-item *ngIf="isADoctor">
         <ion-label><b>Identifiant Médecin</b></ion-label>
         <ion-input [(ngModel)]="registerData.medId" required="true" type="id" placeholder="Entrez votre identifiant">
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label *ngIf="isADoctor !== 'true'"><b>Email</b></ion-label>
-        <ion-label *ngIf="isADoctor === 'true'"><b>Email professionnel</b></ion-label>
+        <ion-label *ngIf="isADoctor"><b>Email</b></ion-label>
+        <ion-label *ngIf="isADoctor"><b>Email professionnel</b></ion-label>
         <ion-input [(ngModel)]="registerData.mail" required="true" type="email" placeholder="Entrez votre email">
         </ion-input>
       </ion-item>
@@ -86,7 +86,7 @@
       </ion-item>
 
       <div class="ion-padding">
-        <ion-button (click)="checkPwd()" expand="block" color="primary">S'enregistrer</ion-button>
+        <ion-button (click)="checkCivilite()" expand="block" color="primary">S'enregistrer</ion-button>
       </div>
 
     </ion-card-content>

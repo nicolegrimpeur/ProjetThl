@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from '../shared/class/user';
 
 @Component({
   selector: 'app-pass',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PassPage implements OnInit {
 
-  constructor() { }
+  constructor(public user: User) { }
 
   ngOnInit() {
   }

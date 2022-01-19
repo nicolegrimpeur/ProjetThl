@@ -1,7 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {Display} from '../shared/class/display';
+import {HttpService} from '../core/http.service';
+import {lastValueFrom} from "rxjs";
+import {InfosUserModel} from "../shared/model/infosUserModel";
 import { HttpChiffreService } from '../core/httpChiffre.service';
-import { lastValueFrom } from 'rxjs';
 import {StatModel} from '../shared/model/statModel';
 
 @Component({
