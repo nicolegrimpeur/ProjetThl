@@ -38,12 +38,8 @@ export class RegisterPage implements OnInit {
   }
 
   myFormatDate(){
-    let datePlusTime = this.registerData.dateOfBirth;
-    let date = datePlusTime.slice(0, 10);
-    let year = date.slice(0, 4);
-    let month = date.slice(5, 7);
-    let day = date.slice(8, 10);
-    this.date = day + ' / ' + month + ' / ' + year;
+    let tmp = new Date(this.registerData.dateOfBirth);
+    this.date = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
 
   checkPwd(){
