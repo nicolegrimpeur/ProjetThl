@@ -10,4 +10,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-card *ngFor="let operation of userData.operations">
+
+    <ion-card-header>
+      <ion-card-title>
+        <ion-textarea
+          [value]="operation">
+        </ion-textarea>
+      </ion-card-title>
+    </ion-card-header>
+
+  </ion-card>
+
 </ion-content>
