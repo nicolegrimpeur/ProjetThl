@@ -49,9 +49,9 @@ export class HttpService {
     return this.http.post(destUrl,data,{headers: {'Content-Type': 'application/json'}});
   }
 
-  deleteUser(token){
-    const url =this.baseUrl + 'user/delete-user';
-    const data = {data: token};
+  deleteUser(token: string,psw: string){
+    const url =this.baseUrl + 'user/delete-user/:tokenData';
+    const data = {tokenData: token,pswData: psw};
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(url,data,{headers:{'Content-Type': 'application/json'}});

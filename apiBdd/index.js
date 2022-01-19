@@ -34,9 +34,3 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log('PORT connected: ' + port)
 })
-
-app.use(function (error, res,) {
-  console.error(error.message);
-  if (!error.statusCode) error.statusCode = 500;
-  res.status(error.statusCode).send(error.message);
-});

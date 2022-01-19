@@ -43,15 +43,18 @@ export class IdentificationPage implements OnInit {
     //Wait Creation
     const modal = await this.modalController.create({
       component: ModalScannerPage,
-      breakpoints: [0, 0.2, 0.5, 0.75, 1],
+      breakpoints: [0, 0.5, 0.75, 1],
       initialBreakpoint: 0.5
     });
 
     await modal.present();//Wait Display
     await modal.onDidDismiss().then(data => {
+      console.log(data);
       if (data !== undefined) {
         //Graphiques
-        this.getScanData(data.data);
+        if (data.data !== undefined) {
+          this.getScanData(data.data);
+        }
       } else {
         this.display.display('Scan arrêté').then();
       }
@@ -91,37 +94,37 @@ export class IdentificationPage implements OnInit {
   }
   async openLinkModal() {
     let modal = await this.modalController.create({
-      component: ModalLinkPage, 
-      breakpoints: [0, 0.2, 0.5, 0.75, 1], 
+      component: ModalLinkPage,
+      breakpoints: [0, 0.2, 0.5, 0.75, 1],
       initialBreakpoint: 0.5
-    });  
+    });
     await modal.present();
     await modal.onDidDismiss();
   }
   async openShareModal() {
     let modal = await this.modalController.create({
-      component: ModalSharePage, 
-      breakpoints: [0, 0.2, 0.5, 0.75, 1], 
+      component: ModalSharePage,
+      breakpoints: [0, 0.2, 0.5, 0.75, 1],
       initialBreakpoint: 0.5
-    });  
+    });
     await modal.present();
     await modal.onDidDismiss();
   }
   async openConfidentialityModal() {
     let modal = await this.modalController.create({
-      component: ModalConfidentialityPage, 
-      breakpoints: [0, 0.2, 0.5, 0.75, 1], 
+      component: ModalConfidentialityPage,
+      breakpoints: [0, 0.2, 0.5, 0.75, 1],
       initialBreakpoint: 0.5
-    });  
+    });
     await modal.present();
     await modal.onDidDismiss();
   }
   async openAboutModal() {
     let modal = await this.modalController.create({
-      component: ModalAboutPage, 
-      breakpoints: [0, 0.2, 0.5, 0.75, 1], 
+      component: ModalAboutPage,
+      breakpoints: [0, 0.2, 0.5, 0.75, 1],
       initialBreakpoint: 0.5
-    });  
+    });
     await modal.present();
     await modal.onDidDismiss();
   }
