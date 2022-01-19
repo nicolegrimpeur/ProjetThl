@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Display} from '../shared/class/display';
 import {HttpService} from '../core/http.service';
 import {lastValueFrom} from 'rxjs';
-import {User} from "../shared/class/user";
+import {User} from '../shared/class/user';
 
 @Component({
   selector: 'app-register',
@@ -80,28 +80,21 @@ export class RegisterPage implements OnInit {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     if (validateEmail(this.registerData.mail)) {
-      console.log('OK');
+      this.checkPwd();
     } else {
-      console.log('wrong email format');
     }
-    this.checkPwd();
   }
 
-//^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$
   checkDate() {
     const currentDate = new Date();
     const birthDate = this.date.split('/');
-    console.log(birthDate);
     // eslint-disable-next-line max-len
     if (currentDate.getDate() < parseInt(birthDate[0], 10) && currentDate.getMonth() <= parseInt(birthDate[1], 10) && currentDate.getFullYear() <= parseInt(birthDate[2], 10)) {
       this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-      console.log(birthDate);
     } else if (currentDate.getMonth() < parseInt(birthDate[1], 10) && currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
       this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-      console.log(birthDate);
     } else if (currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
       this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-      console.log(birthDate);
     } else if (this.date === '') {
       this.display.display('vous avez oublié de rentrer la date');
     } else {
@@ -132,7 +125,6 @@ export class RegisterPage implements OnInit {
       category: this.registerData.category
     }))
       .then(res => {
-        console.log('res : ', res);
         this.user.setUser(res);
         this.router.navigateByUrl('home').then(r => this.display.display({
           code: 'Inscription réussie !',
@@ -141,7 +133,6 @@ export class RegisterPage implements OnInit {
 
       })
       .catch(err => {
-        console.log('err : ', err);
         this.router.navigateByUrl('register').then(r => this.display.display({
           code: err.error.text,
           color: 'danger'

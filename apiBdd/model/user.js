@@ -11,7 +11,7 @@ let User = new Schema({
   psw: String,
   category: Number,
   vaccine: [{date: Date, lab: String}],
-  tests_results: [{date: Date, result: Boolean, variant: String}],
+  tests_results: [{date: Date, result: Boolean, variant: String, type_test: String}],
   uuid: String
 }, {
   collection: 'login'
