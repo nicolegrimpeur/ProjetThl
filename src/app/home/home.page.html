@@ -3,113 +3,133 @@
     <ion-buttons slot="start">
       <ion-menu-button content="main"></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
+    <ion-title><ion-icon name="home-outline"></ion-icon> Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- à supprimer -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        Test boutons display
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button color="medium" expand="block" (click)="display.display('Bonjour, je suis un toast !')">
-              <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
-              Toast erreur
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button color="medium" expand="block" (click)="display.display({code: 'Bonjour, je suis un toast content !', color: 'success'})">
-              <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
-              Toast content
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button color="medium" expand="block" (click)="display.alert('Information', 'Bonjour, je suis une info utile')">
-              <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
-              Alert
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button color="medium" expand="block" (click)="clickActionSheet()">
-              <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
-              Action Sheet
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
+<ion-content>
+  <div vertical="top"  horizontal="center" class="stat">
 
-    <ion-card-content #ionCardContent></ion-card-content>
-
-    <ion-card-content *ngIf="result !== undefined"> Résultat {{result}}</ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        Test ngFor
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col *ngFor="let info of tab">
-            {{info.infos}}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
-
-<!--  Module temporaire d'ajout de vaccin  -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Enregistrement de vaccin</ion-card-title>
-    </ion-card-header>
-
-    <ion-item>
-      <ion-label><b>Email du patient</b></ion-label>
-      <ion-input [(ngModel)]="vaccineData.mail" required="true" type="email" placeholder="patient@exemple.com">
-      </ion-input>
-    </ion-item>
-
-    <ion-card-content>
-      <ion-item>
-        <ion-label><b>Laboratoire</b></ion-label>
-        <ion-input [(ngModel)]="vaccineData.lab" required="true" type="surname" placeholder="Entrez le laboratoire">
-        </ion-input>
+    <ion-card>
+      <ion-item color="primary" lines="none">
+        <ion-icon name="calendar-number-outline"></ion-icon>
       </ion-item>
-
-      <ion-item>
-        <ion-label><b>Date de vaccination</b></ion-label>
-        <ion-input [value]="vaccineData.date"></ion-input>
-        <ion-button fill="clear" id="open-date-input-2">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
-        <ion-popover trigger="open-date-input-2" show-backdrop="false">
-          <ng-template>
-            <ion-datetime
-              presentation="date"
-              [(ngModel)]="vaccineData.lab"
-              (ionChange)="myFormatDate()"
-            ></ion-datetime>
-          </ng-template>
-        </ion-popover>
+      <ion-item color="primary" lines="none">
+        <ion-card-content id="stats"> Date de suivi : {{stat.date}}
+        </ion-card-content>
       </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="secondary" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="secondary" lines="none">
+        <ion-card-content id="stats">Cumul des décès (cumul des décès constatés à l'hôpital et en EMS) : {{stat.dc_tot}}
+        </ion-card-content>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="success" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="success" lines="none">
+        <ion-card-content id="stats">Nombre de décès à l’hôpital : {{stat.dchosp}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="warning" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="warning" lines="none">
+        <ion-card-content id="stats">Nombre de cas confirmés en ESMS : {{stat.esms_cas}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="danger" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="danger" lines="none">
+        <ion-card-content id="stats">Nombre de décès en ESMS : {{stat.esms_dc}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="primary" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="primary" lines="none">
+        <ion-card-content id="stats">Nombre de patients actuellement hospitalisés pour COVID-19 : {{stat.hosp}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="secondary" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="secondary" lines="none">
+        <ion-card-content id="stats">Nombre de nouveaux patients décédés à l’hôpital au cours des dernières 24h : {{stat.incid_dchosp}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="success" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="success" lines="none">
+        <ion-card-content id="stats">Nombre de nouveaux patients hospitalisés au cours des dernières 24h : {{stat.incid_hosp}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="warning" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="warning" lines="none">
+        <ion-card-content id="stats">Nombre de nouveaux retours à domicile au cours des dernières 24h : {{stat.incid_rad}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="danger" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="danger" lines="none">
+        <ion-card-content id="stats">Nombre de nouveaux patients admis en réanimation au cours des dernières 24h : {{stat.incid_rea}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="primary" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="primary" lines="none">
+        <ion-card-content id="stats">Nombre cumulé de patients ayant été hospitalisés pour COVID-19 et de retour à domicile en raison de l'amélioration de leur état de santé : {{stat.rad}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item color="secondary" lines="none">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="secondary" lines="none">
+        <ion-card-content id="stats">Nombre de patients actuellement en réanimation ou en soins intensifs : {{stat.rea}}
+        </ion-card-content
+        >
+      </ion-item>
+    </ion-card>
 
-      <div class="ion-padding">
-        <ion-button (click)="uploadVaccineData()" expand="block" color="primary">Valider</ion-button>
-      </div>
 
-    </ion-card-content>
-  </ion-card>
+
+  </div>
 </ion-content>
