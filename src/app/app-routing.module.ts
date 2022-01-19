@@ -10,7 +10,8 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'identification',
     loadChildren: () => import('./identification/identification.module').then( m => m.IdentificationPageModule)
   },
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'modal-about',
     loadChildren: () => import('./shared/modal/modal-about/modal-about.module').then( m => m.ModalAboutPageModule)
+  },
+  {
+    path: 'citizen-tab',
+    loadChildren: () => import('./citizen-tab/citizen-tab.module').then( m => m.CitizenTabPageModule)
   },
 
 ];
