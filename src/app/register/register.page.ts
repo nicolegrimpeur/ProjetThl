@@ -32,9 +32,23 @@ export class RegisterPage implements OnInit {
   }
 
   myFormatDate(){
-    let tmp = new Date(this.registerData.dateOfBirth);
+    const tmp = new Date(this.registerData.birthday);
     this.date = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
+
+  checkCivilite(){
+    console.log(this.registerData.name);
+    if(this.registerData.name===''||this.registerData.surname==='' ) {
+      this.display.display({
+        code: 'Vous devez rentrer un nom ou prénom valide !',
+        color: 'danger'
+      });
+    }
+      else{
+        this.checkDate();
+      }
+    }
+
 
   checkPwd() {
     const validatePwd = (pwd) => String(pwd)
@@ -51,7 +65,7 @@ export class RegisterPage implements OnInit {
         this.display.display('Attention les mots de passe sont différents !');
         return;
       } else {
-        this.checkDate();
+        this.checkRadio();
       }
     } else if (!validatePwd(this.registerData.psw)) {
       this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial');
@@ -72,7 +86,7 @@ export class RegisterPage implements OnInit {
     } else {
       console.log('wrong email format');
     }
-    this.checkRadio();
+    this.checkPwd();
   }
 
 //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$
@@ -121,12 +135,20 @@ export class RegisterPage implements OnInit {
     }))
       .then(res => {
         console.log('res : ', res);
-      this.user.setUser(res);
+        this.user.setUser(res);
+        this.router.navigateByUrl('home').then(r => this.display.display({
+          code: 'Inscription réussie !',
+          color: 'success'
+        }));
+
       })
       .catch(err => {
         console.log('err : ', err);
+        this.router.navigateByUrl('register').then(r => this.display.display({
+          code: err.error.text,
+          color: 'danger'
+        }));
       });
     //Redirection
-    this.router.navigateByUrl('home').then(r=>this.display.display({code: 'Inscription réussie !', color: 'success'}));
   }
 }
