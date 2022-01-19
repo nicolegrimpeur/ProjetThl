@@ -23,11 +23,15 @@ userRoute.route('/').get((req, res) => {
 userRoute.route('/get/infosQr').post((req, res) => {
   console.log('infosQr', req.body);
   UserModel.find({token: req.body.data}, (err, result) => {
-    result[0]['psw'] = undefined;
-    result[0]['medical_id'] = undefined;
-    result[0]['mail'] = undefined;
-    result[0]['category'] = undefined;
-    res.json(result[0]);
+    if (result.length !== 0) {
+      result[0]['psw'] = undefined;
+      result[0]['medical_id'] = undefined;
+      result[0]['mail'] = undefined;
+      result[0]['category'] = undefined;
+      res.json(result[0]);
+    } else {
+      res.status(201).json({message: 'QrCode invalide'});
+    }
   });
 });
 

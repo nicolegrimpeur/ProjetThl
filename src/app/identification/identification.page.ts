@@ -44,7 +44,6 @@ export class IdentificationPage implements OnInit {
     await modal.onDidDismiss().then(data => {
       if (data !== undefined) {
         //Graphiques
-        this.display.display({code: 'Scan réussi', color: 'success'}).then();
         this.getScanData(data.data);
       } else {
         this.display.display('Scan arrêté').then();
@@ -56,10 +55,16 @@ export class IdentificationPage implements OnInit {
   getScanData(data) {
     lastValueFrom(this.httpService.getUserQr(data))
       .then(res => {
-        this.openResult(res).then();
+        console.log(res);
+        if (res.message !== undefined) {
+          this.display.display(res.message).then();
+        } else {
+          this.display.display({code: 'Scan réussi', color: 'success'}).then();
+          this.openResult(res).then();
+        }
       })
       .catch(err => {
-        this.display.display(err.status).then();
+        this.display.display(err.message).then();
       });
   }
 
