@@ -5,6 +5,7 @@ import {InfosQrModel} from '../shared/model/infosQrModel';
 import {InfosUserModel} from '../shared/model/infosUserModel';
 import {RegisterData} from '../shared/model/registerDataUserModel';
 import {VaccineModel} from '../shared/model/vaccineModel';
+import { Component } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -62,3 +63,4 @@ export class HttpService {
     return this.http.post(destUrl,{body:data},{headers: {'Content-Type': 'application/json'}});
   }
 }
+
