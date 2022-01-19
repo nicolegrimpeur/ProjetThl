@@ -129,7 +129,48 @@
       </ion-item>
     </ion-card>
 
+    <!--  Module temporaire d'ajout de vaccin  -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Enregistrement de vaccin</ion-card-title>
+      </ion-card-header>
 
+      <ion-item>
+        <ion-label><b>Email du patient</b></ion-label>
+        <ion-input [(ngModel)]="vaccineData.mail" required="true" type="email" placeholder="patient@exemple.com">
+        </ion-input>
+      </ion-item>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label><b>Laboratoire</b></ion-label>
+          <ion-input [(ngModel)]="vaccineData.lab" required="true" type="surname" placeholder="Entrez le laboratoire">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Date de vaccination</b></ion-label>
+          <ion-input [value]="vaccineData.date"></ion-input>
+          <ion-button fill="clear" id="open-date-input-2">
+            <ion-icon icon="calendar"></ion-icon>
+          </ion-button>
+          <ion-popover trigger="open-date-input-2" show-backdrop="false">
+            <ng-template>
+              <ion-datetime
+                presentation="date"
+                [(ngModel)]="vaccineData.lab"
+                (ionChange)="myFormatDate()"
+              ></ion-datetime>
+            </ng-template>
+          </ion-popover>
+        </ion-item>
+
+        <div class="ion-padding">
+          <ion-button (click)="uploadVaccineData()" expand="block" color="primary">Valider</ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
 
   </div>
 </ion-content>

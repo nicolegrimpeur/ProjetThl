@@ -5,7 +5,7 @@ import {InfosQrModel} from '../shared/model/infosQrModel';
 import {InfosUserModel} from '../shared/model/infosUserModel';
 import {RegisterData} from '../shared/model/registerDataUserModel';
 import {VaccineModel} from '../shared/model/vaccineModel';
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -38,29 +38,44 @@ export class HttpService {
 
   login(mail, password) {
     const url = this.baseUrl + 'user/login';
-    const data = { mail, password };
+    const data = {mail, password};
     // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
 
-  createUser(data: RegisterData){
-    const destUrl  = this.baseUrl+'user/create-user';
+  createUser(data: RegisterData) {
+    const destUrl = this.baseUrl + 'user/create-user';
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    return this.http.post(destUrl,data,{headers: {'Content-Type': 'application/json'}});
+    return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
   }
 
-  deleteUser(token: string,psw: string){
-    const url =this.baseUrl + 'user/delete-user/:tokenData';
-    const data = {tokenData: token,pswData: psw};
+  deleteUser(token: string, psw: string) {
+    const url = this.baseUrl + 'user/delete-user';
+    const data = {tokenData: token, pswData: psw};
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    return this.http.post(url,data,{headers:{'Content-Type': 'application/json'}});
+    return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
 
-  addVaccine(data){
-    const destUrl  = this.baseUrl+'user/add/vaccine';
+  deleteData(token: string, password: string) {
+    const url = this.baseUrl + 'user/deleteData';
+    const data = {token, password};
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    return this.http.post(destUrl,{body:data},{headers: {'Content-Type': 'application/json'}});
+    return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
+  }
+
+  addVaccine(data) {
+    const destUrl = this.baseUrl + 'user/add/vaccine';
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
+  }
+
+  modifPsw(token: string, psw: string, newPsw: string) {
+    const url = this.baseUrl + 'user/modif-psw';
+    const data = {tokenData: token, pswData: psw, newPswData: newPsw};
+
+    return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
 }
 

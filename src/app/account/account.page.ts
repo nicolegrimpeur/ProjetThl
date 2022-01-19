@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Display } from '../shared/class/display';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Display} from '../shared/class/display';
+import {Router} from '@angular/router';
 import {lastValueFrom} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {RegisterData} from '../shared/model/registerDataUserModel';
 import {User} from '../shared/class/user'
-import {HttpService} from "../core/http.service";
+import {HttpService} from '../core/http.service';
 
 @Component({
   selector: 'app-account',
@@ -18,17 +18,66 @@ export class AccountPage implements OnInit {
   public newPassword: string;
   public confirmNewPassword: string;
   //Variable pour suppression de compte
-  public password: string;
+  public passwordData = '';
+  public passwordUser = '';
 
-  constructor(private display: Display, public router: Router, private user:User, private httpService:HttpService) {
-    this.password = '';
+  constructor(private display: Display, public router: Router, private user: User, private httpService: HttpService) {
   }
 
   ngOnInit() {
   }
+/*
+  checkPwd() {
 
+    if (validatePwd(this.registerData.psw)) {
+      if (this.registerData.psw !== this.registerData.confirmPassword) {
+        this.registerData.psw = '';
+        this.registerData.confirmPassword = '';
+        //Display error message
+        this.display.display('Attention les mots de passe sont différents !');
+        return;
+      } else {
+        this.checkRadio();
+      }
+    } else if (!validatePwd(this.registerData.psw)) {
+      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial');
+    }
+
+    //
+  }*/
   confirmPswdChange() {
     //Vérifier que oldpassword est bon (back)
+    const idUser = this.user.userData;
+    const validatePwd = (pwd) => String(pwd)
+      .match(
+        // eslint-disable-next-line max-len
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+      );
+    if(validatePwd(this.newPassword)) {
+      if (this.newPassword === this.confirmNewPassword) {
+        lastValueFrom(this.httpService.modifPsw(idUser.token, this.oldPassword, this.newPassword))
+          .then(res => {
+            console.log('res: ', res);
+            this.router.navigateByUrl('home').then(r => this.display.display({
+              code: 'Modification de mot de passe réussie !',
+              color: 'success'
+            }));
+          })
+          .catch(err => {
+            console.log('err : ', err);
+          });
+      } else {
+        //Si ils ne correspondent pas
+        this.display.display({
+          code: 'Les mots de passe ne correspondent pas',
+          color: 'danger'
+        });
+      }
+    }
+    else if (!validatePwd(this.newPassword)) {
+      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre et contenir au moins 8 caractère');
+    }
+    /*
     if (this.oldPassword === "123") {
       //Vérif les deux mdps correspondent
       if (this.newPassword === this.confirmNewPassword) {
@@ -49,40 +98,48 @@ export class AccountPage implements OnInit {
     this.oldPassword = '';
     this.newPassword = '';
     this.confirmNewPassword = '';
-    this.password = '';
+    this.password = '';*/
   }
 
 
-   confirmAccSuppr() {
-     //Vérifier que le mdp est bon
-     const idUser = this.user.userData; //un objet  idUser.token
-     const pswUser = this.password;
-     //Supprimer le compte (back) & se déconnecter
-        lastValueFrom(this.httpService.deleteUser(idUser.token,pswUser))
-        .then(res => {
-        console.log('res : ', res);
-        this.router.navigateByUrl('identification').then(r => this.display.display({
-          code: 'Suppression réussie !',
-          color: 'success'
-        }));
-        })
+  confirmAccSuppr() {
+    this.display.alertWithInputs('Confirmer la suppression de votre compte', [])
+      .then(() => {
+        const idUser = this.user.userData; //un objet  idUser.token
+        const pswUser = this.passwordUser;
+        //Supprimer le compte (back) & se déconnecter
+        lastValueFrom(this.httpService.deleteUser(idUser.token, pswUser))
+          .then(res => {
+            console.log('res : ', res);
+            this.router.navigateByUrl('identification').then(r => this.display.display({
+              code: 'Suppression réussie !',
+              color: 'success'
+            }));
+          })
           .catch(err => {
-          console.log('err : ', err);
-        });
-        /*
-       //Graphiques
-       this.display.display({code:"Votre compte a bien été supprimé", color:"success"});
-       //Redirection
-       this.router.navigateByUrl('identification').then();
-     else{
-       //Graphiques
-       this.display.display("Votre mot de passe ne correspond pas");
-     }
-     //Reset value
-    this.oldPassword = '';
-     this.newPassword = '';
-     this.confirmNewPassword = '';
-     this.password = '';
-     */
-   }
+            console.log('err : ', err);
+            this.display.display({
+              code: 'Suppression échoué !',
+              color: 'success'
+            }).then();
+          });
+      });
+  }
+
+  supprData() {
+    this.display.alertWithInputs('Confirmer la suppression de vos données de tests', [])
+      .then(res => {
+        if (res.role === 'backdrop' || res.role === 'cancel') {
+          this.display.display('Suppression annulé').then();
+        } else {
+          lastValueFrom(this.httpService.deleteData(this.user.userData.token, this.passwordData))
+            .then(result => {
+              this.display.display({code: 'Suppression réussi', color: 'success'}).then();
+            })
+            .catch(error => {
+              this.display.display(error.message).then();
+            });
+        }
+      });
+  }
 }

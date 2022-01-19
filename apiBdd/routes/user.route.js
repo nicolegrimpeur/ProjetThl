@@ -97,21 +97,44 @@ userRoute.route('/login').post((req, res) => {
 
 //Ajout d'une dose de vaccin
 userRoute.route('/add/vaccine').post((req, res, next) => {
-  console.log('addVacinne received for ', req.body);
+  console.log('addVacinne received ', req.body);
 //req.body.mail = 'watteltheo@gmail.com'; //For debug purposes
-  UserModel.find({mail: req.body.mail}, (err, resultV) => {
-    console.log('resultV', resultV);
-    if (resultV != 1) {
+  UserModel.find({mail: req.body.mail}, (err, result) => {
+    console.log('result :: ', result);
+    if (result !== []) {
       console.log('User ' + req.body.mail + ' found.')
-      /*UserModel.create(req.body.body, (err, user) => {
-        //.log(user);
-        console.log("Vaccine added");
-      });*/
-      UserModel.findOneAndUpdate({mail: req.body.mail}, {vaccine: req.body.lab}, {}, (err, result) => {
+      result[0].vaccine.push(req.body);
+      UserModel.findOneAndUpdate({mail: req.body.mail}, {vaccine: result[0].vaccine}, {}, (err, result) => {
+        console.log(result)
+        if (result !== [])
+          res.status(200).send(JSON.stringify('Vaccine added successfully'));
+        else {
+          res.status(403).send(JSON.stringify('Vaccine added failure'));
+        }
       });
-      console.log("Vaccine added");
     } else {
-      console.log("User not found");
+      res.status(404).send(JSON.stringify('User not found'));
+    }
+  });
+});
+
+//Ajout d'un résultat de test
+userRoute.route('/add/test').post((req, res, next) => {
+  console.log('addTest received ', req.body);
+  UserModel.find({mail: req.body.mail}, (err, result) => {
+    console.log('result :: ', result);
+    if (result !== []) {
+      console.log('User ' + req.body.mail + ' found.')
+      result[0].tests_results.push(req.body);
+      UserModel.findOneAndUpdate({mail: req.body.mail}, {tests_results: result[0].tests_results}, {}, (err, result) => {
+        if (result !== [])
+          res.status(200).send(JSON.stringify('Test added successfully'));
+        else {
+          res.status(403).send(JSON.stringify('Test added failure'));
+        }
+      });
+    } else {
+      res.status(404).send(JSON.stringify('User not found'));
     }
   });
 });
@@ -119,16 +142,16 @@ userRoute.route('/add/vaccine').post((req, res, next) => {
 async function checkToken(token) {
 
   const result = await UserModel.find({token: token});
-    if (result.length === 0) {
-      return token;
-    } else {
-      token = generate_token(256)
-      return checkToken(token);
-    }
+  if (result.length === 0) {
+    return token;
+  } else {
+    token = generate_token(256)
+    return checkToken(token);
+  }
 }
 
 userRoute.route('/create-user').post((req, res, next) => {
-  UserModel.find({mail: req.body.mail}, async(err, result) => {
+  UserModel.find({mail: req.body.mail}, async (err, result) => {
     console.log("RESULT CREATE :" + result);
     if (result.length < 1) {
       req.body.token = await checkToken(generate_token(256)).then(r => {
@@ -169,10 +192,10 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
   })
 })
 
-userRoute.route('/delete-user/:tokenData').post((req, res, next) => {
+userRoute.route('/delete-user').post((req, res, next) => {
   UserModel.find({token: req.body.tokenData}, (error, result) => {
     console.log(result)
-    if (result.length != 0) {
+    if (result.length !== 0) {
       if (result[0].psw !== req.body.pswData) {
         res.status(406).send(new Error('Mot de passe erroné'));
       } else {
@@ -187,5 +210,42 @@ userRoute.route('/delete-user/:tokenData').post((req, res, next) => {
     }
   });
 })
+
+userRoute.route('/deleteData').post((req, res) => {
+  UserModel.find({token: req.body.token}, async (error, result) => {
+    if (result.length !== 0) {
+      if (result[0].psw !== req.body.password) {
+        res.status(201).send('Mot de passe erroné');
+      } else {
+        UserModel.findOneAndUpdate({token: req.body.token}, {tests_results: []}, {}, (err, result) => {
+        });
+        result[0].tests_results = [];
+        res.status(200).json(result[0]);
+      }
+    } else {
+      res.status(202).send('L\'utilisateur n\'existe pas');
+    }
+  });
+})
+
+
+userRoute.route('/modif-psw').post((req, res) => {
+  UserModel.find({token: req.body.tokenData}, (error, result) => {
+    if (result.length !== 0) {
+      if (result[0].psw !== req.body.pswData) {
+        res.status(403).send(JSON.stringify('Mot de passe erroné'));
+      } else {
+        UserModel.findOneAndUpdate({token: req.body.tokenData}, {psw: req.body.newPswData}, (err, result) => {
+          if (result !== []) {
+            res.status(200).send(JSON.stringify('la modification de mot de passe a réussie'));
+          } else {
+            res.status(502).send(JSON.stringify('la modification de mot de passe a échouée'));
+          }
+        })
+      }
+    }
+  })
+});
+
 
 module.exports = userRoute;
