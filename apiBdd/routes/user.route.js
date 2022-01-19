@@ -63,7 +63,7 @@ userRoute.route('/add/vaccine').post((req, res, next) => {
   console.log('addVacinne received', req.body);
   UserModel.find({mail: req.body.mail}, (err, resultV) => {
     console.log(resultV);
-    if (resultV !== 'undefined') {
+    if (resultV) {
       console.log('User ' + req.body.mail + ' found.')
       UserModel.create(req.body.body, (err, user) => {
         console.log(user);
