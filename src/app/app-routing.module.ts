@@ -36,6 +36,9 @@ const routes: Routes = [
     loadChildren: () => import('./shared/modal/modal-scanner/modal-scanner.module').then( m => m.ModalScannerPageModule)
   },
   {
+    path: 'modal-info-qr',
+    loadChildren: () => import('./shared/modal/modal-info-qr/modal-info-qr.module').then( m => m.ModalInfoQrPageModule)
+  },
     path: 'modal-link',
     loadChildren: () => import('./shared/modal/modal-link/modal-link.module').then( m => m.ModalLinkPageModule)
   },

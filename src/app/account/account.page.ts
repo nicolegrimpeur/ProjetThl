@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Display } from '../shared/class/display';
 import { Router } from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {RegisterData} from '../shared/model/registerDataUserModel';
+import {User} from '../shared/class/user'
 
 @Component({
   selector: 'app-account',
@@ -12,7 +15,6 @@ export class AccountPage implements OnInit {
   public oldPassword: string;
   public newPassword: string;
   public confirmNewPassword: string;
-
   //Variable pour suppression de compte
   public password: string;
 
@@ -47,27 +49,38 @@ export class AccountPage implements OnInit {
     this.confirmNewPassword = '';
     this.password = '';
   }
-  
 
-
-  confirmAccSuppr() {
-    //Vérifier que le mdp est bon
-    if (this.password === "123"){
-      //Supprimer le compte (back) & se déconnecter
-      
-      //Graphiques
-      this.display.display({code:"Votre compte a bien été supprimé", color:"success"});
-      //Redirection
-      this.router.navigateByUrl('identification').then();
-    }
-    else{
-      //Graphiques
-      this.display.display("Votre mot de passe ne correspond pas");
-    }
-    //Reset value
+/*
+   confirmAccSuppr() {
+     //Vérifier que le mdp est bon
+     const idUser = getUser(); //un objet  idUser.token
+     const pswUser = this.AccountPage.password;
+     //Supprimer le compte (back) & se déconnecter
+     if(idUser.psw===pswUser){
+        lastValueFrom(this.httpService.deleteUser(idUser.token)
+        .then(res => {
+        console.log('res : ', res);
+        })
+          .catch(err => {
+          console.log('err : ', err);
+        });
+      }
+      else{
+        console.log("mot de passe différent");
+      }
+       //Graphiques
+       this.display.display({code:"Votre compte a bien été supprimé", color:"success"});
+       //Redirection
+       this.router.navigateByUrl('identification').then();
+     }
+     else{
+       //Graphiques
+       this.display.display("Votre mot de passe ne correspond pas");
+     }
+     //Reset value
     this.oldPassword = '';
-    this.newPassword = '';
-    this.confirmNewPassword = '';
-    this.password = '';
-  }
+     this.newPassword = '';
+     this.confirmNewPassword = '';
+     this.password = '';
+   }*/
 }
