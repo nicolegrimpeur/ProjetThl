@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button content="main"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Mon Espace
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>
+        Déclarer des cas contacts
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-row *ngFor="let contact of contactTab; let ind = index; trackBy: inputNgFor">
+        <ion-col>
+          <ion-item>
+            <ion-label><b>Mail du cas</b></ion-label>
+            <ion-input [(ngModel)]="contactTab[ind]" required="true" type="email" placeholder="Entre l'adresse mail du cas">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-button (click)="addContact()" expand="block" color="primary">Ajouter un cas</ion-button>
+      </ion-row>
+
+      <ion-row>
+        <ion-button (click)="declareContact()" expand="block" color="success">Confirmer</ion-button>
+      </ion-row>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

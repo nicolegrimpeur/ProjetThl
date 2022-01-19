@@ -38,4 +38,36 @@
       </div>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Infos</ion-card-title>
+      <ion-card-subtitle>Pour en apprendre plus sur le projet TPLC</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-item>
+      <ion-icon name="link-outline" slot="start"></ion-icon>
+      <ion-label> Liens utiles</ion-label>
+      <ion-button fill="outline" slot="end" (click)="openLinkModal()">View</ion-button>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="share-outline" slot="start"></ion-icon>
+      <ion-label> Partager</ion-label>
+      <ion-button fill="outline" slot="end" (click)="openShareModal()">View</ion-button>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-label> Confidentialité</ion-label>
+      <ion-button fill="outline" slot="end" (click)="openConfidentialityModal()">View</ion-button>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="megaphone-outline" slot="start"></ion-icon>
+      <ion-label> A propos</ion-label>
+      <ion-button fill="outline" slot="end" (click)="openAboutModal()">View</ion-button>
+    </ion-item>
+  </ion-card>
+
 </ion-content>

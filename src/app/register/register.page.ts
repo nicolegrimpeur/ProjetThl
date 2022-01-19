@@ -26,27 +26,14 @@ export class RegisterPage implements OnInit {
   public date = '';
 
   constructor(public router: Router, public display: Display, private httpService: HttpService, private user: User) {
-    let after = false;
-    // récupère l'email dans le lien
-    for (const i of this.router.url) {
-      if (after && i !== '=') {
-        this.registerData.mail += i;
-      } else if (i === '?') {
-        after = true;
-      }
-    }
   }
 
   ngOnInit() {
   }
 
-  myFormatDate() {
-    const datePlusTime = this.registerData.birthday;
-    const date = datePlusTime.slice(0, 10);
-    const year = date.slice(0, 4);
-    const month = date.slice(5, 7);
-    const day = date.slice(8, 10);
-    this.date = day + ' / ' + month + ' / ' + year;
+  myFormatDate(){
+    let tmp = new Date(this.registerData.dateOfBirth);
+    this.date = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
 
   checkPwd() {
