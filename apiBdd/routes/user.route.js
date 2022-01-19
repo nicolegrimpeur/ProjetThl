@@ -1,4 +1,5 @@
 const express = require('express');
+const uuid = require('uuid');
 const app = express();
 const userRoute = express.Router();
 let UserModel = require('../model/User');
@@ -14,6 +15,17 @@ function generate_token(length) {
   return b.join("");
 }
 
+async function getUuid(token) {
+  if (token === undefined) token = uuid.v4();
+  const result = await UserModel.find({uuid: token});
+  if (result.length === 0) {
+    return token;
+  } else {
+    token = uuid.v4();
+    return getUuid(token);
+  }
+}
+
 userRoute.route('/').get((req, res) => {
   UserModel.find({name: "Barrat"}, (err, result) => {
     res.json(result);
@@ -22,12 +34,22 @@ userRoute.route('/').get((req, res) => {
 
 userRoute.route('/get/infosQr').post((req, res) => {
   console.log('infosQr', req.body);
-  UserModel.find({token: req.body.data}, (err, result) => {
+  UserModel.find({uuid: req.body.data}, async (err, result) => {
     if (result.length !== 0) {
       result[0]['psw'] = undefined;
       result[0]['medical_id'] = undefined;
       result[0]['mail'] = undefined;
       result[0]['category'] = undefined;
+      result[0]['uuid'] = undefined;
+
+      const tmp = await getUuid().then(res => {
+        return res;
+      });
+      UserModel.findOneAndUpdate({token: result[0]['token']}, {uuid: tmp}, {}, (err, result) => {
+      });
+      result[0]['uuid'] = tmp;
+
+
       res.json(result[0]);
     } else {
       res.status(201).json({message: 'QrCode invalide'});
@@ -36,9 +58,20 @@ userRoute.route('/get/infosQr').post((req, res) => {
 });
 
 userRoute.route('/get/infos').post((req, res) => {
-  UserModel.find({token: req.body.data}, (err, result) => {
+  UserModel.find({token: req.body.data}, async (err, result) => {
     if (result.length !== 0) {
       result[0]['psw'] = undefined;
+
+      // si l'uuid n'existe pas on le génère
+      if (result[0]['uuid'] === undefined) {
+        const tmp = await getUuid().then(res => {
+          return res;
+        });
+        UserModel.findOneAndUpdate({token: req.body.data}, {uuid: tmp}, {}, (err, result) => {
+        });
+        result[0]['uuid'] = tmp;
+      }
+
       res.json(result[0]);
     }
   });
@@ -64,46 +97,47 @@ userRoute.route('/login').post((req, res) => {
 
 //Ajout d'une dose de vaccin
 userRoute.route('/add/vaccine').post((req, res, next) => {
-  console.log('addVacinne received', req.body);
+  console.log('addVacinne received for ', req.body);
+//req.body.mail = 'watteltheo@gmail.com'; //For debug purposes
   UserModel.find({mail: req.body.mail}, (err, resultV) => {
-    console.log('resultV',resultV);
-    if (resultV === undefined) {
+    console.log('resultV', resultV);
+    if (resultV != 1) {
       console.log('User ' + req.body.mail + ' found.')
-      UserModel.create(req.body.body, (err, user) => {
-        console.log(user);
+      /*UserModel.create(req.body.body, (err, user) => {
+        //.log(user);
         console.log("Vaccine added");
+      });*/
+      UserModel.findOneAndUpdate({mail: req.body.mail}, {vaccine: req.body.lab}, {}, (err, result) => {
       });
-    }
-    else {
+      console.log("Vaccine added");
+    } else {
       console.log("User not found");
     }
-
-
-
   });
 });
 
-function checkToken(token) {
-  UserModel.find({token: token}, (err, result) => {
-    if (result.length<1) {
+async function checkToken(token) {
+
+  const result = await UserModel.find({token: token});
+    if (result.length === 0) {
       return token;
     } else {
-      token = generate_token(256);
-      checkToken(token);
+      token = generate_token(256)
+      return checkToken(token);
     }
-  });
 }
 
 userRoute.route('/create-user').post((req, res, next) => {
-  UserModel.find({mail: req.body.mail}, (err, result) => {
-    console.log(result);
-    if (result.length<1) {
-      req.body.token = generate_token(256);
-      checkToken(req.body.token);
+  UserModel.find({mail: req.body.mail}, async(err, result) => {
+    console.log("RESULT CREATE :" + result);
+    if (result.length < 1) {
+      req.body.token = await checkToken(generate_token(256)).then(r => {
+        return r;
+      });
       UserModel.create(req.body, (err, user) => {
         res.send(user);
       });
-    }else{
+    } else {
       res.status(202).send('Mail invalide');
     }
   });
@@ -135,18 +169,23 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
   })
 })
 
-userRoute.route('/delete-user/:id').delete((req, res, next) => {
-
-  UserModel.findByIdAndRemove(req.params.id, (error, user) => {
-    if (error) {
-      return next(error);
+userRoute.route('/delete-user/:tokenData').post((req, res, next) => {
+  UserModel.find({token: req.body.tokenData}, (error, result) => {
+    console.log(result)
+    if (result.length != 0) {
+      if (result[0].psw !== req.body.pswData) {
+        res.status(406).send(new Error('Mot de passe erroné'));
+      } else {
+        UserModel.findOneAndDelete({token: req.body.tokenData}, (error, result) => {
+          console.log("RESULT DELETE :" + result);
+          console.log('User deleted!')
+          res.status(200).send(JSON.stringify('utilisateur supprimé avec succès'));
+        });
+      }
     } else {
-      res.status(200).json({
-        msg: user
-      })
-      console.log('User deleted!')
+      res.status(403).send('User already delete');
     }
-  })
+  });
 })
 
 module.exports = userRoute;

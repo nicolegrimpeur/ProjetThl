@@ -25,4 +25,9 @@ export class ModalScannerPage {
     // ferme le modal
     this.modalController.dismiss(res).then();
   }
+
+  ionViewDidLeave() {
+    // désactive le scan
+    this.enableScan = false;
+  }
 }
