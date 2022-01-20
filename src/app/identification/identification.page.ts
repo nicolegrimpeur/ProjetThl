@@ -91,29 +91,26 @@ export class IdentificationPage implements OnInit {
     await modal.present();//Wait Display
     await modal.onDidDismiss().then();//Wait dismiss
   }
+
   async openLinkModal() {
     let modal = await this.modalController.create({
-      component: ModalLinkPage,
-      breakpoints: [0, 0.2, 0.5, 0.75, 1],
-      initialBreakpoint: 0.5
+      component: ModalLinkPage
     });
     await modal.present();
     await modal.onDidDismiss();
   }
+
   async openShareModal() {
     let modal = await this.modalController.create({
-      component: ModalSharePage,
-      breakpoints: [0, 0.2, 0.5, 0.75, 1],
-      initialBreakpoint: 0.5
+      component: ModalSharePage
     });
     await modal.present();
     await modal.onDidDismiss();
   }
+
   async openAboutModal() {
     let modal = await this.modalController.create({
-      component: ModalAboutPage,
-      breakpoints: [0, 0.2, 0.5, 0.75, 1],
-      initialBreakpoint: 0.5
+      component: ModalAboutPage
     });
     await modal.present();
     await modal.onDidDismiss();

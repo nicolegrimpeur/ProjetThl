@@ -67,7 +67,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label *ngIf="isADoctor"><b>Email</b></ion-label>
+        <ion-label *ngIf="!isADoctor"><b>Email</b></ion-label>
         <ion-label *ngIf="isADoctor"><b>Email professionnel</b></ion-label>
         <ion-input [(ngModel)]="registerData.mail" required="true" type="email" placeholder="Entrez votre email">
         </ion-input>
@@ -75,8 +75,8 @@
 
       <ion-item>
         <ion-label><b>Mot de passe</b></ion-label>
-        <ion-input [(ngModel)]="registerData.psw" required="true" type="password"
-          placeholder="Entrez votre mot de passe"></ion-input>
+        <ion-input #inputMdp [(ngModel)]="registerData.psw" required="true" type="password" placeholder="Entrez votre mot de passe"></ion-input>
+        <ion-icon #iconMdp (click)="toggleMdp(iconMdp, inputMdp)" name="eye-off-outline"></ion-icon>
       </ion-item>
 
       <ion-item>

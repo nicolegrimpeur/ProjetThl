@@ -1,0 +1,21 @@
+.featureInDev {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  font-size: 200%;
+  text-decoration: underline;
+  color:#ffc409;
+
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.outer-div{
+  height: 100%;
+  width:100%;
+}
+
+ion-icon{
+  vertical-align: center;
+}

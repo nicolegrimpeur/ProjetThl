@@ -12,13 +12,14 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Saisie d'information pour patient <ion-icon name="bandage-outline"></ion-icon></ion-card-title>
+      <ion-card-title>Saisie d'information pour patient <ion-icon name="fitness-outline"></ion-icon></ion-card-title>
     </ion-card-header>
 
     <ion-item>
       <ion-label><b>Email du patient</b></ion-label>
-      <ion-input [(ngModel)]="mail"required="true" type="email" placeholder="patient@exemple.com">
+      <ion-input [(ngModel)]="mail" required="true" type="email" placeholder="patient@exemple.com">
       </ion-input>
+      <ion-icon name="mail-outline"></ion-icon>
     </ion-item>
 
     <ion-item>
@@ -29,13 +30,13 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label color="success">Vaccin</ion-label>
+            <ion-label color="success">Vaccin <ion-icon name="shield-checkmark-outline"></ion-icon></ion-label>
             <ion-radio slot="start" [value]="'Vaccin'" color="success"></ion-radio>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
-            <ion-label color="warning">Test</ion-label>
+            <ion-label color="warning">Test <ion-icon name="thermometer-outline"></ion-icon></ion-label>
             <ion-radio slot="start" [value]="'Test'" color="warning"></ion-radio>
           </ion-item>
         </ion-col>
@@ -44,8 +45,25 @@
 
     <!--Partie Vaccin-->
     <ion-card-content *ngIf="fill==='Vaccin'">
+
+      <ion-item>
+        <ion-label><b>Date</b></ion-label>
+        <ion-input [value]="date" readonly="true" id="open-date-input-2"></ion-input>
+        <ion-popover trigger="open-date-input-2" show-backdrop="false">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              [(ngModel)]="vaccineData.date"
+              (ionChange)="myFormatDate(vaccineData.date)"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-item>
+
       <ion-item>
         <ion-label><b>Laboratoire</b></ion-label>
+        <ion-icon name="flask-outline"></ion-icon>
       </ion-item>
 
       <ion-radio-group [(ngModel)]="vaccineData.lab">
@@ -77,33 +95,32 @@
         </ion-row>
       </ion-radio-group>
 
-      <ion-item>
-        <ion-label><b>Date</b></ion-label>
-        <ion-input [value]="date"></ion-input>
-        <ion-button fill="clear" id="open-date-input-2">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
-        <ion-popover trigger="open-date-input-2" show-backdrop="false">
-          <ng-template>
-            <ion-datetime
-              presentation="date"
-              [(ngModel)]="vaccineData.date"
-              (ionChange)="myFormatDate(vaccineData.date)"
-            ></ion-datetime>
-          </ng-template>
-        </ion-popover>
-      </ion-item>
-
       <div class="ion-padding">
-        <ion-button (click)="uploadVaccineData()" expand="block" color="success">Valider</ion-button>
+        <ion-button (click)="uploadVaccineData()" expand="block" color="success">Valider <ion-icon name="paper-plane-outline"></ion-icon></ion-button>
       </div>
 
     </ion-card-content>
 
     <!--Partie Test-->
     <ion-card-content *ngIf="fill==='Test'">
+
       <ion-item>
-        <ion-label><b>Type</b></ion-label>
+        <ion-label><b>Date</b></ion-label>
+        <ion-input [value]="date" readonly="true"  id="open-date-input-1"></ion-input>
+        <ion-popover trigger="open-date-input-1" show-backdrop="false">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              [(ngModel)]="testData.date"
+              (ionChange)="myFormatDate(testData.date)"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><b>Type</b></ion-label><ion-icon name="settings-outline"></ion-icon>
       </ion-item>
 
       <ion-radio-group [(ngModel)]="testData.type">
@@ -124,20 +141,20 @@
       </ion-radio-group>
 
       <ion-item>
-        <ion-label><b>Résultat</b></ion-label>
+        <ion-label><b>Résultat</b></ion-label><ion-icon name="reader-outline"></ion-icon>
       </ion-item>
 
       <ion-radio-group [(ngModel)]="testData.result">
         <ion-row>
           <ion-col>
             <ion-item>
-              <ion-label color="danger">Positif</ion-label>
+              <ion-label color="danger">Positif <ion-icon name="close-outline"></ion-icon></ion-label>
               <ion-radio slot="start" [value]="'Positif'" color="danger"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
-              <ion-label color="success">Négatif</ion-label>
+              <ion-label color="success">Négatif <ion-icon name="checkmark-outline"></ion-icon></ion-label>
               <ion-radio slot="start" [value]="'Négatif'" color="success"></ion-radio>
             </ion-item>
           </ion-col>
@@ -146,7 +163,7 @@
 
       <ion-card-content *ngIf="testData.result==='Positif'">
         <ion-item>
-          <ion-label><b>Variant</b></ion-label>
+          <ion-label><b>Variant</b></ion-label><ion-icon name="shuffle-outline"></ion-icon>
         </ion-item>
 
         <ion-radio-group [(ngModel)]="testData.variant">
@@ -173,25 +190,8 @@
         </ion-radio-group>
       </ion-card-content>
 
-      <ion-item>
-        <ion-label><b>Date</b></ion-label>
-        <ion-input [value]="date"></ion-input>
-        <ion-button fill="clear" id="open-date-input-1">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
-        <ion-popover trigger="open-date-input-1" show-backdrop="false">
-          <ng-template>
-            <ion-datetime
-              presentation="date"
-              [(ngModel)]="testData.date"
-              (ionChange)="myFormatDate(testData.date)"
-            ></ion-datetime>
-          </ng-template>
-        </ion-popover>
-      </ion-item>
-
       <div class="ion-padding">
-        <ion-button (click)="uploadTestData()" expand="block" color="success">Valider</ion-button>
+        <ion-button (click)="uploadTestData()" expand="block" color="success">Valider <ion-icon name="paper-plane-outline"></ion-icon></ion-button>
       </div>
 
     </ion-card-content>
