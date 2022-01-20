@@ -1,4 +1,4 @@
-export class VaccineModel {
+export interface VaccineModel {
   date: string;
   lab: string;
 }

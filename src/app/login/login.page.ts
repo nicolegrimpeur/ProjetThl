@@ -30,19 +30,18 @@ export class LoginPage implements OnInit {
 
   // connecte l'utilisateur avec email et mot de passe
   makeConnection() {
-    lastValueFrom(this.httpService.login(this.loginData.email, this.loginData.password)).then(res => {
-      this.user.setUser(res);
-      this.router.navigateByUrl('home').then();
-      this.display.display({code: 'Connexion réussie !', color: 'success'}).then();
-    })
-      .catch(res => {
-        if (res.status === 202) {
-          this.display.display('Ce mail n\'existe pas encore, merci de vous créer un compte').then();
-        } else if (res.status === 201) {
-          this.display.display('Mot de passe invalide').then();
+    lastValueFrom(this.httpService.login(this.loginData.email, this.loginData.password))
+      .then(res => {
+        if (res.status === 200) {
+          this.user.setUser(res.message);
+          this.router.navigateByUrl('home').then();
+          this.display.display({code: 'Connexion réussie !', color: 'success'}).then();
         } else {
-          this.display.display('Une erreur a eu lieu').then();
+          this.display.display(res.message).then();
         }
+      })
+      .catch(err => {
+        this.display.display(err.error.text).then();
       });
   }
 }

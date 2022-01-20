@@ -17,4 +17,4 @@ let User = new Schema({
   collection: 'login'
 })
 
-module.exports = mongoose.model('User', User)
+module.exports = mongoose.model('User', User);

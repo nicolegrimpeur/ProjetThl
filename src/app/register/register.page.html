@@ -16,19 +16,19 @@
     <ion-card-content>
       <ion-item>
         <ion-label><b>Nom</b></ion-label>
-        <ion-input [(ngModel)]="registerData.name" required="true" type="name" placeholder="Entrez votre nom">
+        <ion-input [(ngModel)]="registerData.surname" required="true" type="surname" placeholder="Entrez votre nom">
         </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label><b>Prénom</b></ion-label>
-        <ion-input [(ngModel)]="registerData.surname" required="true" type="surname" placeholder="Entrez votre prénom">
+        <ion-input [(ngModel)]="registerData.name" required="true" type="name" placeholder="Entrez votre prénom">
         </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label><b>Date de Naissance</b></ion-label>
-        <ion-input [value]="date"></ion-input>
+        <ion-input [value]="date" readonly="true"></ion-input>
         <ion-button fill="clear" id="open-date-input-2">
           <ion-icon icon="calendar"></ion-icon>
         </ion-button>

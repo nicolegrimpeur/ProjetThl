@@ -64,16 +64,15 @@ export class IdentificationPage implements OnInit {
   getScanData(data) {
     lastValueFrom(this.httpService.getUserQr(data))
       .then(res => {
-        console.log(res);
-        if (res.message !== undefined) {
+        if (res.status !== 200) {
           this.display.display(res.message).then();
         } else {
           this.display.display({code: 'Scan réussi', color: 'success'}).then();
-          this.openResult(res).then();
+          this.openResult(res.message).then();
         }
       })
       .catch(err => {
-        this.display.display(err.message).then();
+        this.display.display(err.error.text).then();
       });
   }
 

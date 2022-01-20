@@ -1,7 +1,7 @@
 import {TestModel} from './testModel';
 import {VaccineModel} from './vaccineModel';
 
-export class InfosUserModel {
+export interface InfosUserModel {
   token: string;
   name: string;
   surname: string;

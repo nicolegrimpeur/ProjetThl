@@ -31,22 +31,21 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-  myFormatDate(){
+  myFormatDate() {
     const tmp = new Date(this.registerData.birthday);
-    this.date = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
+    this.date = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
 
-  checkCivilite(){
-    if(this.registerData.name===''||this.registerData.surname==='' ) {
+  checkCivilite() {
+    if (this.registerData.name === '' || this.registerData.surname === '') {
       this.display.display({
         code: 'Vous devez rentrer un nom ou prénom valide !',
         color: 'danger'
       });
+    } else {
+      this.checkDate();
     }
-      else{
-        this.checkDate();
-      }
-    }
+  }
 
 
   checkPwd() {
@@ -108,9 +107,28 @@ export class RegisterPage implements OnInit {
       this.makeRegister();
 
     } else if (document.getElementById('radioBoxMedic').ariaChecked.toString() === 'true') {
+      this.checkMedicalId();
       this.registerData.category = 1;
-      this.makeRegister();
     }
+  }
+
+  checkMedicalId() {
+    //Verification si l'inscrit est bien dans la base des médecins diplomés
+    lastValueFrom(this.httpService.checkMedic(
+      Number(this.registerData.medId),
+      this.registerData.name,
+      this.registerData.surname
+    ))
+      .then(res => {
+        if (res.status === 200) {
+          this.makeRegister();
+        } else {
+          this.display.display(res.message).then();
+        }
+      })
+      .catch(err => {
+        this.display.display(err.error.text).then();
+      });
   }
 
   makeRegister() {

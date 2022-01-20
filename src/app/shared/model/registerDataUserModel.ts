@@ -1,4 +1,4 @@
-export class RegisterData{
+export interface RegisterData{
   name: string;
   surname: string;
   mail: string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -24,28 +25,24 @@ export class HttpService {
   getUserQr(token): Observable<any> {
     const url = this.baseUrl + 'user/get/infosQr';
     const data = {data: token};
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
+    return this.http.get(url, {headers: {'Content-Type': 'application/json',Authorization: `Bearer ${token}`}});
   }
 
   // getUser(token): Observable<InfosUserModel> {
   getUser(token): Observable<any> {
     const url = this.baseUrl + 'user/get/infos';
     const data = {data: token};
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
+    return this.http.get(url, {headers: {'Content-Type': 'application/json', Authorization: `Bearer ${token}`}});
   }
 
-  login(mail, password) {
+  login(mail, password): Observable<any> {
     const url = this.baseUrl + 'user/login';
     const data = {mail, password};
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
 
   createUser(data: RegisterData) {
     const destUrl = this.baseUrl + 'user/create-user';
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
   }
 
@@ -53,33 +50,53 @@ export class HttpService {
     const url = this.baseUrl + 'user/delete-user';
     const data = {tokenData: token, pswData: psw};
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
 
-  deleteData(token: string, password: string) {
+  deleteData(token: string, password: string): Observable<any> {
     const url = this.baseUrl + 'user/deleteData';
     const data = {token, password};
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
 
   addVaccine(data) {
     const destUrl = this.baseUrl + 'user/add/vaccine';
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
   }
-  addTest(data){
+
+  addTest(data) {
     const destUrl = this.baseUrl + 'user/add/test';
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}});
   }
+
   modifPsw(token: string, psw: string, newPsw: string) {
     const url = this.baseUrl + 'user/modif-psw';
     const data = {tokenData: token, pswData: psw, newPswData: newPsw};
 
     return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
   }
+
+  checkMedic(medical_id: number, name: string, surname: string): Observable<any> {
+    const url = this.baseUrl + 'medics/checkCode';
+    const data = {medical_idData: medical_id, nameData: name, surnameData: surname};
+
+    return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}});
+  }
+
+  uploadImg(blobData, token, format): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', blobData, token + '.' + format);
+    formData.append('name', token);
+
+    const url = this.baseUrl + 'upload/';
+    return this.http.post(url, formData);
+  }
+
+  downloadImg(id): Observable<any> {
+    const url = this.baseUrl + 'get/residence' + id;
+    return this.http.get<any>(url, {responseType: 'blob' as 'json'});
+  }
+
 }
 
