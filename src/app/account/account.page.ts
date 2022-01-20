@@ -7,6 +7,7 @@ import {RegisterData} from '../shared/model/registerDataUserModel';
 import {User} from '../shared/class/user';
 import {HttpService} from '../core/http.service';
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
+import {InfosUserModel} from "../shared/model/infosUserModel";
 
 @Component({
   selector: 'app-account',
@@ -65,7 +66,7 @@ export class AccountPage implements OnInit {
       );
     if(validatePwd(this.newPassword)) {
       if (this.newPassword === this.confirmNewPassword) {
-        lastValueFrom(this.httpService.modifPsw(idUser.token, this.oldPassword, this.newPassword))
+        lastValueFrom(this.httpService.modifPsw(idUser.jwtToken, this.oldPassword, this.newPassword))
           .then(res => {
             this.router.navigateByUrl('home').then(r => this.display.display({
               code: 'Modification de mot de passe réussie !',
@@ -94,7 +95,7 @@ export class AccountPage implements OnInit {
         const idUser = this.user.userData; //un objet  idUser.token
         const pswUser = this.passwordUser;
         //Supprimer le compte (back) & se déconnecter
-        lastValueFrom(this.httpService.deleteUser(idUser.token, pswUser))
+        lastValueFrom(this.httpService.deleteUser(idUser.jwtToken, pswUser))
           .then(res => {
             this.router.navigateByUrl('identification').then(r => this.display.display({
               code: 'Suppression réussie !',
@@ -117,9 +118,9 @@ export class AccountPage implements OnInit {
         if (res.role === 'backdrop' || res.role === 'cancel') {
           this.display.display('Suppression annulé').then();
         } else {
-          lastValueFrom(this.httpService.deleteData(this.user.userData.token, this.passwordData))
+          lastValueFrom(this.httpService.deleteData(this.user.userData.jwtToken, this.passwordData))
             .then(result => {
-              this.user.userData = result.message;
+              this.user.userData = result as InfosUserModel;
               this.display.display({code: 'Suppression réussi', color: 'success'}).then();
             })
             .catch(error => {
@@ -153,7 +154,7 @@ export class AccountPage implements OnInit {
     if (image.format !== 'jpeg') {
       this.display.display('L\'image doit être au format jpg').then();
     } else {
-      lastValueFrom(this.httpService.uploadImg(blobData, this.user.userData.token, image.format))
+      lastValueFrom(this.httpService.uploadImg(blobData, this.user.userData.jwtToken, image.format))
         .then(result => {
           this.display.display({
             code: 'L\'image a bien été ajouté',
@@ -194,7 +195,7 @@ export class AccountPage implements OnInit {
 
   // permet de télécharger l'image de la résidence
   downloadImg() {
-    lastValueFrom(this.httpService.downloadImg(this.user.userData.token))
+    lastValueFrom(this.httpService.downloadImg(this.user.userData.jwtToken))
       .then(res => {
         // ouvre une nouvelle page en affichant l'image
         if (this.imageExist !== undefined) {

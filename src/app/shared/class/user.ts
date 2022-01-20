@@ -7,7 +7,7 @@ import {StorageService} from '../../core/storage/storage.service';
 import {TestModel} from '../model/testModel';
 import {VaccineModel} from '../model/vaccineModel';
 import {Network} from '@capacitor/network';
-import {Display} from "./display";
+import {Display} from './display';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +17,15 @@ export class User {
     birthday: string;
     category: number;
     mail: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     medical_id: string;
     name: string;
     surname: string;
-    tests_result: TestModel;
-    token: string;
+    tests_results: Array<TestModel>;
+    jwtToken: string;
+    _id: string;
     uuid: string;
-    vaccine: VaccineModel;
+    vaccine: Array<VaccineModel>;
   }();
 
   constructor(
@@ -43,27 +45,24 @@ export class User {
     });
 
     const status = await Network.getStatus();
-    if (this.userData.token !== undefined) {
+    if (this.userData.jwtToken !== undefined) {
       if (status.connected) {
-        lastValueFrom(this.httpService.getUser(this.userData.token))
-          .then(res => {
-            if (res.status !== 200) {
-              this.display.display(res.message).then();
-            } else {
-              this.userData = res.message;
-              this.storageService.setUserData(res.message).then();
-            }
+        lastValueFrom(this.httpService.getUser(this.userData.jwtToken))
+          .then(async (res) => {
+            this.userData = res;
+            console.log(res);
+          await this.storageService.setUserData(res);
           })
-          .catch(err => {
-            this.display.display(err.error.text).then();
+          .catch(async (err) => {
+            await this.display.display(err);
           });
+      } else {
+       await this.router.navigateByUrl('/identification');
       }
-    } else {
-      this.router.navigateByUrl('/identification').then();
     }
   }
 
-  setUser(userData) {
+  setUser(userData: any) {
     this.userData = userData;
     this.storageService.setUserData(userData).then();
   }

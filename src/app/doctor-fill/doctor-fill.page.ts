@@ -37,14 +37,14 @@ export class DoctorFillPage implements OnInit {
   }
 
   uploadTestData() {
-    console.log(this.testData.date, this.testData.variant, this.testData.result === 'Positif' ? true : false);
+    console.log(this.testData.date, this.testData.variant, this.testData.result === 'Positif');
     lastValueFrom(this.httpService.addTest({
       mail: this.mail,
       variant: this.testData.variant,
       date: this.testData.date,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       type_test: this.testData.type,
-      positif: this.testData.result === 'Positif' ? true : false
+      positif: this.testData.result === 'Positif'
     }))
       .then(res => {
         console.log('res:', res);

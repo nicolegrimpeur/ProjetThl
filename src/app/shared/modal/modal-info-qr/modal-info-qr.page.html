@@ -14,5 +14,13 @@
   <ion-card-content>
     Date de naissance : {{dDN}}
   </ion-card-content>
+  <ion-card-content>
+    <ion-card-title *ngIf="isValidate" style="text-align: center; background-color: green">
+      Pass valide
+    </ion-card-title>
+    <ion-card-title *ngIf="!isValidate" style="text-align: center; background-color: red">
+      Pass non valide
+    </ion-card-title>
+  </ion-card-content>
 </ion-card>
 </ion-content>

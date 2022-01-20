@@ -1,4 +1,4 @@
 export interface VaccineModel {
-  date: string;
+  date: Date;
   lab: string;
 }

@@ -107,11 +107,11 @@ export class RegisterPage implements OnInit {
       this.makeRegister();
 
     } else if (document.getElementById('radioBoxMedic').ariaChecked.toString() === 'true') {
-      this.checkMedicalId();
+    //  this.checkMedicalId();
       this.registerData.category = 1;
     }
   }
-
+/*
   checkMedicalId() {
     //Verification si l'inscrit est bien dans la base des médecins diplomés
     lastValueFrom(this.httpService.checkMedic(
@@ -130,7 +130,7 @@ export class RegisterPage implements OnInit {
         this.display.display(err.error.text).then();
       });
   }
-
+*/
   makeRegister() {
     //Enregistrer les infos(Back)
     lastValueFrom(this.httpService.createUser({

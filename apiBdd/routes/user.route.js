@@ -34,7 +34,9 @@ userRoute.route('/').get((req, res) => {
 });
 
 userRoute.route('/get/infosQr').get((req, res) => {
-  UserModel.find({uuid: req.body.data}, async (err, result) => {
+  console.log(req.headers.Authorization);
+  const tmpUuid = req.headers.authorization.slice(req.headers.authorization.indexOf(' ') + 1)
+  UserModel.find({uuid: tmpUuid}, async (err, result) => {
     if (result.length !== 0) {
       result[0]['psw'] = undefined;
       result[0]['medical_id'] = undefined;
@@ -50,15 +52,16 @@ userRoute.route('/get/infosQr').get((req, res) => {
       result[0]['uuid'] = tmp;
 
 
-      res.json({status: 200, message: result[0]});
+      res.status(200).send(result[0]);
     } else {
-      res.json({status: 201, message: 'QrCode invalide'});
+      res.status(403).send({message: 'QrCode invalide'});
     }
   });
 });
 
 userRoute.route('/get/infos').get((req, res) => {
-  UserModel.find({token: req.body.data}, async (err, result) => {
+  console.log(req.headers);
+  UserModel.find({token: req.headers.Authorization}, async (err, result) => {
     if (result.length !== 0) {
       result[0]['psw'] = undefined;
 
@@ -72,27 +75,28 @@ userRoute.route('/get/infos').get((req, res) => {
         result[0]['uuid'] = tmp;
       }
 
-      res.json({status: 200, message: result[0]});
+      res.status(200).send(result[0]);
     } else {
-      res.json({status: 201, message: 'L\'utilisateur n\'existe pas'});
+      res.status(403).send({message: 'L\'utilisateur n\'existe pas'});
     }
   });
 });
 
 userRoute.route('/login').post((req, res) => {
+  console.log(req);
   UserModel.find({mail: req.body.mail}, (err, result) => {
     if (result.length !== 0) {
       if (result[0]['psw'] === req.body.password) {
         // mot de passe correct, retourne les données utilisateurs
         result[0]['psw'] = undefined;
-        res.json({status: 200, message: result[0]});
+        res.status(200).send(result[0]);
       } else {
         // mot de passe non correct
-        res.json({status: 201, message: 'Mot de passe invalide'});
+        res.status(403).send({message: 'Mot de passe invalide'});
       }
     } else {
       // mail n'existe pas
-      res.json({status: 202, message: 'Ce mail n\'existe pas encore, merci de vous créer un compte'});
+      res.status(403).send({message: 'Ce mail n\'existe pas encore, merci de vous créer un compte'});
     }
   });
 });
@@ -109,13 +113,13 @@ userRoute.route('/add/vaccine').post((req, res, next) => {
       UserModel.findOneAndUpdate({mail: req.body.mail}, {vaccine: result[0].vaccine}, {}, (err, result) => {
         console.log(result)
         if (result !== [])
-          res.status(200).send(JSON.stringify('Vaccine added successfully'));
+          res.status(200).send({message:'Vaccine added successfully'});
         else {
-          res.status(403).send(JSON.stringify('Vaccine added failure'));
+          res.status(403).send({message:'Vaccine added failure'});
         }
       });
     } else {
-      res.status(404).send(JSON.stringify('User not found'));
+      res.status(404).send({message:'User not found'});
     }
   });
 });
@@ -159,10 +163,10 @@ userRoute.route('/create-user').post((req, res, next) => {
         return r;
       });
       await UserModel.create(req.body, (err, user) => {
-        res.send(user);
+        res.status(200).send({message: 'Utilisateur créé avec succès'});
       });
     } else {
-      res.status(202).send('Mail invalide');
+      res.status(403).send({message:'Mail invalide'});
     }
   });
 });
@@ -197,16 +201,16 @@ userRoute.route('/delete-user').post((req, res, next) => {
   UserModel.find({token: req.body.tokenData}, (error, result) => {
     if (result.length !== 0) {
       if (result[0].psw !== req.body.pswData) {
-        res.status(406).send(new Error('Mot de passe erroné'));
+        res.status(403).send({message:'Mot de passe erroné'});
       } else {
         UserModel.findOneAndDelete({token: req.body.tokenData}, (error, result) => {
           console.log("RESULT DELETE :" + result);
           console.log('User deleted!')
-          res.status(200).send(JSON.stringify('utilisateur supprimé avec succès'));
+          res.status(200).send({message:'utilisateur supprimé avec succès'});
         });
       }
     } else {
-      res.status(403).send('User already delete');
+      res.status(403).send({message:'User already delete'});
     }
   });
 })
@@ -215,15 +219,15 @@ userRoute.route('/deleteData').post((req, res) => {
   UserModel.find({token: req.body.token}, async (error, result) => {
     if (result.length !== 0) {
       if (result[0].psw !== req.body.password) {
-        res.json({status: 201, message: 'Mot de passe erroné'});
+        res.status(403).send({ message: 'Mot de passe erroné'});
       } else {
         UserModel.findOneAndUpdate({token: req.body.token}, {tests_results: []}, {}, (err, result) => {
         });
         result[0].tests_results = [];
-        res.json({status: 200, message: result[0]});
+        res.status(200).send({ message: result[0]});
       }
     } else {
-      res.json({status: 202, message: 'L\'utilisateur n\'existe pas'});
+      res.status(404).send({message: 'L\'utilisateur n\'existe pas'});
     }
   });
 })
@@ -233,13 +237,13 @@ userRoute.route('/modif-psw').post((req, res) => {
   UserModel.find({token: req.body.tokenData}, (error, result) => {
     if (result.length !== 0) {
       if (result[0].psw !== req.body.pswData) {
-        res.status(403).send(JSON.stringify('Mot de passe erroné'));
+        res.status(403).send({message:'Mot de passe erroné'});
       } else {
         UserModel.findOneAndUpdate({token: req.body.tokenData}, {psw: req.body.newPswData}, (err, result) => {
           if (result !== []) {
-            res.status(200).send(JSON.stringify('la modification de mot de passe a réussie'));
+            res.status(200).send({message:'la modification de mot de passe a réussie'});
           } else {
-            res.status(502).send(JSON.stringify('la modification de mot de passe a échouée'));
+            res.status(502).send({message:'la modification de mot de passe a échouée'});
           }
         })
       }

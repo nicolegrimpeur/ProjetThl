@@ -7,7 +7,7 @@ export interface InfosQrModel {
   surname: string;
   birthday: Date;
   category: number;
-  vaccine: VaccineModel;
-  tests_result: TestModel;
+  vaccine: Array<VaccineModel>;
+  tests_results: Array<TestModel>;
   medical_id: string;
 }

@@ -91,20 +91,7 @@ export class HomePage {
       });
   }
 
-  /*uploadVaccineData() {
-    console.log('Infos recues : [' + this.vaccineData.mail + ' ; ' + this.vaccineData.lab + ' ; ' + this.vaccineData.date + ']');
-    lastValueFrom(this.httpService.addVaccine({
-      mail: this.vaccineData.mail,
-      lab: this.vaccineData.lab,
-      date: this.vaccineData.date
-    }))
-      .then(res => {
-        console.log('res:',res);
-      })
-      .catch(err => {
-        console.log('err:',err);
-      });
-  }*/
+
 }
 
 
