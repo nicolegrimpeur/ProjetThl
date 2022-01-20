@@ -12,10 +12,10 @@
 <ion-content [fullscreen]="true">
 
   <ion-card *ngFor="let operation of userData.operations">
-
     <ion-card-header>
       <ion-card-title *ngIf="operation.nature === 'Test'">
-        <ion-label color="warning"><ion-icon name="thermometer-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
+        <ion-label color="danger" *ngIf="operation.result==='positif'"><ion-icon name="close-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
+        <ion-label color="success" *ngIf="operation.result==='Négatif'"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
       </ion-card-title>
       <ion-card-title *ngIf="operation.nature !== 'Test'">
             <ion-label color="success"><ion-icon name="shield-checkmark-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
@@ -24,22 +24,15 @@
 
     <ion-card-content>
       <ion-row>
-        <ion-col>
+        <ion-col size="12" size-md="6">
           <ion-item>
             <ion-label color="dark"><ion-icon name="calendar-outline"></ion-icon><b> {{operation.date}}</b></ion-label>
           </ion-item>
         </ion-col>
 
-        <ion-col>
+        <ion-col size="12" size-md="6">
           <ion-item>
             <ion-label color="primary"><ion-icon name="flask-outline"></ion-icon><b> {{operation.type}}</b></ion-label>
-          </ion-item>
-        </ion-col>
-
-        <ion-col *ngIf="operation['result'] !== undefined">
-          <ion-item>
-            <ion-label *ngIf="operation.result === 'positif'" color="danger"><ion-icon name="close-outline"></ion-icon><b> {{operation['result']}}</b></ion-label>
-            <ion-label *ngIf="operation.result === 'Négatif'" color="success"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation['result']}}</b></ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
