@@ -29,6 +29,18 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  // permet d'afficher le mot de passe
+  toggleMdp(iconMdp, inputMdp) {
+    if (iconMdp.name === 'eye-outline') {
+      iconMdp.name = 'eye-off-outline';
+      inputMdp.type = 'password';
+    }
+    else {
+      iconMdp.name = 'eye-outline';
+      inputMdp.type = 'text';
+    }
+  }
+
   // connecte l'utilisateur avec email et mot de passe
   makeConnection() {
     lastValueFrom(this.httpService.login(this.loginData.email, this.loginData.password))

@@ -1,22 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Bienvenue !</ion-title>
+    <ion-title>Bienvenue ! <ion-icon name="happy-outline"></ion-icon></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Identification</ion-card-title>
+      <ion-card-title>Identification <ion-icon name="compass-outline"></ion-icon></ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <div class="ion-padding">
-        <ion-button (click)="connectToAccount()" expand="block" color="primary">Se connecter</ion-button>
+        <ion-button (click)="connectToAccount()" expand="block" color="primary">Se connecter <ion-icon name="log-in-outline"></ion-icon></ion-button>
       </div>
       <p>Pas encore de compte ?</p>
       <div class="ion-padding">
-        <ion-button (click)="createAccount()" expand="block" color="danger">S'enregistrer</ion-button>
+        <ion-button (click)="createAccount()" expand="block" color="danger">S'enregistrer <ion-icon name="document-text-outline"></ion-icon></ion-button>
       </div>
     </ion-card-content>
 
@@ -25,7 +25,7 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        Scanner
+        Scanner <ion-icon name="camera-outline"></ion-icon>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -41,22 +41,22 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Infos</ion-card-title>
+      <ion-card-title>Infos <ion-icon name="information-circle-outline"></ion-icon></ion-card-title>
       <ion-card-subtitle>Pour en apprendre plus sur le projet TPLC</ion-card-subtitle>
     </ion-card-header>
-  
+
     <ion-item>
       <ion-icon name="link-outline" slot="start"></ion-icon>
       <ion-label> Liens utiles</ion-label>
       <ion-button fill="outline" slot="end" (click)="openLinkModal()">View</ion-button>
     </ion-item>
-  
+
     <ion-item>
       <ion-icon name="share-outline" slot="start"></ion-icon>
       <ion-label> Partager</ion-label>
       <ion-button fill="outline" slot="end" (click)="openShareModal()">View</ion-button>
     </ion-item>
-  
+
     <ion-item>
       <ion-icon name="megaphone-outline" slot="start"></ion-icon>
       <ion-label> A propos</ion-label>

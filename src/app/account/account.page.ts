@@ -37,6 +37,18 @@ export class AccountPage implements OnInit {
     this.urlImage = './assets/avatar.svg';
   }
 
+  // permet d'afficher le mot de passe
+  toggleMdp(iconMdp, inputMdp) {
+    if (iconMdp.name === 'eye-outline') {
+      iconMdp.name = 'eye-off-outline';
+      inputMdp.type = 'password';
+    }
+    else {
+      iconMdp.name = 'eye-outline';
+      inputMdp.type = 'text';
+    }
+  }
+
 /*
   checkPwd() {
 

@@ -14,8 +14,12 @@
   </ion-refresher>
 
   <ion-card>
-    <ion-card-content>
-      <ngx-qrcode [value]="user.userData.uuid"></ngx-qrcode>
-    </ion-card-content>
-  </ion-card>
+  <ion-card-header>
+    <ion-icon name="bulb-outline"></ion-icon>
+    {{user.userData.name}}
+    {{user.userData.surname}}
+  </ion-card-header>
+  <ion-card-content>
+    <ngx-qrcode class="qr" [value]="user.userData.uuid"></ngx-qrcode>
+  </ion-card-content>
 </ion-content>

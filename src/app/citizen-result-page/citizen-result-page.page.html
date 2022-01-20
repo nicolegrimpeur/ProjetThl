@@ -15,67 +15,28 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngFor="let operation of user.userData.vaccine">
-
+  <ion-card *ngFor="let operation of userData.operations">
     <ion-card-header>
-      <ion-card-title>
-        <ion-item fill="outline">
-          Vaccin
-        </ion-item>
+      <ion-card-title *ngIf="operation.nature === 'Test'">
+        <ion-label color="danger" *ngIf="operation.result==='positif'"><ion-icon name="close-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
+        <ion-label color="success" *ngIf="operation.result==='Négatif'"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
+      </ion-card-title>
+      <ion-card-title *ngIf="operation.nature !== 'Test'">
+            <ion-label color="success"><ion-icon name="shield-checkmark-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
       </ion-card-title>
     </ion-card-header>
 
-    <ion-card-content *ngIf="operation.nature==='Vaccin'">
+    <ion-card-content>
       <ion-row>
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.date}}
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label color="dark"><ion-icon name="calendar-outline"></ion-icon><b> {{operation.date}}</b></ion-label>
           </ion-item>
         </ion-col>
 
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.type}}
-          </ion-item>
-        </ion-col>
-
-        <ion-col *ngIf="operation['result'] !== undefined">
-          <ion-item fill="fill">
-            {{operation['result']}}
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card *ngFor="let operation of user.userData.tests_results">
-
-    <ion-card-header>
-      <ion-card-title>
-        <ion-item fill="outline">
-          Test
-        </ion-item>
-      </ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content *ngIf="operation.nature==='Test'">
-      <ion-row>
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.date}}
-          </ion-item>
-        </ion-col>
-
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.type}}
-          </ion-item>
-        </ion-col>
-
-        <ion-col *ngIf="operation['result'] !== undefined">
-          <ion-item fill="fill">
-            {{operation['result']}}
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label color="primary"><ion-icon name="flask-outline"></ion-icon><b> {{operation.type}}</b></ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
