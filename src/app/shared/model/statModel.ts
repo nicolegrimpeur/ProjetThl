@@ -1,4 +1,4 @@
-export class StatModel {
+export interface StatModel {
     date: string;
     dc_tot: string;
     dchosp: string;

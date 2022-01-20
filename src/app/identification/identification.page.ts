@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import { ModalController } from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 
-import { ModalScannerPage } from '../shared/modal/modal-scanner/modal-scanner.page';
-import { ModalLinkPage } from '../shared/modal/modal-link/modal-link.page';
-import { ModalSharePage } from '../shared/modal/modal-share/modal-share.page';
-import { ModalAboutPage } from '../shared/modal/modal-about/modal-about.page';
+import {ModalScannerPage} from '../shared/modal/modal-scanner/modal-scanner.page';
+import {ModalLinkPage} from '../shared/modal/modal-link/modal-link.page';
+import {ModalSharePage} from '../shared/modal/modal-share/modal-share.page';
+import {ModalAboutPage} from '../shared/modal/modal-about/modal-about.page';
 
-import { Display } from '../shared/class/display';
+import {Display} from '../shared/class/display';
 import {lastValueFrom} from "rxjs";
 import {HttpService} from "../core/http.service";
 import {ModalInfoQrPage} from "../shared/modal/modal-info-qr/modal-info-qr.page";
@@ -48,8 +48,8 @@ export class IdentificationPage implements OnInit {
 
     await modal.present();//Wait Display
     await modal.onDidDismiss().then(data => {
-      console.log(data);
       if (data !== undefined) {
+        console.log(data);
         //Graphiques
         if (data.data !== undefined) {
           this.getScanData(data.data);
@@ -64,16 +64,13 @@ export class IdentificationPage implements OnInit {
   getScanData(data) {
     lastValueFrom(this.httpService.getUserQr(data))
       .then(res => {
-        console.log(res);
-        if (res.message !== undefined) {
-          this.display.display(res.message).then();
-        } else {
+          console.log(res);
           this.display.display({code: 'Scan réussi', color: 'success'}).then();
           this.openResult(res).then();
         }
-      })
+      )
       .catch(err => {
-        this.display.display(err.message).then();
+        this.display.display(err.error.message).then();
       });
   }
 

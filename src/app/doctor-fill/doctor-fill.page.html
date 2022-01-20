@@ -21,8 +21,11 @@
       </ion-input>
       <ion-icon name="mail-outline"></ion-icon>
     </ion-item>
-
-    <ion-item>
+    <div class="ion-padding">
+      <ion-button (click)="checkMail()" expand="block" color="success">Next</ion-button>
+    </div>
+    <div *ngIf="isMailValid===true">
+      <ion-item>
       <ion-label><b>La saisie est un :</b></ion-label>
     </ion-item>
 
@@ -71,25 +74,25 @@
           <ion-col>
             <ion-item>
               <ion-label color="success">Pfizer</ion-label>
-              <ion-radio slot="start" [value]="'Pfizer'" color="sucess"></ion-radio>
+              <ion-radio slot="start" [value]="'Pfizer'" id="checkBoxPfizer" color="sucess"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
               <ion-label color="warning">Moderna</ion-label>
-              <ion-radio slot="start" [value]="'Moderna'" color="warning"></ion-radio>
+              <ion-radio slot="start" [value]="'Moderna'" id="checkBoxModerna" color="warning"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
               <ion-label color="danger">Astrazeneca</ion-label>
-              <ion-radio slot="start" [value]="'Astrazeneca'" color="danger"></ion-radio>
+              <ion-radio slot="start" [value]="'Astrazeneca'" id="checkBoxAstrazeneca" color="danger"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
               <ion-label color="tertiary">Johnson & Johnson</ion-label>
-              <ion-radio slot="start" [value]="'Johnson & Johnson'" color="tertiary"></ion-radio>
+              <ion-radio slot="start" [value]="'Johnson & Johnson'" id="checkBoxJohnson" color="tertiary"></ion-radio>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -128,13 +131,13 @@
           <ion-col>
             <ion-item>
               <ion-label color="tertiary">PCR</ion-label>
-              <ion-radio slot="start" [value]="'PCR'" color="tertiary"></ion-radio>
+              <ion-radio slot="start" [value]="'PCR'" id="checkBoxPCR" color="tertiary"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
               <ion-label color="tertiary">Antigénique</ion-label>
-              <ion-radio slot="start" [value]="'Antigénique'" color="tertiary"></ion-radio>
+              <ion-radio slot="start" [value]="'Antigénique'" id="checkBoxAntigenique" color="tertiary"></ion-radio>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -171,19 +174,19 @@
             <ion-col>
               <ion-item>
                 <ion-label color="warning">Omicron</ion-label>
-                <ion-radio slot="start" [value]="'Omicron'" color="warning"></ion-radio>
+                <ion-radio slot="start" [value]="'Omicron'" id="checkBoxOmicron" color="warning"></ion-radio>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
                 <ion-label color="danger">Delta</ion-label>
-                <ion-radio slot="start" [value]="'Delta'" color="danger"></ion-radio>
+                <ion-radio slot="start" [value]="'Delta'" id="checkBoxDelta" color="danger"></ion-radio>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
                 <ion-label color="dark">Classique</ion-label>
-                <ion-radio slot="start" [value]="'Classique'" color="dark"></ion-radio>
+                <ion-radio slot="start" [value]="'Classique'" id="checkBoxClassique" color="dark"></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -195,6 +198,6 @@
       </div>
 
     </ion-card-content>
-
+    </div>
   </ion-card>
 </ion-content>

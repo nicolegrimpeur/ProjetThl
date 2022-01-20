@@ -10,6 +10,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- slide refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="outer-div">
     <div class="featureInDev">
       <ion-progress-bar type="indeterminate" reversed="true" color="warning"></ion-progress-bar>

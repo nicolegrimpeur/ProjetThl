@@ -1,13 +1,13 @@
 import {TestModel} from './testModel';
 import {VaccineModel} from './vaccineModel';
 
-export class InfosQrModel {
+export interface InfosQrModel {
   token: string;
   name: string;
   surname: string;
   birthday: Date;
   category: number;
-  vaccine: VaccineModel;
-  tests_result: TestModel;
+  vaccine: Array<VaccineModel>;
+  tests_results: Array<TestModel>;
   medical_id: string;
 }

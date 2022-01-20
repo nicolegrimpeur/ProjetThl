@@ -8,6 +8,26 @@
 </ion-header>
 
 <ion-content>
+  <!-- slide refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+<!--        <ion-avatar class="ion-margin-start" (click)="accessGallery()">-->
+        <ion-avatar class="ion-margin-start">
+          <img [src]="urlImage" alt="Profil picture"/>
+        </ion-avatar>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      Nom : {{user.userData.surname}}, Prénom : {{user.userData.name}}
+    </ion-card-content>
+  </ion-card>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title><ion-icon name="sync-outline"></ion-icon> Changer votre mot de passe</ion-card-title>

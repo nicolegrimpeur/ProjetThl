@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let Medics = new Schema({
   id: Object,
-  medicalId: Number,
+  medical_id: Number,
   name: String,
   surname: String
 }, {

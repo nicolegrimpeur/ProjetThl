@@ -25,7 +25,20 @@ export class HomePage {
     date: '2022-01-05T08:21:00.000+00:00'
   };
 
-  public stat = new StatModel();
+  public stat: StatModel=new class implements StatModel {
+    date: string;
+    dc_tot: string;
+    dchosp: string;
+    esms_cas: string;
+    esms_dc: string;
+    hosp: string;
+    incid_dchosp: string;
+    incid_hosp: string;
+    incid_rad: string;
+    incid_rea: string;
+    rad: string;
+    rea: string;
+  }();
 
   constructor(
     public display: Display,
@@ -103,20 +116,7 @@ export class HomePage {
       });
   }
 
-  /*uploadVaccineData() {
-    console.log('Infos recues : [' + this.vaccineData.mail + ' ; ' + this.vaccineData.lab + ' ; ' + this.vaccineData.date + ']');
-    lastValueFrom(this.httpService.addVaccine({
-      mail: this.vaccineData.mail,
-      lab: this.vaccineData.lab,
-      date: this.vaccineData.date
-    }))
-      .then(res => {
-        console.log('res:',res);
-      })
-      .catch(err => {
-        console.log('err:',err);
-      });
-  }*/
+
 }
 
 

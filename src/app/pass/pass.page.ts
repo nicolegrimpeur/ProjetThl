@@ -13,4 +13,11 @@ export class PassPage implements OnInit {
   ngOnInit() {
   }
 
+  // événement pour rafraichir la page
+  doRefresh(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.user.getUser().then();
+    }, 1000);
+  }
 }
