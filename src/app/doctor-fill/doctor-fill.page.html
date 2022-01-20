@@ -17,8 +17,9 @@
 
     <ion-item>
       <ion-label><b>Email du patient</b></ion-label>
-      <ion-input [(ngModel)]="mail"required="true" type="email" placeholder="patient@exemple.com">
+      <ion-input [(ngModel)]="mail" required="true" type="email" placeholder="patient@exemple.com">
       </ion-input>
+      <ion-icon name="mail-outline"></ion-icon>
     </ion-item>
 
     <ion-item>
@@ -47,10 +48,7 @@
 
       <ion-item>
         <ion-label><b>Date</b></ion-label>
-        <ion-input [value]="date"></ion-input>
-        <ion-button fill="clear" id="open-date-input-2">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
+        <ion-input [value]="date" readonly="true" id="open-date-input-2"></ion-input>
         <ion-popover trigger="open-date-input-2" show-backdrop="false">
           <ng-template>
             <ion-datetime
@@ -60,10 +58,12 @@
             ></ion-datetime>
           </ng-template>
         </ion-popover>
+        <ion-icon name="calendar-outline"></ion-icon>
       </ion-item>
 
       <ion-item>
-        <ion-label><b>Laboratoire</b> <ion-icon name="flask-outline"></ion-icon></ion-label>
+        <ion-label><b>Laboratoire</b></ion-label>
+        <ion-icon name="flask-outline"></ion-icon>
       </ion-item>
 
       <ion-radio-group [(ngModel)]="vaccineData.lab">
@@ -106,10 +106,7 @@
 
       <ion-item>
         <ion-label><b>Date</b></ion-label>
-        <ion-input [value]="date"></ion-input>
-        <ion-button fill="clear" id="open-date-input-1">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
+        <ion-input [value]="date" readonly="true"  id="open-date-input-1"></ion-input>
         <ion-popover trigger="open-date-input-1" show-backdrop="false">
           <ng-template>
             <ion-datetime
@@ -119,6 +116,7 @@
             ></ion-datetime>
           </ng-template>
         </ion-popover>
+        <ion-icon name="calendar-outline"></ion-icon>
       </ion-item>
 
       <ion-item>
