@@ -31,6 +31,18 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
+  // permet d'afficher le mot de passe
+  toggleMdp(iconMdp, inputMdp) {
+    if (iconMdp.name === 'eye-outline') {
+      iconMdp.name = 'eye-off-outline';
+      inputMdp.type = 'password';
+    }
+    else {
+      iconMdp.name = 'eye-outline';
+      inputMdp.type = 'text';
+    }
+  }
+
   myFormatDate(){
     const tmp = new Date(this.registerData.birthday);
     this.date = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);

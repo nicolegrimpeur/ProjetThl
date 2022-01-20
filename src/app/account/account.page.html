@@ -20,7 +20,8 @@
       </ion-item>
       <ion-item>
         <ion-label><b>Nouveau mot de passe</b></ion-label>
-        <ion-input [(ngModel)]="newPassword" type="password" placeholder="Nouveau mot de passe"></ion-input>
+        <ion-input #inputMdp [(ngModel)]="newPassword" type="password" placeholder="Nouveau mot de passe"></ion-input>
+        <ion-icon #iconMdp (click)="toggleMdp(iconMdp, inputMdp)" name="eye-off-outline"></ion-icon>
       </ion-item>
       <ion-item>
         <ion-label><b>Confirmez votre nouveau mot de passe</b></ion-label>
