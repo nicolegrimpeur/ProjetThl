@@ -2,7 +2,6 @@ import {TestModel} from './testModel';
 import {VaccineModel} from './vaccineModel';
 
 export interface InfosUserModel {
-  jwtToken: string;
   _id: string;
   name: string;
   surname: string;

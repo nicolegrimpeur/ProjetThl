@@ -7,7 +7,7 @@ import {RegisterData} from '../shared/model/registerDataUserModel';
 import {User} from '../shared/class/user';
 import {HttpService} from '../core/http.service';
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
-import {InfosUserModel} from "../shared/model/infosUserModel";
+import {InfosUserModel} from '../shared/model/infosUserModel';
 
 @Component({
   selector: 'app-account',
@@ -78,7 +78,7 @@ export class AccountPage implements OnInit {
       );
     if(validatePwd(this.newPassword)) {
       if (this.newPassword === this.confirmNewPassword) {
-        lastValueFrom(this.httpService.modifPsw(idUser.jwtToken, this.oldPassword, this.newPassword))
+        lastValueFrom(this.httpService.modifPsw(this.newPassword))
           .then(res => {
             this.router.navigateByUrl('home').then(r => this.display.display({
               code: 'Modification de mot de passe réussie !',

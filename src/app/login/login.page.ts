@@ -4,7 +4,7 @@ import {Display} from '../shared/class/display';
 import {lastValueFrom} from 'rxjs';
 import {HttpService} from '../core/http.service';
 import {User} from '../shared/class/user';
-import {InfosUserModel} from "../shared/model/infosUserModel";
+import {InfosUserModel} from '../shared/model/infosUserModel';
 
 @Component({
   selector: 'app-login',
@@ -45,8 +45,7 @@ export class LoginPage implements OnInit {
   makeConnection() {
     lastValueFrom(this.httpService.login(this.loginData.email, this.loginData.password))
       .then(res => {
-       /* const {user} = res;
-        user.jwtToken = res.token;*/
+        res.jwtToken = res['token'];
         this.user.setUser(res);
         this.router.navigateByUrl('home').then();
         this.display.display({code: 'Connexion réussie !', color: 'success'}).then();

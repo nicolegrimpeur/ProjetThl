@@ -35,7 +35,7 @@ export class HttpService {
   }
 
   // getUser(token): Observable<InfosUserModel> {
-  getUser(token): Observable<InfosUserModel> {
+  getUser(token): Observable<ILoginResponse> {
     const url = this.baseUrl + 'user/get/infos';
     const data = {data: token};
     // eslint-disable-next-line max-len
@@ -44,7 +44,7 @@ export class HttpService {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
-    }) as Observable<InfosUserModel>;
+    }) as Observable<ILoginResponse>;
   }
 
   login(mail, password): Observable<InfosUserModel> {
@@ -81,9 +81,9 @@ export class HttpService {
     return this.http.post(destUrl, data, {headers: {'Content-Type': 'application/json'}}) as Observable<InfosUserModel>;
   }
 
-  modifPsw(token: string, psw: string, newPsw: string): Observable<DeleteUserModel> {
+  modifPsw(password: string): Observable<DeleteUserModel> {
     const url = this.baseUrl + 'user/modif-psw';
-    const data = {tokenData: token, pswData: psw, newPswData: newPsw};
+    const data = {password};
     return this.http.post(url, data, {headers: {'Content-Type': 'application/json'}}) as Observable<DeleteUserModel>;
   }
 

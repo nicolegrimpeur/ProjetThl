@@ -1,5 +1,6 @@
 export interface TestModel {
   date: Date;
-  result: boolean;
+  positif: boolean;
   variant: string;
+  type_test: string;
 }

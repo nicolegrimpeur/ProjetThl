@@ -9,9 +9,9 @@ import {ModalSharePage} from '../shared/modal/modal-share/modal-share.page';
 import {ModalAboutPage} from '../shared/modal/modal-about/modal-about.page';
 
 import {Display} from '../shared/class/display';
-import {lastValueFrom} from "rxjs";
-import {HttpService} from "../core/http.service";
-import {ModalInfoQrPage} from "../shared/modal/modal-info-qr/modal-info-qr.page";
+import {lastValueFrom} from 'rxjs';
+import {HttpService} from '../core/http.service';
+import {ModalInfoQrPage} from '../shared/modal/modal-info-qr/modal-info-qr.page';
 
 @Component({
   selector: 'app-identification',
@@ -90,7 +90,7 @@ export class IdentificationPage implements OnInit {
   }
 
   async openLinkModal() {
-    let modal = await this.modalController.create({
+    const modal = await this.modalController.create({
       component: ModalLinkPage
     });
     await modal.present();
@@ -98,7 +98,7 @@ export class IdentificationPage implements OnInit {
   }
 
   async openShareModal() {
-    let modal = await this.modalController.create({
+    const modal = await this.modalController.create({
       component: ModalSharePage
     });
     await modal.present();
@@ -106,7 +106,7 @@ export class IdentificationPage implements OnInit {
   }
 
   async openAboutModal() {
-    let modal = await this.modalController.create({
+    const modal = await this.modalController.create({
       component: ModalAboutPage
     });
     await modal.present();

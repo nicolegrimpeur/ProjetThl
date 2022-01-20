@@ -77,7 +77,7 @@ export class RegisterPage implements OnInit {
         this.checkRadio();
       }
     } else if (!validatePwd(this.registerData.psw)) {
-      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial');
+      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial').then();
     }
 
     //
@@ -97,33 +97,24 @@ export class RegisterPage implements OnInit {
   }
 
   checkDate() {
-    const currentDate = new Date();
-    const birthDate = this.date.split('/');
-    // eslint-disable-next-line max-len
-    if (currentDate.getDate() < parseInt(birthDate[0], 10) && currentDate.getMonth() <= parseInt(birthDate[1], 10) && currentDate.getFullYear() <= parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (currentDate.getMonth() < parseInt(birthDate[1], 10) && currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (this.date === '') {
-      this.display.display('vous avez oublié de rentrer la date');
+    if (new Date(this.registerData.birthday) > new Date()) {
+      this.display.display('Merci de rentrer votre date de naissance').then();
     } else {
       this.checkMail();
     }
   }
 
   checkRadio() {
-    if (document.getElementById('radioBoxCitoyen').ariaChecked.toString() === 'true') {
+    if (!this.isADoctor) {
       this.registerData.category = 0;
       this.makeRegister();
 
-    } else if (document.getElementById('radioBoxMedic').ariaChecked.toString() === 'true') {
-    //  this.checkMedicalId();
+    } else if (this.isADoctor) {
+     // this.checkMedicalId();
       this.registerData.category = 1;
     }
   }
-/*
+
   checkMedicalId() {
     //Verification si l'inscrit est bien dans la base des médecins diplomés
     lastValueFrom(this.httpService.checkMedic(
@@ -132,17 +123,13 @@ export class RegisterPage implements OnInit {
       this.registerData.surname
     ))
       .then(res => {
-        if (res.status === 200) {
           this.makeRegister();
-        } else {
-          this.display.display(res.message).then();
-        }
       })
       .catch(err => {
-        this.display.display(err.error.text).then();
+        this.display.display(err.error.message).then();
       });
   }
-*/
+
   makeRegister() {
     //Enregistrer les infos(Back)
     lastValueFrom(this.httpService.createUser({
@@ -160,7 +147,6 @@ export class RegisterPage implements OnInit {
           code: 'Inscription réussie !',
           color: 'success'
         }));
-
       })
       .catch(err => {
         this.router.navigateByUrl('register').then(r => this.display.display({

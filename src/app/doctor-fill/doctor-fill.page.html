@@ -22,7 +22,7 @@
       <ion-icon name="mail-outline"></ion-icon>
     </ion-item>
     <div class="ion-padding">
-      <ion-button (click)="checkMail()" expand="block" color="success">Next</ion-button>
+      <ion-button (click)="checkMail()" expand="block" color="success">Suivant</ion-button>
     </div>
     <div *ngIf="isMailValid===true">
       <ion-item>
@@ -99,7 +99,7 @@
       </ion-radio-group>
 
       <div class="ion-padding">
-        <ion-button (click)="uploadVaccineData()" expand="block" color="success">Valider <ion-icon name="paper-plane-outline"></ion-icon></ion-button>
+        <ion-button (click)="checkDate()" expand="block" color="success">Valider <ion-icon name="paper-plane-outline"></ion-icon></ion-button>
       </div>
 
     </ion-card-content>
@@ -194,7 +194,7 @@
       </ion-card-content>
 
       <div class="ion-padding">
-        <ion-button (click)="uploadTestData()" expand="block" color="success">Valider <ion-icon name="paper-plane-outline"></ion-icon></ion-button>
+        <ion-button (click)="checkDate()" expand="block" color="success">Valider <ion-icon name="paper-plane-outline"></ion-icon></ion-button>
       </div>
 
     </ion-card-content>

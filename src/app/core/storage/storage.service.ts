@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Storage} from '@capacitor/storage';
 import {InfosUserModel} from '../../shared/model/infosUserModel';
 
@@ -7,7 +7,8 @@ import {InfosUserModel} from '../../shared/model/infosUserModel';
 })
 export class StorageService {
 
-  constructor() { }
+  constructor() {
+  }
 
 
   async setUserData(userData) {
@@ -17,8 +18,20 @@ export class StorageService {
     });
   }
 
-  async getUserData() {
+  async getUserData(): Promise<InfosUserModel> {
     const {value} = await Storage.get({key: 'userData'});
     return JSON.parse(value);
+  }
+
+  async setToken(token: string) {
+    await Storage.set({
+      key: 'token',
+      value: token,
+    });
+  }
+
+  async getToken(): Promise<string> {
+    const {value} = await Storage.get({key: 'string'});
+    return value as string;
   }
 }

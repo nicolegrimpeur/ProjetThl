@@ -34,9 +34,9 @@ userRoute.route('/').get((req, res) => {
 });
 
 userRoute.route('/get/infosQr').get((req, res) => {
-  console.log(req.headers.Authorization);
   const tmpUuid = req.headers.authorization.slice(req.headers.authorization.indexOf(' ') + 1)
   UserModel.find({uuid: tmpUuid}, async (err, result) => {
+    console.log(result);
     if (result.length !== 0) {
       result[0]['psw'] = undefined;
       result[0]['medical_id'] = undefined;
@@ -61,7 +61,7 @@ userRoute.route('/get/infosQr').get((req, res) => {
 
 userRoute.route('/get/infos').get((req, res) => {
   console.log(req.headers);
-  UserModel.find({token: req.headers.Authorization}, async (err, result) => {
+  UserModel.find({token: req.headers.authorization.split(' ')[1]}, async (err, result) => {
     if (result.length !== 0) {
       result[0]['psw'] = undefined;
 
@@ -83,7 +83,7 @@ userRoute.route('/get/infos').get((req, res) => {
 });
 
 userRoute.route('/login').post((req, res) => {
-  console.log(req);
+  console.log(req.body);
   UserModel.find({mail: req.body.mail}, (err, result) => {
     if (result.length !== 0) {
       if (result[0]['psw'] === req.body.password) {
@@ -157,6 +157,7 @@ async function checkToken(token) {
 }
 
 userRoute.route('/create-user').post((req, res, next) => {
+  console.log('register: ', req.body);
   UserModel.find({mail: req.body.mail}, async (err, result) => {
     if (result.length < 1) {
       req.body.token = await checkToken(generate_token(256)).then(r => {

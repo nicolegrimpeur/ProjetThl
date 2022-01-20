@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {InfosUserModel} from '../model/infosUserModel';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom, retry} from 'rxjs';
 import {HttpService} from '../../core/http.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../core/storage/storage.service';
@@ -13,20 +13,8 @@ import {Display} from './display';
   providedIn: 'root'
 })
 export class User {
-  public userData: InfosUserModel = new class implements InfosUserModel {
-    birthday: string;
-    category: number;
-    mail: string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    medical_id: string;
-    name: string;
-    surname: string;
-    tests_results: Array<TestModel>;
-    jwtToken: string;
-    _id: string;
-    uuid: string;
-    vaccine: Array<VaccineModel>;
-  }();
+  public userData?: InfosUserModel;
+  private jwtToken?: string;
 
   constructor(
     private httpService: HttpService,
@@ -34,40 +22,46 @@ export class User {
     private storageService: StorageService,
     private display: Display
   ) {
-    this.getUser().then();
+    this.loadData().then(this.refreshUser);
   }
 
-  async getUser() {
-    await this.storageService.getUserData().then(value => {
-      if (value !== null) {
-        this.userData = value;
-      }
-    });
+  async loadData() {
+    this.userData = await this.storageService.getUserData();
+    this.jwtToken = await this.storageService.getToken();
+  }
 
+  async refreshUser() {
     const status = await Network.getStatus();
-    if (this.userData.jwtToken !== undefined) {
+    if (this.jwtToken) {
+      console.log('status', status.connected);
       if (status.connected) {
-        lastValueFrom(this.httpService.getUser(this.userData.jwtToken))
-          .then(async (res) => {
-            this.userData = res;
-            console.log(res);
-          await this.storageService.setUserData(res);
-          })
+        lastValueFrom(this.httpService.getUser(this.jwtToken))
+          .then(async (res) => Promise.all([this.setUser(res.user),
+            this.setToken(res.token)]))
           .catch(async (err) => {
             await this.display.display(err);
           });
-      } else {
-       await this.router.navigateByUrl('/identification');
       }
+    } else {
+      await this.router.navigateByUrl('/identification');
     }
   }
 
   setUser(userData: any) {
     this.userData = userData;
-    this.storageService.setUserData(userData).then();
+    return this.storageService.setUserData(userData);
   }
 
-  checkMdp() {
+  setToken(token: string) {
+    this.jwtToken = token;
+    return this.storageService.setToken(token);
+  }
 
+  getToken(): string | undefined {
+    return this.jwtToken;
+  }
+
+  getUserData(): InfosUserModel | undefined {
+    return this.userData;
   }
 }
