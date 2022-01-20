@@ -1,6 +1,9 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>A propos</ion-title>
+    <ion-title>
+      <ion-icon name="megaphone-outline"></ion-icon>
+      A propos
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="modalController.dismiss()">Fermer</ion-button>
     </ion-buttons>
@@ -8,16 +11,55 @@
 </ion-header>
 <ion-content fullscreen>
   <ion-list>
+    <ion-img src="./assets/icon/logo.png"></ion-img>
     <ion-item>
       <ion-label>
-        <h2>Version 1.54327091</h2>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/JambonPasFrais"> Front-End</a></b>
+          </ion-col>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/augustin-m"> Front-End</a></b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/rfleuryleveso"> Back-End</a></b>
+          </ion-col>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/Pldu78"> Back-End</a></b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/theeooo"> DataBase</a></b>
+          </ion-col>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/louquen"> DataBase</a></b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/nicolegrimpeur"> Tech Lead</a></b>
+          </ion-col>
+          <ion-col>
+            <ion-icon name="logo-github"></ion-icon><b><a href="https://github.com/nicolegrimpeur/ProjetThl"> Source Code</a></b>
+          </ion-col>
+        </ion-row>
       </ion-label>
     </ion-item>
-  <ion-img src="./assets/icon/logo.png"></ion-img>
-  <ion-item>
-    <ion-label>
-      <p>Copyright &copy; 2022 Tous droits réservés à TPLC.</p>
-    </ion-label>
-  </ion-item>
-</ion-list>
+    <ion-item>
+      <ion-label>
+        <h2>Version 1.0</h2>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>Copyright &copy; 2022 Tous droits réservés à TPLC.</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
