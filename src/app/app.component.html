@@ -3,7 +3,8 @@
     <ion-header>
       <ion-toolbar color="tertiary">
         <!--(Back)-->
-        <ion-title>{{user.userData.name}} {{user.userData.surname}} <ion-icon name="person-outline"></ion-icon></ion-title>
+        <ion-title *ngIf="user.userData.category === 1"><ion-icon name="person-outline"></ion-icon> {{user.userData.name}} {{user.userData.surname}} - Santé</ion-title>
+        <ion-title *ngIf="user.userData.category === 0"><ion-icon name="person-outline"></ion-icon> {{user.userData.name}} {{user.userData.surname}} - Citoyen</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
