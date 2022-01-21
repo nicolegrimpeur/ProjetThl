@@ -13,12 +13,14 @@ export interface InfosUserModel {
   surname: string;
   birthdate: string;
   email: string;
+  qrToken: string;
   category: UserRoles;
 }
 
 export interface ILoginResponse {
   user: InfosUserModel;
   token: string;
+  passToken: string;
 }
 
 export type IRegisterResponse = ILoginResponse;

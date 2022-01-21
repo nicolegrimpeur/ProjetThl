@@ -15,6 +15,7 @@ export class CitizenResultPagePage implements OnInit {
   public userCertificates: Array<ICertificate>;
   public userVaccinCertificates: Array<ICertificate>;
   public userTestCertificates: Array<ICertificate>;
+  private date: string;
 
   constructor(private httpService: HttpService,
               private user: User, private display: Display
@@ -25,6 +26,8 @@ export class CitizenResultPagePage implements OnInit {
     this.userCertificates = await this.fetchCerticates();
     this.userVaccinCertificates = this.userCertificates.filter(certificate => certificate.type === CertificateType.VACCINE);
     this.userTestCertificates = this.userCertificates.filter(certificate => certificate.type === CertificateType.TEST);
+    console.log(this.userTestCertificates);
+
   }
 
   inputNgFor(index, item) {
@@ -52,12 +55,27 @@ export class CitizenResultPagePage implements OnInit {
         }
       });
   }
-
+  myFormatDate(dateForm) {
+    const tmp = new Date(dateForm);
+    return new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
+  }
   // événement pour rafraichir la page
   doRefresh(event) {
     setTimeout(() => {
       event.target.complete();
       this.user.refreshUser();
     }, 1000);
+  }
+
+  genCertificatesPdf(certificateId: string) {
+    lastValueFrom(this.httpService.genPdf(certificateId))
+      .then(result => {
+        const blob = new Blob([result], {type: 'application/pdf'});
+        const objectUrl = URL.createObjectURL(blob);
+        window.open(objectUrl);
+      })
+      .catch(error => {
+        this.display.display(error.error.message).then();
+      });
   }
 }

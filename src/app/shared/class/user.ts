@@ -78,7 +78,13 @@ export class User {
   getToken(): string | undefined {
     return this.jwtToken;
   }
+  setPassToken(token: string) {
+    return this.storageService.setToken(token);
+  }
 
+  getPassToken(): Promise<string | undefined> {
+    return this.storageService.getPassToken();
+  }
   getUserData(): UserDataField {
     if (!this.userData) {
       throw new Error('Undefined UserData');

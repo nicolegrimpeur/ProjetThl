@@ -14,66 +14,71 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <!--Vaccin-->
   <ion-card *ngFor="let operation of userVaccinCertificates">
 
     <ion-card-header>
       <ion-card-title>
-        <ion-item fill="outline">
-          Vaccin
-        </ion-item>
+        <ion-label color="success"><ion-icon name="shield-checkmark-outline"></ion-icon><b>Vaccin</b></ion-label>
       </ion-card-title>
     </ion-card-header>
 
-    <ion-card-content >
+    <ion-card-content>
       <ion-row>
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.date}}
+        <ion-col size="12" size-md="4">
+          <ion-item>
+            <ion-label color="dark"><ion-icon name="calendar-outline"></ion-icon><b> {{myFormatDate(operation.date)}}</b></ion-label>
           </ion-item>
         </ion-col>
 
-        <ion-col>
-          <ion-item fill="fill">
-            {{operation.metadata['LAB']}}
+        <ion-col size="12" size-md="4">
+          <ion-item>
+            <ion-label color="primary"><ion-icon name="flask-outline"></ion-icon><b> {{operation.metadata['LAB']}}</b></ion-label>
           </ion-item>
         </ion-col>
 
-        <ion-col *ngIf="operation.metadata['result'] !== undefined">
-          <ion-item fill="fill">
-            {{operation['result']}}
+        <ion-col size="12" size-md="4">
+          <ion-item>
+            <ion-button expand="block" strong="true" (click)="this.genCertificatesPdf(operation._id)" color="primary"><ion-icon name="download-outline"></ion-icon></ion-button>
           </ion-item>
         </ion-col>
+
       </ion-row>
     </ion-card-content>
 
 
 
   </ion-card>
+
   <ion-card *ngFor="let operation of userTestCertificates">
     <ion-card-header>
       <ion-card-title >
-        <ion-label color="danger" *ngIf="operation.metadata['RESULT']==='positif'"><ion-icon name="close-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
-        <ion-label color="success" *ngIf="operation.metadata['RESULT']==='négatif'"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
+        <ion-label color="danger" *ngIf="operation.metadata['RESULT']==='Positif'"><ion-icon name="close-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
+        <ion-label color="success" *ngIf="operation.metadata['RESULT']==='Négatif'"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
       </ion-card-title>
-      <!--ion-card-title *ngIf="operation.nature !== 'Test'">
-            <ion-label color="success"><ion-icon name="shield-checkmark-outline"></ion-icon><b> {{operation.nature}}</b></ion-label>
-      </ion-card-title-->
-      <ion-button (click)="supprData(operation._id)"></ion-button>
     </ion-card-header>
 
     <ion-card-content>
       <ion-row>
-        <ion-col size="12" size-md="6">
+        <ion-col size="12" size-md="4">
           <ion-item>
-            <ion-label color="dark"><ion-icon name="calendar-outline"></ion-icon><b> {{operation.date}}</b></ion-label>
+            <ion-label color="dark"><ion-icon name="calendar-outline"></ion-icon><b> {{myFormatDate(operation.date)}}</b></ion-label>
           </ion-item>
         </ion-col>
 
-        <ion-col size="12" size-md="6">
+        <ion-col size="12" size-md="4">
           <ion-item>
-            <ion-label color="primary"><ion-icon name="flask-outline"></ion-icon><b> {{operation.metadata['TYPE']}}</b></ion-label>
+            <ion-label color="primary"><ion-icon name="flask-outline"></ion-icon><b> {{operation.metadata['TEST_TYPE']}}</b></ion-label>
           </ion-item>
         </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item>
+            <ion-button (click)="supprData(operation._id)" color="danger"><ion-icon name="close-outline"></ion-icon></ion-button>
+          </ion-item>
+        </ion-col>
+
       </ion-row>
     </ion-card-content>
 
