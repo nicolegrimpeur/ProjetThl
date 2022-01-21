@@ -15,13 +15,13 @@ export class HttpService {
   // private base = 'https://nicob.ovh/';
   //private base = 'http://localhost:5000/';
   // private base = 'http://192.168.236.90:5000/';
-  private base = 'https://2492-77-130-108-147.ngrok.io';
+  // private base = 'https://2492-77-130-108-147.ngrok.io';
+  private base = 'https://tplc.rflv.fr/api';
   private baseUrl = this.base + '/';
 
   private authToken = '';
 
   constructor(private readonly http: HttpClient) {
-
   }
 
   public setAuthToken(token: string): void {
