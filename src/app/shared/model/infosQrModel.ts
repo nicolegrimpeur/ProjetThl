@@ -1,13 +1,7 @@
-import {TestModel} from './testModel';
-import {VaccineModel} from './vaccineModel';
+import {InfosUserModel} from './infosUserModel';
+import {ICertificate} from './certificates';
 
 export interface InfosQrModel {
-  token: string;
-  name: string;
-  surname: string;
-  birthday: Date;
-  category: number;
-  vaccine: Array<VaccineModel>;
-  tests_results: Array<TestModel>;
-  medical_id: string;
+  user: InfosUserModel;
+  certificates: Array<ICertificate>;
 }

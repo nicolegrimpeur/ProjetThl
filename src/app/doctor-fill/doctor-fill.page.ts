@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Display} from '../shared/class/display';
 import {lastValueFrom} from 'rxjs';
 import {HttpService} from '../core/http.service';
+import {CertificateType, ICertificate} from '../shared/model/certificates';
 
 @Component({
   selector: 'app-doctor-fill',
@@ -14,16 +15,14 @@ export class DoctorFillPage implements OnInit {
   public mail = '';
   public isMailValid = false;
   /*Data*/
-  public vaccineData = {
-    lab: '',
-    date: ''
+  public vaccineData: Partial<ICertificate>= {
+    type: CertificateType.VACCINE,
+    email: this.mail,
   };
-  public testData = {
-    type: '',
-    date: '',
-    result: '',
-    variant: ''
-  };
+  public testData: Partial<ICertificate>={
+    type: CertificateType.TEST,
+    email:this.mail,
+};
 
   constructor(public display: Display, private httpService: HttpService) {
   }
@@ -36,24 +35,15 @@ export class DoctorFillPage implements OnInit {
     this.date = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
 
-  uploadTestData() {
-    console.log(this.testData.date, this.testData.variant, this.testData.result === 'Positif');
-    lastValueFrom(this.httpService.addTest({
-      mail: this.mail,
-      variant: this.testData.variant,
-      date: this.testData.date,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      type_test: this.testData.type,
-      positif: this.testData.result === 'Positif'
-    }))
+  uploadTestData(testData: Partial<ICertificate>) {
+    lastValueFrom(this.httpService.addTest(testData))
       .then(res => {
         console.log('res:', res);
         this.isMailValid= false;
         this.fill = '';
         this.testData.date='';
-        this.testData.result='';
-        this.testData.variant='';
-        this.testData.type='';
+        this.testData.metadata={};
+        this.testData.type=-1;
       })
       .catch(err => {
         console.log('err:', err);
@@ -66,19 +56,15 @@ export class DoctorFillPage implements OnInit {
     this.display.display({code: 'Données saisies', color: 'success'});
   }
 
-  uploadVaccineData() {
-    lastValueFrom(this.httpService.addVaccine({
-      mail: this.mail,
-      lab: this.vaccineData.lab,
-      date: this.vaccineData.date
-    }))
+  uploadVaccineData(vaccineData: Partial<ICertificate>) {
+    lastValueFrom(this.httpService.addVaccine(vaccineData))
       .then(res => {
         console.log('res:', res);
         this.makeToast();
         this.isMailValid= false;
         this.fill = '';
         this.vaccineData.date ='';
-        this.vaccineData.lab ='';
+        this.vaccineData.metadata ={};
       })
       .catch(err => {
         console.log('err:', err);
@@ -114,7 +100,7 @@ export class DoctorFillPage implements OnInit {
     if (document.getElementById('checkBoxPfizer').ariaChecked.toString() === 'true' || document.getElementById('checkBoxModerna').ariaChecked.toString() === 'true'
       // eslint-disable-next-line max-len
       || document.getElementById('checkBoxAstrazeneca').ariaChecked.toString() === 'true' || document.getElementById('checkBoxJohnson').ariaChecked.toString() === 'true') {
-      this.uploadVaccineData();
+      this.uploadVaccineData(this.vaccineData);
     } else {
       this.display.display('veuillez selectionner un laboratoire');
     }
@@ -132,7 +118,7 @@ export class DoctorFillPage implements OnInit {
   checkTestResult() {
     // eslint-disable-next-line max-len
     if (document.getElementById('checkBoxNegatif').ariaChecked.toString() === 'true') {
-      this.uploadTestData();
+      this.uploadTestData(this.testData);
     } else if (document.getElementById('checkBoxPositif').ariaChecked.toString() === 'true'){
       this.checkVariant();
     }else {
@@ -144,7 +130,7 @@ export class DoctorFillPage implements OnInit {
     // eslint-disable-next-line max-len
     if (document.getElementById('checkBoxOmicron').ariaChecked.toString() === 'true' || document.getElementById('checkBoxDelta').ariaChecked.toString() === 'true'
       || document.getElementById('checkBoxClassique').ariaChecked.toString() === 'true'){
-      this.uploadTestData();
+      this.uploadTestData(this.testData);
     }else {
       this.display.display('veuillez selectionner un variant');
     }

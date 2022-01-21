@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {InfosQrModel} from '../../model/infosQrModel';
+import {CertificateType} from '../../model/certificates';
 
 @Component({
   selector: 'app-modal-info-qr',
@@ -14,22 +15,26 @@ export class ModalInfoQrPage {
   }
 
   ionViewWillEnter() {
-    const tmp = new Date(this.user.birthday);
+    const tmp = new Date(this.user.user.birthdate);
     this.dDN = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
 
   isValidate() {
-    const lastVaccine = this.user.vaccine[this.user.vaccine.length - 1];
-    const lastTest = this.user.tests_results[this.user.tests_results.length - 1];
+    const vaccineArray = this.user.certificates.filter(item => item.type === CertificateType.VACCINE);
+    const lastVaccine = vaccineArray[vaccineArray.length-1];
+    const testArray = this.user.certificates.filter(item => item.type === CertificateType.TEST);
+    const lastTest = testArray[testArray.length-1];
     const today = new Date();
+    const vaccineDate = new Date(lastVaccine.date);
+    const testDate = new Date(lastTest.date);
     let isValidate = true;
 
     // on vérifie qu'il y a au moins deux vaccins
     if (!isValidate) {
-      isValidate = this.user.vaccine.length >= 2;
+      isValidate = vaccineArray.length >= 2;
     }
 
-    let diffTemps = today.getTime() - lastVaccine.date.getTime();
+    let diffTemps = today.getTime() - vaccineDate.getTime();
     let diffJours = diffTemps / (1000 * 3600 * 24);
 
     // on vérifie qu'il y a moins de 5 mois
@@ -37,7 +42,7 @@ export class ModalInfoQrPage {
       isValidate = !(diffJours > 3 * 50);
     }
 
-    diffTemps = today.getTime() - lastVaccine.date.getTime();
+    diffTemps = today.getTime() - testDate.getTime();
     diffJours = diffTemps / (1000 * 3600 * 24);
 
     // on vérifie que le dernier test a eu lieu il y a moins de 2 jours

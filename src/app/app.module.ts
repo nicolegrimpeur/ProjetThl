@@ -11,6 +11,8 @@ import {environment} from '../environments/environment';
 import {HttpClientModule} from '@angular/common/http';
 
 import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
+import {User} from './shared/class/user';
+import {HttpService} from './core/http.service';
 
 @NgModule({
   declarations: [AppComponent],

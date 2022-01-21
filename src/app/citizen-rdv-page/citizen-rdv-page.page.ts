@@ -7,7 +7,6 @@ import {User} from '../shared/class/user';
   styleUrls: ['./citizen-rdv-page.page.scss'],
 })
 export class CitizenRdvPagePage implements OnInit {
-
   constructor(
     private user: User
   ) { }
@@ -19,7 +18,7 @@ export class CitizenRdvPagePage implements OnInit {
   doRefresh(event) {
     setTimeout(() => {
       event.target.complete();
-      this.user.getUser().then();
+      this.user.refreshUser();
     }, 1000);
   }
 }

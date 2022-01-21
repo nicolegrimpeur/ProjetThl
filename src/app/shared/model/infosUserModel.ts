@@ -1,21 +1,24 @@
-import {TestModel} from './testModel';
-import {VaccineModel} from './vaccineModel';
+export enum UserRoles {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  USER,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  HEALTHCARE,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  ADMIN
+}
 
 export interface InfosUserModel {
-  jwtToken: string;
   _id: string;
   name: string;
   surname: string;
-  birthday: string;
-  mail: string;
-  category: number;
-  vaccine: Array<VaccineModel>;
-  tests_results: Array<TestModel>;
-  medical_id: string;
-  uuid: string;
+  birthdate: string;
+  email: string;
+  category: UserRoles;
 }
 
 export interface ILoginResponse {
   user: InfosUserModel;
   token: string;
 }
+
+export type IRegisterResponse = ILoginResponse;

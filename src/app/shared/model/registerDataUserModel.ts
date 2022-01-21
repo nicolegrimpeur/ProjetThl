@@ -1,9 +1,10 @@
-export interface RegisterData{
+import {UserRoles} from "./infosUserModel";
+
+export interface RegisterData {
   name: string;
   surname: string;
-  mail: string;
-  psw: string;
-  category: number;
-  birthday: string;
-  token: string;
+  email: string;
+  password: string;
+  birthdate: string;
+  category: UserRoles,
 }

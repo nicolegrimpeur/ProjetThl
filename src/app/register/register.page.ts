@@ -4,6 +4,7 @@ import {Display} from '../shared/class/display';
 import {HttpService} from '../core/http.service';
 import {lastValueFrom} from 'rxjs';
 import {User} from '../shared/class/user';
+import {UserRoles} from "../shared/model/infosUserModel";
 
 @Component({
   selector: 'app-register',
@@ -36,14 +37,13 @@ export class RegisterPage implements OnInit {
     if (iconMdp.name === 'eye-outline') {
       iconMdp.name = 'eye-off-outline';
       inputMdp.type = 'password';
-    }
-    else {
+    } else {
       iconMdp.name = 'eye-outline';
       inputMdp.type = 'text';
     }
   }
 
-  myFormatDate(){
+  myFormatDate() {
     const tmp = new Date(this.registerData.birthday);
     this.date = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
   }
@@ -114,57 +114,58 @@ export class RegisterPage implements OnInit {
   }
 
   checkRadio() {
-    if (document.getElementById('radioBoxCitoyen').ariaChecked.toString() === 'true') {
-      this.registerData.category = 0;
+    if (document.querySelector<HTMLIonRadioElement>('#radioBoxCitoyen').ariaChecked === 'true') {
+      this.registerData.category = UserRoles.USER;
       this.makeRegister();
 
-    } else if (document.getElementById('radioBoxMedic').ariaChecked.toString() === 'true') {
-    //  this.checkMedicalId();
-      this.registerData.category = 1;
+    } else if (document.querySelector<HTMLIonRadioElement>('#radioBoxMedic').ariaChecked === 'true') {
+      //  this.checkMedicalId();
+      this.registerData.category = UserRoles.HEALTHCARE;
     }
   }
-/*
-  checkMedicalId() {
-    //Verification si l'inscrit est bien dans la base des médecins diplomés
-    lastValueFrom(this.httpService.checkMedic(
-      Number(this.registerData.medId),
-      this.registerData.name,
-      this.registerData.surname
-    ))
-      .then(res => {
-        if (res.status === 200) {
-          this.makeRegister();
-        } else {
-          this.display.display(res.message).then();
-        }
-      })
-      .catch(err => {
-        this.display.display(err.error.text).then();
-      });
-  }
-*/
+
+  /*
+    checkMedicalId() {
+      //Verification si l'inscrit est bien dans la base des médecins diplomés
+      lastValueFrom(this.httpService.checkMedic(
+        Number(this.registerData.medId),
+        this.registerData.name,
+        this.registerData.surname
+      ))
+        .then(res => {
+          if (res.status === 200) {
+            this.makeRegister();
+          } else {
+            this.display.display(res.message).then();
+          }
+        })
+        .catch(err => {
+          this.display.display(err.error.text).then();
+        });
+    }
+  */
   makeRegister() {
     //Enregistrer les infos(Back)
     lastValueFrom(this.httpService.createUser({
       name: this.registerData.name,
       surname: this.registerData.surname,
-      psw: this.registerData.psw,
-      token: '',
-      birthday: this.registerData.birthday,
-      mail: this.registerData.mail,
-      category: this.registerData.category
+      password: this.registerData.psw,
+      birthdate: this.registerData.birthday,
+      email: this.registerData.mail,
+      category: this.registerData.category,
     }))
-      .then(res => {
-        this.user.setUser(res);
-        this.router.navigateByUrl('home').then(r => this.display.display({
+      .then(async ({user, token}) => {
+        await Promise.all([this.user.setUser(user), this.user.setToken(token)]);
+        this.router.navigateByUrl('home');
+        this.display.display({
           code: 'Inscription réussie !',
           color: 'success'
-        }));
+        });
 
       })
       .catch(err => {
         this.router.navigateByUrl('register').then(r => this.display.display({
-          code: err.error.text,
+          code: err.error?.text ?? 'Failed',
           color: 'danger'
         }));
       });

@@ -4,7 +4,6 @@ import {Display} from '../shared/class/display';
 import {lastValueFrom} from 'rxjs';
 import {HttpService} from '../core/http.service';
 import {User} from '../shared/class/user';
-import {InfosUserModel} from "../shared/model/infosUserModel";
 
 @Component({
   selector: 'app-login',
@@ -34,8 +33,7 @@ export class LoginPage implements OnInit {
     if (iconMdp.name === 'eye-outline') {
       iconMdp.name = 'eye-off-outline';
       inputMdp.type = 'password';
-    }
-    else {
+    } else {
       iconMdp.name = 'eye-outline';
       inputMdp.type = 'text';
     }
@@ -44,12 +42,10 @@ export class LoginPage implements OnInit {
   // connecte l'utilisateur avec email et mot de passe
   makeConnection() {
     lastValueFrom(this.httpService.login(this.loginData.email, this.loginData.password))
-      .then(res => {
-       /* const {user} = res;
-        user.jwtToken = res.token;*/
-        this.user.setUser(res);
-        this.router.navigateByUrl('home').then();
-        this.display.display({code: 'Connexion réussie !', color: 'success'}).then();
+      .then(async ({user, token}) => {
+        await Promise.all([this.user.setUser(user), this.user.setToken(token)]);
+        this.router.navigateByUrl('home');
+        this.display.display({code: 'Connexion réussie !', color: 'success'});
       })
       .catch(err => {
         this.display.display(err.error.message).then();

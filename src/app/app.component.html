@@ -3,8 +3,16 @@
     <ion-header>
       <ion-toolbar color="tertiary">
         <!--(Back)-->
-        <ion-title *ngIf="user.userData.category === 1"><ion-icon name="person-outline"></ion-icon> {{user.userData.name}} {{user.userData.surname}} - Santé</ion-title>
-        <ion-title *ngIf="user.userData.category === 0"><ion-icon name="person-outline"></ion-icon> {{user.userData.name}} {{user.userData.surname}} - Citoyen</ion-title>
+        <ng-template [ngIf]="user.getUserData() !== undefined">
+          <ion-title *ngIf="user.getUserData().category === 1">
+            <ion-icon name="person-outline"></ion-icon>
+            {{user.getUserData().name}} {{user.getUserData().surname}} - Santé
+          </ion-title>
+          <ion-title *ngIf="user.getUserData().category === 0">
+            <ion-icon name="person-outline"></ion-icon>
+            {{user.getUserData().name}} {{user.getUserData().surname}} - Citoyen
+          </ion-title>
+        </ng-template>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -13,26 +21,30 @@
           <ion-icon name="home-outline"></ion-icon>
           <ion-label>Home</ion-label>
         </ion-button>
-        <ion-button expand="block" color="success" href="/pass" *ngIf="user.userData.category===0">
-          <ion-icon name="qr-code-outline"></ion-icon>
-          <ion-label>Mon Pass</ion-label>
-        </ion-button>
-        <ion-button expand="block" color="warning" href="/citizen-tab/citizen-rdv-page"*ngIf="user.userData.category===0">
-          <ion-icon name="body-outline"></ion-icon>
-          <ion-label>Mon Espace</ion-label>
-        </ion-button>
-        <ion-button expand="block" color="success" href="/doctor-tab/doctor-fill" *ngIf="user.userData.category===1">
-          <ion-icon name="medkit-outline"></ion-icon>
-          <ion-label>Mon Espace</ion-label>
-        </ion-button>
-        <ion-button expand="block" color="medium" href="/account">
-          <ion-icon name="settings-outline"></ion-icon>
-          <ion-label>Mon Compte</ion-label>
-        </ion-button>
-        <ion-button expand="block" color="danger" (click)="disconnectUser()">
-          <ion-icon name="log-out-outline"></ion-icon>
-          <ion-label>Déconnexion</ion-label>
-        </ion-button>
+        <ng-template [ngIf]="user.getUserData() !== undefined">
+          <ion-button expand="block" color="success" href="/pass" *ngIf="user.getUserData().category===0">
+            <ion-icon name="qr-code-outline"></ion-icon>
+            <ion-label>Mon Pass</ion-label>
+          </ion-button>
+          <ion-button expand="block" color="warning" href="/citizen-tab/citizen-rdv-page"
+                      *ngIf="user.getUserData().category===0">
+            <ion-icon name="body-outline"></ion-icon>
+            <ion-label>Mon Espace</ion-label>
+          </ion-button>
+          <ion-button expand="block" color="success" href="/doctor-tab/doctor-fill"
+                      *ngIf="user.getUserData().category===1">
+            <ion-icon name="medkit-outline"></ion-icon>
+            <ion-label>Mon Espace</ion-label>
+          </ion-button>
+          <ion-button expand="block" color="medium" href="/account">
+            <ion-icon name="settings-outline"></ion-icon>
+            <ion-label>Mon Compte</ion-label>
+          </ion-button>
+          <ion-button expand="block" color="danger" (click)="disconnectUser()">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <ion-label>Déconnexion</ion-label>
+          </ion-button>
+        </ng-template>
       </ion-list>
     </ion-content>
   </ion-menu>

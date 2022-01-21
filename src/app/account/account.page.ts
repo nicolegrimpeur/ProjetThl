@@ -7,7 +7,7 @@ import {RegisterData} from '../shared/model/registerDataUserModel';
 import {User} from '../shared/class/user';
 import {HttpService} from '../core/http.service';
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
-import {InfosUserModel} from "../shared/model/infosUserModel";
+import {InfosUserModel} from '../shared/model/infosUserModel';
 
 @Component({
   selector: 'app-account',
@@ -78,7 +78,7 @@ export class AccountPage implements OnInit {
       );
     if(validatePwd(this.newPassword)) {
       if (this.newPassword === this.confirmNewPassword) {
-        lastValueFrom(this.httpService.modifPsw(idUser.jwtToken, this.oldPassword, this.newPassword))
+        lastValueFrom(this.httpService.updatePassword(this.oldPassword, this.newPassword))
           .then(res => {
             this.router.navigateByUrl('home').then(r => this.display.display({
               code: 'Modification de mot de passe réussie !',
@@ -107,7 +107,7 @@ export class AccountPage implements OnInit {
         const idUser = this.user.userData; //un objet  idUser.token
         const pswUser = this.passwordUser;
         //Supprimer le compte (back) & se déconnecter
-        lastValueFrom(this.httpService.deleteUser(idUser.jwtToken, pswUser))
+        lastValueFrom(this.httpService.deleteUser())
           .then(res => {
             this.router.navigateByUrl('identification').then(r => this.display.display({
               code: 'Suppression réussie !',
@@ -120,25 +120,6 @@ export class AccountPage implements OnInit {
               color: 'success'
             }).then();
           });
-      });
-  }
-
-  // pour supprimer les tests
-  supprData() {
-    this.display.alertWithInputs('Confirmer la suppression de vos données de tests', [])
-      .then(res => {
-        if (res.role === 'backdrop' || res.role === 'cancel') {
-          this.display.display('Suppression annulé').then();
-        } else {
-          lastValueFrom(this.httpService.deleteData(this.user.userData.jwtToken, this.passwordData))
-            .then(result => {
-              this.user.userData = result as InfosUserModel;
-              this.display.display({code: 'Suppression réussi', color: 'success'}).then();
-            })
-            .catch(error => {
-              this.display.display(error.error.message).then();
-            });
-        }
       });
   }
 
@@ -166,7 +147,7 @@ export class AccountPage implements OnInit {
     if (image.format !== 'jpeg') {
       this.display.display('L\'image doit être au format jpg').then();
     } else {
-      lastValueFrom(this.httpService.uploadImg(blobData, this.user.userData.jwtToken, image.format))
+     /* lastValueFrom(this.httpService.uploadImg(blobData, this.user.userData.jwtToken, image.format))
         .then(result => {
           this.display.display({
             code: 'L\'image a bien été ajouté',
@@ -181,7 +162,7 @@ export class AccountPage implements OnInit {
           this.display.display('Une erreur a eu lieu' + err).then();
           // this.labelImage.el.textContent =
           //   this.langue === 'fr' ? 'Une erreur a eu lieu, merci de réessayer' : 'An error has occurred, please try again';
-        });
+        });*/
     }
   }
 
@@ -206,7 +187,7 @@ export class AccountPage implements OnInit {
   }
 
   // permet de télécharger l'image de la résidence
-  downloadImg() {
+  /*downloadImg() {
     lastValueFrom(this.httpService.downloadImg(this.user.userData.jwtToken))
       .then(res => {
         // ouvre une nouvelle page en affichant l'image
@@ -226,13 +207,13 @@ export class AccountPage implements OnInit {
           this.display.display('Une erreur a eu lieu, merci de réessayer plus tard').then();
         }
       });
-  }
+  }*/
 
   // événement pour rafraichir la page
   doRefresh(event) {
     setTimeout(() => {
       event.target.complete();
-      this.user.getUser().then();
+      this.user.refreshUser();
     }, 1000);
   }
 }
