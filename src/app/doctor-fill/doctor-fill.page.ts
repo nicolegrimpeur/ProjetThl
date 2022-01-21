@@ -95,7 +95,7 @@ export class DoctorFillPage implements OnInit {
   checkFill() {
     if (document.getElementById('checkBoxVaccin').ariaChecked.toString() === 'true') {
       this.checkLaboratoire();
-    } else if (document.getElementById('checkBoxTest').ariaChecked.toString() === 'true') {
+    } else if (this.fill === 'Test') {
       this.checkTestType();
     }
   }
@@ -144,10 +144,10 @@ export class DoctorFillPage implements OnInit {
 
   checkDate() {
     if (new Date(this.date) > new Date()) {
-      this.testData.date = this.date;
-      this.vaccineData.date = this.date;
       this.display.display('Merci de rentrer une date conforme').then();
     } else {
+      this.testData.date = this.date;
+      this.vaccineData.date = this.date;
       this.checkMail();
     }
   }

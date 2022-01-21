@@ -4,7 +4,7 @@ import {Display} from '../shared/class/display';
 import {HttpService} from '../core/http.service';
 import {lastValueFrom} from 'rxjs';
 import {User} from '../shared/class/user';
-import {UserRoles} from "../shared/model/infosUserModel";
+import {UserRoles} from '../shared/model/infosUserModel';
 
 @Component({
   selector: 'app-register',
@@ -14,11 +14,11 @@ import {UserRoles} from "../shared/model/infosUserModel";
 export class RegisterPage implements OnInit {
   // data utilisés pour la connexion
   public registerData = {
-    name: 'p',
-    surname: 'd',
-    mail: 'pldu78@gmail.com',
-    psw: 'A1azerty',
-    confirmPassword: 'A1azerty',
+    name: '',
+    surname: '',
+    mail: '',
+    psw: '',
+    confirmPassword: '',
     category: -1,
     medId: '',
     birthday: ''
@@ -77,7 +77,7 @@ export class RegisterPage implements OnInit {
         this.checkRadio();
       }
     } else if (!validatePwd(this.registerData.psw)) {
-      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial');
+      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial').then();
     }
 
     //
@@ -97,17 +97,9 @@ export class RegisterPage implements OnInit {
   }
 
   checkDate() {
-    const currentDate = new Date();
-    const birthDate = this.date.split('/');
-    // eslint-disable-next-line max-len
-    if (currentDate.getDate() < parseInt(birthDate[0], 10) && currentDate.getMonth() <= parseInt(birthDate[1], 10) && currentDate.getFullYear() <= parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (currentDate.getMonth() < parseInt(birthDate[1], 10) && currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (this.date === '') {
-      this.display.display('vous avez oublié de rentrer la date');
+    // si la date est dans le futur, erreur
+    if (new Date(this.registerData.birthday) > new Date()) {
+      this.display.display('Merci de rentrer votre vraie date de naissance, cette date est dans le futur !').then();
     } else {
       this.checkMail();
     }
@@ -120,7 +112,6 @@ export class RegisterPage implements OnInit {
 
     } else if (document.querySelector<HTMLIonRadioElement>('#radioBoxMedic').ariaChecked.toString() === 'true') {
       this.registerData.category = UserRoles.HEALTHCARE;
-      console.log(this.registerData.medId);
       if(this.registerData.category===-1){
         this.registerData.category = 1;
       }
@@ -128,26 +119,21 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  /*
-    checkMedicalId() {
-      //Verification si l'inscrit est bien dans la base des médecins diplomés
-      lastValueFrom(this.httpService.checkMedic(
-        Number(this.registerData.medId),
-        this.registerData.name,
-        this.registerData.surname
-      ))
-        .then(res => {
-          if (res.status === 200) {
-            this.makeRegister();
-          } else {
-            this.display.display(res.message).then();
-          }
-        })
-        .catch(err => {
-          this.display.display(err.error.text).then();
-        });
-    }
-  */
+  // checkMedicalId() {
+  //   //Verification si l'inscrit est bien dans la base des médecins diplomés
+  //   lastValueFrom(this.httpService.checkMedic(
+  //     Number(this.registerData.medId),
+  //     this.registerData.name,
+  //     this.registerData.surname
+  //   ))
+  //     .then(res => {
+  //         this.makeRegister();
+  //     })
+  //     .catch(err => {
+  //       this.display.display(err.error.message).then();
+  //     });
+  // }
+
   makeRegister() {
     //Enregistrer les infos(Back)
     lastValueFrom(this.httpService.createUser({
@@ -161,12 +147,11 @@ export class RegisterPage implements OnInit {
     }))
       .then(async ({user, token}) => {
         await Promise.all([this.user.setUser(user), this.user.setToken(token)]);
-        this.router.navigateByUrl('home');
+        this.router.navigateByUrl('home').then();
         this.display.display({
           code: 'Inscription réussie !',
           color: 'success'
-        });
-
+        }).then();
       })
       .catch(err => {
         this.router.navigateByUrl('register').then(r => this.display.display({

@@ -90,7 +90,7 @@ export class IdentificationPage implements OnInit {
   }
 
   async openLinkModal() {
-    let modal = await this.modalController.create({
+    const modal = await this.modalController.create({
       component: ModalLinkPage
     });
     await modal.present();
@@ -98,7 +98,7 @@ export class IdentificationPage implements OnInit {
   }
 
   async openShareModal() {
-    let modal = await this.modalController.create({
+    const modal = await this.modalController.create({
       component: ModalSharePage
     });
     await modal.present();
@@ -106,7 +106,7 @@ export class IdentificationPage implements OnInit {
   }
 
   async openAboutModal() {
-    let modal = await this.modalController.create({
+    const modal = await this.modalController.create({
       component: ModalAboutPage
     });
     await modal.present();
