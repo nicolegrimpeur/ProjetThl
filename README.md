@@ -10,7 +10,9 @@ Réalisé par :
 - Quentin Lourenco
 - Augustin Mariage
 - Armand Deffrennes
-- Raphaël Fleury-Le-Vaisot
+- Raphaël Fleury-Le-Vaiso
 
+
+### Serveur disponible sur [Github](https://github.com/rfleuryleveso/tpc-server)
 
 ISEN Lille - France
