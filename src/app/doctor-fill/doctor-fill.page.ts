@@ -49,7 +49,7 @@ export class DoctorFillPage implements OnInit {
         this.fill = '';
         this.testData.date = '';
         this.testData.metadata = {};
-        this.testData.type = -1;
+        this.testData.type =0;
       })
       .catch(err => {
         console.log('err:', err);
@@ -99,6 +99,7 @@ export class DoctorFillPage implements OnInit {
     if (document.getElementById('checkBoxVaccin').ariaChecked.toString() === 'true') {
       this.checkLaboratoire();
     } else if (this.fill === 'Test') {
+      this.testData.type= CertificateType.TEST;
       this.checkTestType();
     }
   }
