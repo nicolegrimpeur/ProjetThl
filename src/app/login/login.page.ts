@@ -42,8 +42,8 @@ export class LoginPage implements OnInit {
   // connecte l'utilisateur avec email et mot de passe
   makeConnection() {
     lastValueFrom(this.httpService.login(this.loginData.email, this.loginData.password))
-      .then(async ({user, token}) => {
-        await Promise.all([this.user.setUser(user), this.user.setToken(token)]);
+      .then(async ({user, token,passToken}) => {
+        await Promise.all([this.user.setUser(user), this.user.setToken(token),this.user.setPassToken(passToken)]);
         this.router.navigateByUrl('home');
         this.display.display({code: 'Connexion réussie !', color: 'success'});
       })

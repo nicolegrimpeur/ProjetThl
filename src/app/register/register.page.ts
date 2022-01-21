@@ -114,13 +114,17 @@ export class RegisterPage implements OnInit {
   }
 
   checkRadio() {
-    if (document.querySelector<HTMLIonRadioElement>('#radioBoxCitoyen').ariaChecked === 'true') {
+    if (document.querySelector<HTMLIonRadioElement>('#radioBoxCitoyen').ariaChecked.toString() === 'true') {
       this.registerData.category = UserRoles.USER;
       this.makeRegister();
 
-    } else if (document.querySelector<HTMLIonRadioElement>('#radioBoxMedic').ariaChecked === 'true') {
-      //  this.checkMedicalId();
+    } else if (document.querySelector<HTMLIonRadioElement>('#radioBoxMedic').ariaChecked.toString() === 'true') {
       this.registerData.category = UserRoles.HEALTHCARE;
+      console.log(this.registerData.medId);
+      if(this.registerData.category===-1){
+        this.registerData.category = 1;
+      }
+      this.makeRegister();
     }
   }
 
@@ -153,6 +157,7 @@ export class RegisterPage implements OnInit {
       birthdate: this.registerData.birthday,
       email: this.registerData.mail,
       category: this.registerData.category,
+      medId: this.registerData.medId
     }))
       .then(async ({user, token}) => {
         await Promise.all([this.user.setUser(user), this.user.setToken(token)]);

@@ -34,4 +34,15 @@ export class StorageService {
     const {value} = await Storage.get({key: 'token'});
     return value as string;
   }
+  async setPassToken(token: string) {
+    await Storage.set({
+      key: 'passToken',
+      value: token,
+    });
+  }
+
+  async getPassToken(): Promise<string> {
+    const {value} = await Storage.get({key: 'passToken'});
+    return value as string;
+  }
 }

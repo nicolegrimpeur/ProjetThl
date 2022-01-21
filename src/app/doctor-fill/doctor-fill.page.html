@@ -34,13 +34,13 @@
           <ion-col>
             <ion-item>
               <ion-label color="success">Vaccin <ion-icon name="shield-checkmark-outline"></ion-icon></ion-label>
-              <ion-radio slot="start" [value]="'Vaccin'" color="success"></ion-radio>
+              <ion-radio slot="start" [value]="'Vaccin'" id="checkBoxVaccin" color="success"></ion-radio>
             </ion-item>
           </ion-col>
           <ion-col>
             <ion-item>
               <ion-label color="warning">Test <ion-icon name="thermometer-outline"></ion-icon></ion-label>
-              <ion-radio slot="start" [value]="'Test'" color="warning"></ion-radio>
+              <ion-radio slot="start" [value]="'Test'"  id="checkBoxTest" color="warning"></ion-radio>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -126,7 +126,7 @@
           <ion-label><b>Type</b></ion-label><ion-icon name="settings-outline"></ion-icon>
         </ion-item>
 
-        <ion-radio-group [(ngModel)]="testData.metadata['TYPE']">
+        <ion-radio-group [(ngModel)]="testData.metadata['TEST_TYPE']">
           <ion-row>
             <ion-col>
               <ion-item>
@@ -152,13 +152,13 @@
             <ion-col>
               <ion-item>
                 <ion-label color="danger">Positif <ion-icon name="close-outline"></ion-icon></ion-label>
-                <ion-radio slot="start" [value]="'Positif'" color="danger"></ion-radio>
+                <ion-radio slot="start" [value]="'Positif'" id="checkBoxPositif" color="danger"></ion-radio>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
                 <ion-label color="success">Négatif <ion-icon name="checkmark-outline"></ion-icon></ion-label>
-                <ion-radio slot="start" [value]="'Négatif'" color="success"></ion-radio>
+                <ion-radio slot="start" [value]="'Négatif'"id="checkBoxNegatif" color="success"></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>

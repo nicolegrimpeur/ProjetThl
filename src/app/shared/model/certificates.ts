@@ -10,5 +10,6 @@ export interface ICertificate {
   _id: string;
   type: CertificateType;
   date: string;
+  signature: string;
   metadata: Record<string, string>;
 }

@@ -6,5 +6,6 @@ export interface RegisterData {
   email: string;
   password: string;
   birthdate: string;
-  category: UserRoles,
+  medId?: string;
+  category: UserRoles;
 }

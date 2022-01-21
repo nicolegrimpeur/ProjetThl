@@ -15,7 +15,7 @@ export class HttpService {
   // private base = 'https://nicob.ovh/';
   //private base = 'http://localhost:5000/';
   // private base = 'http://192.168.236.90:5000/';
-  private base = 'https://425e-93-27-52-26.ngrok.io';
+  private base = 'https://2492-77-130-108-147.ngrok.io';
   private baseUrl = this.base + '/';
 
   private authToken = '';
@@ -54,7 +54,7 @@ export class HttpService {
     return this.http.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.authToken}`
+        authorization: `Bearer ${this.authToken}`
       }
     }) as Observable<{ certificates: Array<ICertificate> }>;
   }
@@ -85,7 +85,7 @@ export class HttpService {
     return this.http.delete(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.authToken}`
+        authorization: `Bearer ${this.authToken}`
       }
     }) as Observable<{ certificate: ICertificate }>;
   }
@@ -95,7 +95,7 @@ export class HttpService {
     return this.http.post(destUrl, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.authToken}`
+        authorization: `Bearer ${this.authToken}`
       }
     }) as Observable<{ certificate: ICertificate }>;
   }
@@ -105,7 +105,7 @@ export class HttpService {
     return this.http.post(destUrl, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.authToken}`
+        authorization: `Bearer ${this.authToken}`
       }
     }) as Observable<{ certificate: ICertificate }>;
   }
@@ -153,6 +153,11 @@ export class HttpService {
         Authorization: `Bearer ${this.authToken}`
       }
     }) as Observable<{ user: InfosUserModel }>;
+  }
+
+  genPdf(certicateId: string): Observable<ArrayBuffer> {
+    const url = this.baseUrl + `certificates/${certicateId}/pdf`;
+    return this.http.get(url, {responseType: 'arraybuffer', headers: {authorization: `Bearer ${this.authToken}`}});
   }
 
 

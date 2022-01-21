@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../shared/class/user';
+import {lastValueFrom} from 'rxjs';
+import {HttpService} from '../core/http.service';
+import {ICertificate} from '../shared/model/certificates';
 
 @Component({
   selector: 'app-pass',
@@ -7,11 +10,14 @@ import {User} from '../shared/class/user';
   styleUrls: ['./pass.page.scss'],
 })
 export class PassPage implements OnInit {
-
-  constructor(public user: User) {
+  private passToken:string;
+ private certificates: Array<ICertificate>;
+  constructor(public user: User, private httpService: HttpService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.certificates= await this.fetchCerticates();
+    this.passToken= await this.user.getPassToken();
   }
 
   generateQrCodeData(): string {
@@ -21,11 +27,15 @@ export class PassPage implements OnInit {
       // eslint-disable-next-line no-underscore-dangle
       _id: userData._id,
       name: userData.name,
+      token: userData.qrToken,
       surname: userData.surname,
-      email: userData.email
+      certificates:this.certificates,
+      passToken:this.passToken,
     });
   }
-
+  fetchCerticates() {
+    return lastValueFrom(this.httpService.getCertificates()).then(res => res.certificates);
+  }
   // événement pour rafraichir la page
   doRefresh(event) {
     setTimeout(() => {
