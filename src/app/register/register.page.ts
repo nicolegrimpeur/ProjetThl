@@ -79,8 +79,6 @@ export class RegisterPage implements OnInit {
     } else if (!validatePwd(this.registerData.psw)) {
       this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial').then();
     }
-
-    //
   }
 
   checkMail() {
@@ -106,11 +104,10 @@ export class RegisterPage implements OnInit {
   }
 
   checkRadio() {
-    if (document.querySelector<HTMLIonRadioElement>('#radioBoxCitoyen').ariaChecked.toString() === 'true') {
+    if (!this.isADoctor) {
       this.registerData.category = UserRoles.USER;
       this.makeRegister();
-
-    } else if (document.querySelector<HTMLIonRadioElement>('#radioBoxMedic').ariaChecked.toString() === 'true') {
+    } else if (this.isADoctor) {
       this.registerData.category = UserRoles.HEALTHCARE;
       if(this.registerData.category===-1){
         this.registerData.category = 1;
@@ -118,21 +115,6 @@ export class RegisterPage implements OnInit {
       this.makeRegister();
     }
   }
-
-  // checkMedicalId() {
-  //   //Verification si l'inscrit est bien dans la base des médecins diplomés
-  //   lastValueFrom(this.httpService.checkMedic(
-  //     Number(this.registerData.medId),
-  //     this.registerData.name,
-  //     this.registerData.surname
-  //   ))
-  //     .then(res => {
-  //         this.makeRegister();
-  //     })
-  //     .catch(err => {
-  //       this.display.display(err.error.message).then();
-  //     });
-  // }
 
   makeRegister() {
     //Enregistrer les infos(Back)

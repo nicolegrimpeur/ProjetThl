@@ -12,14 +12,12 @@ import {ICertificate} from '../shared/model/certificates';
 export class PassPage implements OnInit {
   public passToken: string;
   public qrCodeData: any = '';
-  private certificates: Array<ICertificate>;
 
   constructor(public user: User, private httpService: HttpService) {
   }
 
   async ngOnInit() {
     await this.user.loadData();
-    this.certificates = await this.fetchCertificates();
     this.passToken = await this.user.getPassToken();
     this.generateQrCodeData();
   }
@@ -44,7 +42,7 @@ export class PassPage implements OnInit {
   doRefresh(event) {
     setTimeout(() => {
       event.target.complete();
-      this.user.refreshUser();
+      this.user.refreshUser().then();
     }, 1000);
   }
 }
