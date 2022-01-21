@@ -39,6 +39,8 @@ export class DoctorFillPage implements OnInit {
     this.vaccineData.date = new Date(tmp).toISOString();
     this.testData.date = new Date(tmp).toISOString();
 
+    this.vaccineData.date = new Date(tmp).toISOString();
+    this.testData.date = new Date(tmp).toISOString();
   }
 
   uploadTestData(testData: Partial<ICertificate>) {
