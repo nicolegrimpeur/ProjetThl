@@ -10,32 +10,36 @@ import {ICertificate} from '../shared/model/certificates';
   styleUrls: ['./pass.page.scss'],
 })
 export class PassPage implements OnInit {
-  private passToken:string;
- private certificates: Array<ICertificate>;
+  public passToken: string;
+  public qrCodeData: any = '';
+  private certificates: Array<ICertificate>;
+
   constructor(public user: User, private httpService: HttpService) {
   }
 
   async ngOnInit() {
-    this.certificates= await this.fetchCerticates();
-    this.passToken= await this.user.getPassToken();
+    await this.user.loadData();
+    this.certificates = await this.fetchCertificates();
+    this.passToken = await this.user.getPassToken();
+    this.generateQrCodeData();
   }
 
-  generateQrCodeData(): string {
+  generateQrCodeData() {
     const userData = this.user.getUserData();
-
-    return JSON.stringify({
+    this.qrCodeData = JSON.stringify({
       // eslint-disable-next-line no-underscore-dangle
       _id: userData._id,
       name: userData.name,
       token: userData.qrToken,
       surname: userData.surname,
-      certificates:this.certificates,
-      passToken:this.passToken,
+      passToken: this.passToken,
     });
   }
-  fetchCerticates() {
+
+  fetchCertificates() {
     return lastValueFrom(this.httpService.getCertificates()).then(res => res.certificates);
   }
+
   // événement pour rafraichir la page
   doRefresh(event) {
     setTimeout(() => {

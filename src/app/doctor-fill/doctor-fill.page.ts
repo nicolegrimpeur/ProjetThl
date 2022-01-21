@@ -36,6 +36,9 @@ export class DoctorFillPage implements OnInit {
   myFormatDate(dateForm) {
     const tmp = new Date(dateForm);
     this.date = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(tmp);
+    this.vaccineData.date = new Date(tmp).toISOString();
+    this.testData.date = new Date(tmp).toISOString();
+
   }
 
   uploadTestData(testData: Partial<ICertificate>) {
@@ -124,8 +127,10 @@ export class DoctorFillPage implements OnInit {
   checkTestResult() {
     // eslint-disable-next-line max-len
     if (document.getElementById('checkBoxNegatif').ariaChecked.toString() === 'true') {
+      this.testData.metadata['RESULT']= 'negative';
       this.uploadTestData(this.testData);
     } else if (document.getElementById('checkBoxPositif').ariaChecked.toString() === 'true') {
+      this.testData.metadata['RESULT']= 'positive';
       this.checkVariant();
     } else {
       this.display.display('veuillez selectionner un resultat');
@@ -146,8 +151,6 @@ export class DoctorFillPage implements OnInit {
     if (new Date(this.date) > new Date()) {
       this.display.display('Merci de rentrer une date conforme').then();
     } else {
-      this.testData.date = this.date;
-      this.vaccineData.date = this.date;
       this.checkMail();
     }
   }

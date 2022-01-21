@@ -39,6 +39,7 @@ export class User {
     }
     this.jwtToken = await this.storageService.getToken();
     if (this.jwtToken) {
+      console.log('setting jwtToken', this.jwtToken);
       this.httpService.setAuthToken(this.jwtToken);
     }
   }
@@ -78,13 +79,15 @@ export class User {
   getToken(): string | undefined {
     return this.jwtToken;
   }
+
   setPassToken(token: string) {
-    return this.storageService.setToken(token);
+    return this.storageService.setPassToken(token);
   }
 
   getPassToken(): Promise<string | undefined> {
     return this.storageService.getPassToken();
   }
+
   getUserData(): UserDataField {
     if (!this.userData) {
       throw new Error('Undefined UserData');
