@@ -87,10 +87,10 @@ export class DoctorFillPage implements OnInit {
   }
 
   checkFill() {
-    console.log(document.getElementById('checkBoxVaccin').ariaChecked);
-    if (document.getElementById('checkBoxVaccin').ariaChecked.toString() === 'true') {
+    console.log(this.fill);
+    if (this.fill === 'Vaccin') {
       this.checkLaboratoire();
-    } else if (document.getElementById('checkBoxTest').ariaChecked.toString() === 'true') {
+    } else if (this.fill === 'Test') {
       this.checkTestType();
     }
   }
@@ -137,20 +137,10 @@ export class DoctorFillPage implements OnInit {
   }
 
   checkDate() {
-    const currentDate = new Date();
-    const birthDate = this.date.split('/');
-    console.log(birthDate);
-    // eslint-disable-next-line max-len
-    if (currentDate.getDate() < parseInt(birthDate[0], 10) && currentDate.getMonth() <= parseInt(birthDate[1], 10) && currentDate.getFullYear() <= parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (currentDate.getMonth() < parseInt(birthDate[1], 10) && currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (currentDate.getFullYear() < parseInt(birthDate[2], 10)) {
-      this.display.display('Vous êtes un petit malin :) mais veuillez rentrer une date conforme');
-    } else if (this.date === '') {
-      this.display.display('vous avez oublié de rentrer la date');
+    if (new Date(this.date) > new Date()) {
+      this.display.display('Merci de rentrer une date conforme').then();
     } else {
-      this.checkFill();
+      this.checkMail();
     }
   }
 }

@@ -28,10 +28,8 @@
 
       <ion-item>
         <ion-label><b>Date de Naissance</b></ion-label>
-        <ion-input [value]="date" readonly="true"></ion-input>
-        <ion-button fill="clear" id="open-date-input-2">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
+        <ion-input [value]="date" readonly="true" id="open-date-input-2"></ion-input>
+        <ion-icon icon="calendar" slot="end"></ion-icon>
         <ion-popover trigger="open-date-input-2" show-backdrop="false">
           <ng-template>
             <ion-datetime
@@ -75,14 +73,15 @@
 
       <ion-item>
         <ion-label><b>Mot de passe</b></ion-label>
-        <ion-input #inputMdp [(ngModel)]="registerData.psw" required="true" type="password" placeholder="Entrez votre mot de passe"></ion-input>
+        <ion-input #inputMdp [(ngModel)]="registerData.psw" required="true" type="password"
+                   placeholder="Entrez votre mot de passe"></ion-input>
         <ion-icon #iconMdp (click)="toggleMdp(iconMdp, inputMdp)" name="eye-off-outline"></ion-icon>
       </ion-item>
 
       <ion-item>
         <ion-label><b>Confirmer mot de passe</b></ion-label>
         <ion-input [(ngModel)]="registerData.confirmPassword" required="true" type="password"
-          placeholder="Confirmez votre mot de passe"></ion-input>
+                   placeholder="Confirmez votre mot de passe"></ion-input>
       </ion-item>
 
       <div class="ion-padding">
