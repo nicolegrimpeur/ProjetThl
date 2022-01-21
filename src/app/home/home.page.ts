@@ -16,6 +16,7 @@ import {App} from '@capacitor/app';
 export class HomePage {
   @ViewChild('ionCardContent') ionCard; // permet de modifier l'élément html (pour modifier css, texte ou autre)
   public stat: Partial<StatModel> = {};
+  public date: string;
 
   constructor(
     public display: Display,
@@ -26,7 +27,6 @@ export class HomePage {
   ) {
     // gestion de la touche mobile back
     this.platform.backButton.subscribeWithPriority(-1, () => {
-      console.log(this.route.url);
       // si l'on est sur la page principale on quitte l'application
       if (this.route.url === '/home' || this.route.url === '/identification') {
         App.exitApp();
@@ -48,8 +48,8 @@ export class HomePage {
   ionViewWillEnter() {
     lastValueFrom(this.httchiffreservice.run())
       .then(res => {
-        console.log(res);
         this.stat = res[0];
+        this.date = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(this.stat.date));
       })
       .catch(err => {
         console.log('err : ', err);

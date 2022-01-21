@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ModalController} from '@ionic/angular';
+import {Display} from '../../class/display';
 
 @Component({
   selector: 'app-modal-scanner',
@@ -10,7 +11,8 @@ export class ModalScannerPage {
   public enableScan = true;
 
   constructor(
-    public modalController: ModalController
+    public modalController: ModalController,
+    private display: Display
   ) {
   }
 

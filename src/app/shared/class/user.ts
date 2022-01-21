@@ -29,7 +29,7 @@ export class User {
     private display: Display
   ) {
     this.refreshUser = this.refreshUser.bind(this);
-    this.refreshUser();
+    this.refreshUser().then();
   }
 
   async loadData() {

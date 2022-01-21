@@ -25,6 +25,7 @@ export class AppComponent {
     //Déconnecter l'utilisateur (Back)
     // Supprime les données utilisateurs en cache
     this.storageService.setUserData({}).then();
+    this.storageService.setToken('').then();
     //Redirection
     this.router.navigateByUrl('identification').then();
     //Graphiques

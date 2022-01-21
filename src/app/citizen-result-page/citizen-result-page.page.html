@@ -84,4 +84,11 @@
 
   </ion-card>
 
+    <ion-item *ngIf="this.userCertificates !== undefined && this.userCertificates.length === 0" id="noCertif">
+      <ion-label>
+        Aucun certificat
+      </ion-label>
+    </ion-item>
+
 </ion-content>
+
