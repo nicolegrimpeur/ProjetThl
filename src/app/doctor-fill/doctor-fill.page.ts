@@ -98,7 +98,7 @@ export class DoctorFillPage implements OnInit {
   }
 
   checkFill() {
-    if (document.getElementById('checkBoxVaccin').ariaChecked.toString() === 'true') {
+    if (this.fill === 'Vaccin') {
       this.checkLaboratoire();
     } else if (this.fill === 'Test') {
       this.checkTestType();
@@ -107,19 +107,16 @@ export class DoctorFillPage implements OnInit {
 
   checkLaboratoire() {
     // eslint-disable-next-line max-len
-    if (document.getElementById('checkBoxPfizer').ariaChecked.toString() === 'true' || document.getElementById('checkBoxModerna').ariaChecked.toString() === 'true'
-      // eslint-disable-next-line max-len
-      || document.getElementById('checkBoxAstrazeneca').ariaChecked.toString() === 'true' || document.getElementById('checkBoxJohnson').ariaChecked.toString() === 'true') {
-      console.log('before sending certificates' );
+    if (this.vaccineData.metadata['LAB'] !== '') {
       this.uploadVaccineData(this.vaccineData);
     } else {
-      this.display.display('veuillez selectionner un laboratoire');
+      this.display.display('veuillez sélectionner un laboratoire').then();
     }
   }
 
   checkTestType() {
     // eslint-disable-next-line max-len
-    if (document.getElementById('checkBoxPCR').ariaChecked.toString() === 'true' || document.getElementById('checkBoxAntigenique').ariaChecked.toString() === 'true') {
+    if (this.testData.metadata['TEST_TYPE'] !== '') {
       this.checkTestResult();
     } else {
       this.display.display('veuillez selectionner un type');
@@ -128,10 +125,10 @@ export class DoctorFillPage implements OnInit {
 
   checkTestResult() {
     // eslint-disable-next-line max-len
-    if (document.getElementById('checkBoxNegatif').ariaChecked.toString() === 'true') {
+    if (this.testData.metadata['RESULT'] === 'Négatif') {
       this.testData.metadata['RESULT']= 'negative';
       this.uploadTestData(this.testData);
-    } else if (document.getElementById('checkBoxPositif').ariaChecked.toString() === 'true') {
+    } else if (this.testData.metadata['RESULT'] === 'Positif') {
       this.testData.metadata['RESULT']= 'positive';
       this.checkVariant();
     } else {
@@ -141,8 +138,7 @@ export class DoctorFillPage implements OnInit {
 
   checkVariant() {
     // eslint-disable-next-line max-len
-    if (document.getElementById('checkBoxOmicron').ariaChecked.toString() === 'true' || document.getElementById('checkBoxDelta').ariaChecked.toString() === 'true'
-      || document.getElementById('checkBoxClassique').ariaChecked.toString() === 'true') {
+    if (this.testData.metadata['VARIANT'] !== '') {
       this.uploadTestData(this.testData);
     } else {
       this.display.display('veuillez selectionner un variant');
