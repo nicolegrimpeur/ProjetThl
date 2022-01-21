@@ -13,6 +13,16 @@ import {lastValueFrom} from 'rxjs';
 import {HttpService} from '../core/http.service';
 import {ModalInfoQrPage} from '../shared/modal/modal-info-qr/modal-info-qr.page';
 
+import {sign} from 'tweetnacl';
+import {decodeBase64, encodeUTF8} from 'tweetnacl-util';
+
+const PUBLIC_KEY_DATA = new Uint8Array([
+  46, 63, 250, 151, 66, 69, 187, 21,
+  157, 26, 19, 46, 82, 246, 24, 7,
+  89, 84, 159, 4, 13, 75, 35, 76,
+  108, 126, 18, 207, 243, 23, 226, 254
+]);
+
 @Component({
   selector: 'app-identification',
   templateUrl: './identification.page.html',
@@ -49,10 +59,12 @@ export class IdentificationPage implements OnInit {
     await modal.present();//Wait Display
     await modal.onDidDismiss().then(data => {
       if (data !== undefined) {
-        console.log(data);
+
+        const decodedData = JSON.parse(data.data);
         //Graphiques
+        console.log(decodedData);
         if (data.data !== undefined) {
-          this.getScanData(data.data);
+          this.getScanData(decodedData);
         }
       } else {
         this.display.display('Scan arrêté').then();
@@ -61,8 +73,8 @@ export class IdentificationPage implements OnInit {
   }
 
   // récupère l'utilisateur correspondant au token récupéré
-  getScanData(data) {
-    lastValueFrom(this.httpService.getUserQr(data))
+  getScanData(data: any) {
+    lastValueFrom(this.httpService.getUserQr(data._id))
       .then(res => {
           console.log(res);
           this.display.display({code: 'Scan réussi', color: 'success'}).then();
@@ -70,18 +82,29 @@ export class IdentificationPage implements OnInit {
         }
       )
       .catch(err => {
-        this.display.display(err.error.message);
+        const {passToken} = data;
+        const message = decodeBase64(passToken);
+        const signedData = sign.open(message, PUBLIC_KEY_DATA);
+        const signedDataObj = JSON.parse(encodeUTF8(signedData));
+        this.display.display({code: 'Validation error, switching to offline validation', color: 'danger'});
+        this.openResult({
+          hasPass: signedDataObj.hasPass,
+          user: {
+            name: data.name,
+            surname: data.surname,
+          }
+        });
       });
   }
 
-  async openResult(userData) {
+  async openResult(response) {
     //Wait Creation
     const modal = await this.modalController.create({
       component: ModalInfoQrPage,
       breakpoints: [0, 0.2, 0.5, 0.75, 1],
       initialBreakpoint: 0.75,
       componentProps: {
-        user: userData
+        response: response
       }
     });
 

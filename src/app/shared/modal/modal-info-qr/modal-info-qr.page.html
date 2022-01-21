@@ -8,17 +8,17 @@
 <ion-card>
   <ion-card-header>
     <ion-card-title>
-      {{user.name}} {{user.surname}}
+      {{response.user.name}} {{response.user.surname}}
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    Date de naissance : {{dDN}}
+    Date de naissance : {{this.dDN}}
   </ion-card-content>
   <ion-card-content>
-    <ion-card-title *ngIf="isValidate" style="text-align: center; background-color: green">
+    <ion-card-title *ngIf="response.hasPass" style="text-align: center; background-color: green">
       Pass valide
     </ion-card-title>
-    <ion-card-title *ngIf="!isValidate" style="text-align: center; background-color: red">
+    <ion-card-title *ngIf="!response.hasPass" style="text-align: center; background-color: red">
       Pass non valide
     </ion-card-title>
   </ion-card-content>

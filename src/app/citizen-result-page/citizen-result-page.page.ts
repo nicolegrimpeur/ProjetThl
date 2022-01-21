@@ -35,6 +35,7 @@ export class CitizenResultPagePage implements OnInit {
   }
 
   fetchCerticates() {
+
     return lastValueFrom(this.httpService.getCertificates()).then(res => res.certificates);
   }
 

@@ -23,7 +23,7 @@
       {{user.getUserData().surname}}
     </ion-card-header>
     <ion-card-content>
-      <ngx-qrcode class="qr" width="2048" scale="32" [value]="this.generateQrCodeData()"></ngx-qrcode>
+      <ngx-qrcode class="qr" width="2048" scale="32" [value]="this.qrCodeData"></ngx-qrcode>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -54,8 +54,8 @@
   <ion-card *ngFor="let operation of userTestCertificates">
     <ion-card-header>
       <ion-card-title >
-        <ion-label color="danger" *ngIf="operation.metadata['RESULT']==='Positif'"><ion-icon name="close-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
-        <ion-label color="success" *ngIf="operation.metadata['RESULT']==='Négatif'"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
+        <ion-label color="danger" *ngIf="operation.metadata['RESULT']==='positive'"><ion-icon name="close-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
+        <ion-label color="success" *ngIf="operation.metadata['RESULT']==='negative'"><ion-icon name="checkmark-done-outline"></ion-icon><b> {{operation.metadata['VARIANT']}}</b></ion-label>
       </ion-card-title>
     </ion-card-header>
 
