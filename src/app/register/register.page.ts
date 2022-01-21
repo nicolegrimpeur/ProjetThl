@@ -61,12 +61,6 @@ export class RegisterPage implements OnInit {
 
 
   checkPwd() {
-    const validatePwd = (pwd) => String(pwd)
-      .match(
-        // eslint-disable-next-line max-len
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-      );
-    if (validatePwd(this.registerData.psw)) {
       if (this.registerData.psw !== this.registerData.confirmPassword) {
         this.registerData.psw = '';
         this.registerData.confirmPassword = '';
@@ -76,9 +70,6 @@ export class RegisterPage implements OnInit {
       } else {
         this.checkRadio();
       }
-    } else if (!validatePwd(this.registerData.psw)) {
-      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre, 1 caractère spécial').then();
-    }
   }
 
   checkMail() {

@@ -71,12 +71,7 @@ export class AccountPage implements OnInit {
   confirmPswdChange() {
     //Vérifier que oldpassword est bon (back)
     const idUser = this.user.userData;
-    const validatePwd = (pwd) => String(pwd)
-      .match(
-        // eslint-disable-next-line max-len
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-      );
-    if(validatePwd(this.newPassword)) {
+
       if (this.newPassword === this.confirmNewPassword) {
         lastValueFrom(this.httpService.updatePassword(this.oldPassword, this.newPassword))
           .then(res => {
@@ -95,11 +90,6 @@ export class AccountPage implements OnInit {
         });
       }
     }
-    else if (!validatePwd(this.newPassword)) {
-      this.display.display('Le mot de passe doit contenir au moins 1 lettre majuscule, 1 chiffre et contenir au moins 8 caractère').then();
-    }
-  }
-
 
   confirmAccSuppr() {
     this.display.alertWithInputs('Confirmer la suppression de votre compte', [])
