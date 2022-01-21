@@ -16,7 +16,7 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-<!--        <ion-avatar class="ion-margin-start" (click)="accessGallery()">-->
+        <!--        <ion-avatar class="ion-margin-start" (click)="accessGallery()">-->
         <ion-avatar class="ion-margin-start">
           <img [src]="urlImage" alt="Profil picture"/>
         </ion-avatar>
@@ -54,23 +54,6 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Suppression de vos tests <ion-icon name="trash-bin-outline"></ion-icon></ion-card-title>
-      <ion-card-subtitle>Ceci supprimera tous les tests qui vous sont associés</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content>
-      <ion-item>
-        <ion-label><b>Mot de passe</b></ion-label>
-        <ion-input [(ngModel)]="passwordData" type="password" placeholder="Mot de passe"></ion-input>
-      </ion-item>
-
-      <div class="ion-padding">
-        <ion-button (click)="supprData()" expand="block" color="danger">Supprimer vos tests <ion-icon name="close-outline"></ion-icon></ion-button>
-      </div>
-    </ion-card-content>
-  </ion-card>
 
   <ion-card>
     <ion-card-header>

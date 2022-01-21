@@ -21,6 +21,7 @@ export class AppComponent {
   }
 
   disconnectUser() {
+    console.log('disconnectUser() called');
     //Déconnecter l'utilisateur (Back)
     // Supprime les données utilisateurs en cache
     this.storageService.setUserData({}).then();

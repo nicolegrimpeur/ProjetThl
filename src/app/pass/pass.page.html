@@ -16,10 +16,11 @@
   <ion-card>
   <ion-card-header>
     <ion-icon name="bulb-outline"></ion-icon>
-    {{user.userData.name}}
-    {{user.userData.surname}}
+    {{user.getUserData().name}}
+    {{user.getUserData().surname}}
   </ion-card-header>
   <ion-card-content>
-    <ngx-qrcode class="qr" [value]="user.userData.uuid"></ngx-qrcode>
+    <ngx-qrcode class="qr" width="2048" scale="32" [value]="this.generateQrCodeData()"></ngx-qrcode>
   </ion-card-content>
+  </ion-card>
 </ion-content>

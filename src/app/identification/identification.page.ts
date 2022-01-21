@@ -9,9 +9,9 @@ import {ModalSharePage} from '../shared/modal/modal-share/modal-share.page';
 import {ModalAboutPage} from '../shared/modal/modal-about/modal-about.page';
 
 import {Display} from '../shared/class/display';
-import {lastValueFrom} from "rxjs";
-import {HttpService} from "../core/http.service";
-import {ModalInfoQrPage} from "../shared/modal/modal-info-qr/modal-info-qr.page";
+import {lastValueFrom} from 'rxjs';
+import {HttpService} from '../core/http.service';
+import {ModalInfoQrPage} from '../shared/modal/modal-info-qr/modal-info-qr.page';
 
 @Component({
   selector: 'app-identification',
@@ -66,11 +66,11 @@ export class IdentificationPage implements OnInit {
       .then(res => {
           console.log(res);
           this.display.display({code: 'Scan réussi', color: 'success'}).then();
-          this.openResult(res).then();
+          this.openResult(res);
         }
       )
       .catch(err => {
-        this.display.display(err.error.message).then();
+        this.display.display(err.error.message);
       });
   }
 

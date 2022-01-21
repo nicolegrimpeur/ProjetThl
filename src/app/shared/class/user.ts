@@ -1,73 +1,93 @@
-import {Injectable} from '@angular/core';
+import {forwardRef, Inject, Injectable} from '@angular/core';
 import {InfosUserModel} from '../model/infosUserModel';
 import {lastValueFrom} from 'rxjs';
 import {HttpService} from '../../core/http.service';
 import {Router} from '@angular/router';
 import {StorageService} from '../../core/storage/storage.service';
-import {TestModel} from '../model/testModel';
-import {VaccineModel} from '../model/vaccineModel';
 import {Network} from '@capacitor/network';
 import {Display} from './display';
 
+
+type UserDataField = Partial<InfosUserModel> & { loggedIn?: boolean };
+
+const DEFAULT_USER_DATA = {
+  loggedIn: false,
+  category: 0
+};
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class User {
-  public userData: InfosUserModel = new class implements InfosUserModel {
-    birthday: string;
-    category: number;
-    mail: string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    medical_id: string;
-    name: string;
-    surname: string;
-    tests_results: Array<TestModel>;
-    jwtToken: string;
-    _id: string;
-    uuid: string;
-    vaccine: Array<VaccineModel>;
-  }();
+  public userData: UserDataField = DEFAULT_USER_DATA;
+  private jwtToken?: string;
 
   constructor(
-    private httpService: HttpService,
+    @Inject(forwardRef(() => HttpService)) private httpService: HttpService,
     private router: Router,
     private storageService: StorageService,
     private display: Display
   ) {
-    this.getUser().then();
+    this.refreshUser = this.refreshUser.bind(this);
+    this.refreshUser();
   }
 
-  async getUser() {
-    await this.storageService.getUserData().then(value => {
-      if (value !== null) {
-        this.userData = value;
-      }
-    });
-
-    const status = await Network.getStatus();
-    if (this.userData.jwtToken !== undefined) {
-      if (status.connected) {
-        lastValueFrom(this.httpService.getUser(this.userData.jwtToken))
-          .then(async (res) => {
-            this.userData = res;
-            console.log(res);
-          await this.storageService.setUserData(res);
-          })
-          .catch(async (err) => {
-            await this.display.display(err);
-          });
-      } else {
-       await this.router.navigateByUrl('/identification');
-      }
+  async loadData() {
+    this.userData = await this.storageService.getUserData();
+    if (!this.userData) {
+      this.userData = DEFAULT_USER_DATA;
+    }
+    this.jwtToken = await this.storageService.getToken();
+    if (this.jwtToken) {
+      this.httpService.setAuthToken(this.jwtToken);
     }
   }
 
-  setUser(userData: any) {
-    this.userData = userData;
-    this.storageService.setUserData(userData).then();
+  async refreshUser() {
+    const status = await Network.getStatus();
+    await this.loadData();
+    if (this.jwtToken) {
+      if (status.connected) {
+        return lastValueFrom(this.httpService.getUser())
+          .then(async (res) => {
+            this.setUser(res.user);
+            return res.user;
+          })
+          .catch(async (err) => {
+            await this.display.display(err);
+            throw err;
+          });
+      }
+    } else {
+      await this.router.navigateByUrl('/identification');
+    }
   }
 
-  checkMdp() {
+  setUser(userData: UserDataField) {
+    this.userData = userData;
+    this.userData.loggedIn = true;
+    return this.storageService.setUserData(userData);
+  }
 
+  setToken(token: string) {
+    this.jwtToken = token;
+    this.httpService.setAuthToken(token);
+    return this.storageService.setToken(token);
+  }
+
+  getToken(): string | undefined {
+    return this.jwtToken;
+  }
+
+  getUserData(): UserDataField {
+    if (!this.userData) {
+      throw new Error('Undefined UserData');
+    }
+    return this.userData;
+  }
+
+  isLoggedIn(): boolean {
+    // eslint-disable-next-line no-underscore-dangle
+    return this.jwtToken && this.userData?.loggedIn && typeof this.userData?._id === 'string';
   }
 }

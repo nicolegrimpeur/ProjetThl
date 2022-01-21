@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Display } from '../shared/class/display';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Display} from '../shared/class/display';
+import {Router} from '@angular/router';
+import {HttpService} from '../core/http.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-citizen-declaration-page',
@@ -9,23 +11,29 @@ import { Router } from '@angular/router';
 })
 export class CitizenDeclarationPagePage implements OnInit {
 
-  public contactTab = [" "];
-  constructor(public display: Display, public router: Router) { }
+  public contactTab = [' '];
+
+  constructor(public display: Display, public router: Router, private httpService: HttpService) {
+  }
 
   ngOnInit() {
   }
 
-  addContact(){
-    this.contactTab.push(" ");
+  addContact() {
+    this.contactTab.push(' ');
   }
-  
-  inputNgFor(index, item){
+
+  inputNgFor(index, item) {
     return index;
   }
 
-  declareContact(){
-    console.log(this.contactTab);
-    this.display.display({code:"Merci d'avoir saisi vos cas contacts", color:"success"});
-    this.router.navigateByUrl('home').then();
+  declareContact() {
+    firstValueFrom(this.httpService.declareCasContact(this.contactTab)).then(() => {
+      this.display.display({code: 'Merci d\'avoir saisi vos cas contacts', color: 'success'});
+      this.router.navigateByUrl('home').then();
+    }).catch((error) => {
+      this.display.display({code: `Une erreur est survenue: ${error.message}`, color: 'danger'});
+    });
+
   }
 }
