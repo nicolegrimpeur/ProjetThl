@@ -49,7 +49,11 @@ export class HomePage {
     lastValueFrom(this.httchiffreservice.run())
       .then(res => {
         this.stat = res[0];
-        this.date = new Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(this.stat.date));
+        this.date = new Intl.DateTimeFormat('fr-FR', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }).format(new Date(this.stat.date));
       })
       .catch(err => {
         console.log('err : ', err);
