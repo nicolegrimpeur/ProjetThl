@@ -12,7 +12,10 @@ Réalisé par :
 - Armand Deffrennes
 - Raphaël Fleury-Le-Vaiso
 
-
-### Serveur disponible sur [Github](https://github.com/rfleuryleveso/tpc-server)
-
 ISEN Lille - France
+
+### Code source serveur disponible sur [Github](https://github.com/rfleuryleveso/tpc-server)
+
+### Site disponible en ligne sur [nicob.ovh/tplc](https://nicob.ovh/tplc) 
+
+### Application mobile disponible sur le [PlayStore](https://play.google.com/store/apps/details?id=projetThl.ionic.isenLille)
