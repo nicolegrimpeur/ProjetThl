@@ -22,7 +22,6 @@ export class ModalScannerPage {
   }
 
   scanSuccessHandler(res) {
-    console.log(res);
     // désactive le scan
     this.enableScan = false;
     // ferme le modal

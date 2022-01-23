@@ -39,7 +39,6 @@ export class User {
     }
     this.jwtToken = await this.storageService.getToken();
     if (this.jwtToken) {
-      console.log('setting jwtToken', this.jwtToken);
       this.httpService.setAuthToken(this.jwtToken);
     }
   }

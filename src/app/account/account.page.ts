@@ -127,7 +127,6 @@ export class AccountPage implements OnInit {
     await Camera.getPhoto(options)
       .then(result => {
         image = result;
-        console.log(image.format);
         blobData = this.b64toBlob(image.base64String, `image/${image.format}`);
       })
       .catch((err) => {

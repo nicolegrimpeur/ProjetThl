@@ -62,7 +62,6 @@ export class IdentificationPage implements OnInit {
 
         const decodedData = JSON.parse(data.data);
         //Graphiques
-        console.log(decodedData);
         if (data.data !== undefined) {
           this.getScanData(decodedData);
         }
@@ -76,9 +75,8 @@ export class IdentificationPage implements OnInit {
   getScanData(data: any) {
     lastValueFrom(this.httpService.getUserQr(data._id))
       .then(res => {
-          console.log(res);
           this.display.display({code: 'Scan réussi', color: 'success'}).then();
-          this.openResult(res);
+          this.openResult(res).then();
         }
       )
       .catch(err => {

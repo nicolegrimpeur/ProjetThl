@@ -26,8 +26,6 @@ export class CitizenResultPagePage implements OnInit {
     this.userCertificates = await this.fetchCerticates();
     this.userVaccinCertificates = this.userCertificates.filter(certificate => certificate.type === CertificateType.VACCINE);
     this.userTestCertificates = this.userCertificates.filter(certificate => certificate.type === CertificateType.TEST);
-    console.log(this.userTestCertificates);
-
   }
 
   inputNgFor(index, item) {

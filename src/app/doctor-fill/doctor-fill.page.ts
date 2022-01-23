@@ -46,7 +46,6 @@ export class DoctorFillPage implements OnInit {
   uploadTestData(testData: Partial<ICertificate>) {
     lastValueFrom(this.httpService.addTest(testData))
       .then(res => {
-        console.log('res:', res);
         this.isMailValid = false;
         this.fill = '';
         this.testData.date = '';
@@ -67,7 +66,6 @@ export class DoctorFillPage implements OnInit {
   uploadVaccineData(vaccineData: Partial<ICertificate>) {
     lastValueFrom(this.httpService.addVaccine(vaccineData))
       .then(res => {
-        console.log('res:', res);
         this.makeToast();
         this.isMailValid = false;
         this.fill = '';
@@ -80,7 +78,6 @@ export class DoctorFillPage implements OnInit {
   }
 
   checkMail() {
-    console.log(this.fill);
     const validateEmail = (email) => String(email)
       .toLowerCase()
       .match(
