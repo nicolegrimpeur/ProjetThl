@@ -11,6 +11,7 @@ Réalisé par :
 - Augustin Mariage
 - Armand Deffrennes
 - Raphaël Fleury-Le-Vaiso
+- Nicolas Barrat
 
 ISEN Lille - France
 
